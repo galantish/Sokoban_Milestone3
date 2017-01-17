@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import controller.SokobanController;
 import model.data.levels.Level;
 import model.data.levels.LevelLoaderFactory;
 import model.data.levels.iLevelLoader;
@@ -12,16 +13,13 @@ import model.data.levels.iLevelLoader;
 /**
  * The Class SaveLevelCommand.
  */
-public class SaveLevelCommand implements iCommand
+public class SaveLevelCommand implements iSokobanCommand
 {
 	/** The level. */
 	private Level level;
 	
 	/** A path of a file's location. */
 	private String path;
-	
-	/** An outputstream. */	
-	private OutputStream os;
 	
 	/**
 	 * Initializes the save level command.
@@ -37,7 +35,7 @@ public class SaveLevelCommand implements iCommand
 
 	/** Execute the command. */
 	@Override
-	public void Execute()
+	public void execute()
 	{
 		//Creating a factory object in order to fitting the type of a level file
 		LevelLoaderFactory loaderFactory = new LevelLoaderFactory();
@@ -48,10 +46,10 @@ public class SaveLevelCommand implements iCommand
 			if(this.level.isEmpty() == true)
 				throw new IOException("ERROR: invalid path.");
 			
-			this.os = new FileOutputStream(path);
+			 OutputStream os = new FileOutputStream(path);
 			
 			//Saves a level
-			levelsaver.SaveLevel(this.level, this.os);
+			levelsaver.SaveLevel(this.level, os);
 			System.out.println("The level is saved successfully.");
 
 		} 
@@ -65,24 +63,17 @@ public class SaveLevelCommand implements iCommand
 		}	
 	}
 
-	/**
-	 * Return the path to save the level.
-	 *
-	 * @return path
-	 *           
-	 */
+	@Override
+	public void setParams(SokobanController sokobanController, String params) 
+	{
+		this.setPath(params);
+	}
+	
 	public String getPath()
 	{
 		return path;
 	}
 
-	/**
-	 * Initializes a path.
-	 *
-	 * @param path
-	 *            a path to save the level.
-	 * @see controller.commands.iCommand#Execute()
-	 */
 	public void setPath(String path)
 	{
 		this.path = path;
@@ -97,22 +88,4 @@ public class SaveLevelCommand implements iCommand
 	{
 		this.level = level;
 	}
-
-
-	public OutputStream getOs() 
-	{
-		return os;
-	}
-
-	public void setOs(OutputStream os) 
-	{
-		this.os = os;
-	}
-	
-	@Override
-	public void setParams(String args) 
-	{
-		this.path = args;
-	}
-	
 }

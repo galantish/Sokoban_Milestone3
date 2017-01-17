@@ -6,6 +6,5 @@ package controller.commands;
 */
 public interface iCommand
 {
-	public void Execute();
-	public void setParams(String args);
+	public void execute();
 }

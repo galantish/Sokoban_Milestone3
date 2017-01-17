@@ -3,6 +3,7 @@ package controller;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
+
 import controller.commands.CommandsFactory;
 import controller.commands.iCommand;
 import model.MyModel;
@@ -10,10 +11,10 @@ import view.MyView;
 
 public class SokobanController implements Observer
 {
-	CommandController commandController;
-	MyModel model;
-	MyView view;
-	CommandsFactory commandFactory;
+	private CommandController commandController;
+	private MyModel model;
+	private MyView view;
+	private CommandsFactory commandFactory;
 
 	@Override
 	public void update(Observable o, Object arg) 
@@ -25,9 +26,21 @@ public class SokobanController implements Observer
 			iCommand command = commandFactory.getCommand(commandName);
 			if(command == null)
 			{
-				//v.ShowErrorMessage();			
+				//v.ShowErrorMessage("ERROR: Invalid Command.");			
 			}
-			//command.setParams(params);			
+			else
+			{
+				try 
+				{
+					commandController.insertCommand(command);
+				} 
+				catch (InterruptedException e) 
+				{
+					e.printStackTrace();
+				}
+			}
+			
+			//command.setParams(this);			
 			//controller.insertCommand(command);
 		}
 		
@@ -37,4 +50,22 @@ public class SokobanController implements Observer
 		}	
 		
 	}
+
+	public void setModel(MyModel model) 
+	{
+		this.model = model;
+	}
+
+	public void setView(MyView view) 
+	{
+		this.view = view;
+	}
+
+	public CommandController getCommandController() 
+	{
+		return commandController;
+	}
+
+	
+	
 }

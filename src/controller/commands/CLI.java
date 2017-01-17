@@ -149,8 +149,6 @@ public class CLI
 				if(command == null || inputArgs.length > 2)
 					throw new IOException("ERROR: Invalid command.");
 				
-				
-				
 				//If the command is a type of Load we need the path level file				
 				if(command instanceof LoadLevelCommand)
 				{
@@ -188,7 +186,7 @@ public class CLI
 				}				
 				
 				//command.setParams(inputArgs[1]);			
-				command.Execute();
+				command.execute();
 				
 				//If the level is not initialized
 				if(this.level.isEmpty() == true)
@@ -202,7 +200,7 @@ public class CLI
 				if((command instanceof MoveCommand) && ((MoveCommand) command).isValidMoveType(moveType.toLowerCase()))
 				{
 					System.out.println("Player's steps: " + this.level.getPlayersSteps());
-					comFactory.getCommand("display").Execute();
+					comFactory.getCommand("display").execute();
 				}
 				
 				if(command instanceof ExitCommand)

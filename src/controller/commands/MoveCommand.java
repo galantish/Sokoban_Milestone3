@@ -1,17 +1,15 @@
 package controller.commands;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import model.data.items.Player;
-import model.data.items.Position;
+import controller.SokobanController;
 import model.data.items.iMoveable;
 import model.data.levels.Level;
 
 /**
  * The Class MoveCommand.
  */
-public class MoveCommand implements iCommand
+public class MoveCommand implements iSokobanCommand
 {
 	/** The level. */
 	private Level level;
@@ -34,13 +32,16 @@ public class MoveCommand implements iCommand
 
 	/** Execute the command. */
 	@Override
-	public void Execute()
+	public void execute()
 	{
 		try
 		{
 			if(this.level.isEmpty() == true)
 				throw new Exception("ERROE: Invalid level.");
 			
+			if(this.moveType == null)
+				throw new Exception("ERROE: Invalid move type.");
+
 			boolean isCanMove = this.level.getPolicy().move(this.level, this.moveType);
 
 			if(isCanMove == false)
@@ -69,53 +70,48 @@ public class MoveCommand implements iCommand
 		moveList.add("right");
 		moveList.add("left");
 		
-		if(moveList.contains(moveType))
+		if(moveList.contains(moveType.toLowerCase()))
 			return true;
 		
 		return false;
-	}
+	}	
+
+	@Override
+	public void setParams(SokobanController sokobanController, String params) 
+	{
+		this.moveType = params;
+	}	
 	
-	/**
-	 * GetMoveType - return the local move type.
-	 * 
-	 * @return moveType
-	 */
 	public String getMoveType()
 	{
 		return moveType;
 	}
 
-	/**
-	 * SetMoveType - initializes the move type variable
-	 * 
-	 * @param moveType
-	 * 			type of move, like: up, down, right and left
-	 */
 	public void setMoveType(String moveType)
 	{
-		this.moveType = moveType.toLowerCase();
+		if(isValidMoveType(moveType) == true)
+			this.moveType = moveType.toLowerCase();
 	}
 
-	public Level getLevel() {
+	public Level getLevel() 
+	{
 		return level;
 	}
 
-	public void setLevel(Level level) {
+	public void setLevel(Level level) 
+	{
 		this.level = level;
 	}
 
-	public iMoveable getItem() {
+	public iMoveable getItem() 
+	{
 		return item;
 	}
 
-	public void setItem(iMoveable item) {
+	public void setItem(iMoveable item) 
+	{
 		this.item = item;
 	}
-	
-	@Override
-	public void setParams(String args) 
-	{
-		this.moveType = args;
-	}
-	
+
+
 }

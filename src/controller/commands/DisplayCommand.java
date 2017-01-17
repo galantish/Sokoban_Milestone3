@@ -1,12 +1,13 @@
 package controller.commands;
 
+import controller.SokobanController;
 import model.data.levels.Level;
 import view.display.MyDisplayer;
 
 /**
  * The Class DisplayCommand.
  */
-public class DisplayCommand implements iCommand
+public class DisplayCommand implements iSokobanCommand
 {
 	/** The level. */
 	private Level level;
@@ -28,7 +29,7 @@ public class DisplayCommand implements iCommand
 	
 	/** Execute the command. */
 	@Override
-	public void Execute()
+	public void execute()
 	{
 	
 			//Checking if the user has loaded a level.
@@ -43,10 +44,11 @@ public class DisplayCommand implements iCommand
 	}
 
 	@Override
-	public void setParams(String args) 
+	public void setParams(SokobanController sokobanController, String params) 
 	{
-
+		
 		
 	}
+
 	
 }

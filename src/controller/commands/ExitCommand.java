@@ -4,14 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import controller.SokobanController;
 import model.data.levels.Level;
 
 /**
  * The Class ExitCommand.
  */
-public class ExitCommand implements iCommand
+public class ExitCommand implements iSokobanCommand
+
 {
-	/** ExitCommand - initializes the io to null. */
 	public ExitCommand()
 	{
 
@@ -29,16 +30,16 @@ public class ExitCommand implements iCommand
 	
 	/** Execute the command. */
 	@Override
-	public void Execute()
+	public void execute()
 	{
 		System.out.println("Goodbye!");
-
+		//we should do controller.stop (command controller)
 	}
 
 	@Override
-	public void setParams(String args) 
+	public void setParams(SokobanController sokobanController, String params) 
 	{
 		
 	}
-	
+
 }

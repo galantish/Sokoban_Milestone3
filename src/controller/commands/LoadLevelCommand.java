@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import controller.SokobanController;
 import model.data.items.Box;
 import model.data.items.Player;
 import model.data.items.Target;
@@ -20,16 +21,14 @@ import model.policy.MySokobanPolicy;
 /**
  * The Class LoadLevelCommand.
  */
-public class LoadLevelCommand implements iCommand
+public class LoadLevelCommand implements iSokobanCommand
 {
 	/** The level. */
 	private Level level;
 	
 	/** A path of a file's location. */
 	private String path;
-	
-	/** An inputstream. */	
-	private InputStream is;
+
 	
 	/**
 	 * Initializes the level load command.
@@ -47,7 +46,7 @@ public class LoadLevelCommand implements iCommand
 
 	/** Execute the command. */
 	@Override
-	public void Execute()
+	public void execute()
 	{
 		//Creating a factory object in order to fitting the type of a level file
 		LevelLoaderFactory loaderFactory = new LevelLoaderFactory();
@@ -55,14 +54,14 @@ public class LoadLevelCommand implements iCommand
 			
 		try
 		{
-			this.is = new FileInputStream(this.path);
+			InputStream is = new FileInputStream(this.path);
 			
 			if(levelLoader == null)
 				throw new IOException("ERROR: invalid path.");
 	
 			//Ask vered why this is not working without that!!!!!
 			
-			Level tempLevel = new Level(levelLoader.LoadLevel(this.is));
+			Level tempLevel = new Level(levelLoader.LoadLevel(is));
 					
 			this.level.setBoard(tempLevel.getBoard());
 			this.level.setRow(tempLevel.getRow());
@@ -94,6 +93,12 @@ public class LoadLevelCommand implements iCommand
 		}
 	}
 	
+	@Override
+	public void setParams(SokobanController sokobanController, String params) 
+	{
+		this.setPath(params);
+	}
+	
 	String getPath()
 	{
 		return path;
@@ -104,7 +109,6 @@ public class LoadLevelCommand implements iCommand
 		this.path = path;
 	}
 
-
 	public Level getLevel() 
 	{
 		return level;
@@ -114,23 +118,5 @@ public class LoadLevelCommand implements iCommand
 	{
 		this.level = level;
 	}
-
-
-	public InputStream getIs() 
-	{
-		return is;
-	}
-
-	public void setIs(InputStream is) 
-	{
-		this.is = is;
-	}
-
-	@Override
-	public void setParams(String args) 
-	{
-		this.path = args;
-	}
-	
 
 }
