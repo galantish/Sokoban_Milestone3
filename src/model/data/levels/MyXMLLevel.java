@@ -11,7 +11,7 @@ import java.io.OutputStream;
 /**
 * The Class MyXMLLevelLoader - The class that load and save an XML file.
 */
-public class MyXMLLevelLoader implements iLevelLoader
+public class MyXMLLevel implements iLevelLoader
 {
 	/*
 	 * (non-Javadoc)

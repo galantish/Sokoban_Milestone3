@@ -22,7 +22,7 @@ import model.data.items.iUnmoveable;
 /**
 * The Class MyTextLevelLoader - The class that load and save a text file.
 */
-public class MyTextLevelLoader extends CommonLevelLoader implements iLevelLoader
+public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 {	
 	/*
 	 * (non-Javadoc)

@@ -26,7 +26,7 @@ public class LevelLoaderFactory
 		@Override
 		public iLevelLoader CreateLevelLoader()
 		{
-			return new MyTextLevelLoader();
+			return new MyTextLevel();
 		}		
 	}
 	
@@ -38,7 +38,7 @@ public class LevelLoaderFactory
 		@Override
 		public iLevelLoader CreateLevelLoader()
 		{
-			return new MyObjectLevelLoader();
+			return new MyObjectLevel();
 		}		
 	}
 	
@@ -50,7 +50,7 @@ public class LevelLoaderFactory
 		@Override
 		public iLevelLoader CreateLevelLoader()
 		{
-			return new MyXMLLevelLoader();
+			return new MyXMLLevel();
 		}		
 	}
 	

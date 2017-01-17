@@ -11,7 +11,7 @@ import java.io.OutputStream;
 /**
 * The Class MyObjectLevelLoader - The class that load and save an object file.
 */
-public class MyObjectLevelLoader implements iLevelLoader
+public class MyObjectLevel implements iLevelLoader
 {
 	@Override	
 	public Level LoadLevel(InputStream file) throws IOException, ClassNotFoundException
