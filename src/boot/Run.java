@@ -11,5 +11,6 @@ public class Run
 	{		
 		CLI cli = new CLI(new MyDisplayer());
 		cli.Listen();
+		
 	}
 }
