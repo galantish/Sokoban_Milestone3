@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
+import common.Level;
 import model.data.items.Box;
 import model.data.items.MovableFactory;
 import model.data.items.Player;
@@ -24,10 +25,6 @@ import model.data.items.iUnmoveable;
 */
 public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 {	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 */
 	@Override
 	public Level LoadLevel(InputStream file) throws IOException
 	{			
@@ -95,18 +92,9 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 				}
 			}
 		}			
-		
-		//Checking if the level is correct.
-		//if (myLevel.isLevelCorrect() == false)
-			//throw new IOException("ERROR: Invalid Level, try another level.");	
-
 		return myLevel;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 */
 	@Override
 	public void SaveLevel(Level level, OutputStream out) throws IOException
 	{
@@ -128,16 +116,14 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 					out.write(m.getTypeOfObject());
 				else
 					out.write(myLevel.getBoard()[i][j].getTypeOfObject());				
-			}
-			
+			}	
 			//Checking if it is the last row (so there will be no new line)
 			if(i == (row-1))
 				break;
 			
 			bf.newLine();
 			bf.flush();
-		}
-		
+		}		
 		//If the outputStream is type of a PrintStream (like "syso") - don't close the buffer
 		if(!(out instanceof PrintStream))
 			bf.close();

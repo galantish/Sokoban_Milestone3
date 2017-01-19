@@ -6,9 +6,6 @@ package model.data.items;
 
 public class Player extends CommonItems implements iMoveable
 {
-	/**
-	 * Initializes a player.
-	 */
 	public Player() 
 	{
 		super.setRepChar('A');
@@ -32,10 +29,6 @@ public class Player extends CommonItems implements iMoveable
 		this.setRepChar(player.getRepChar());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 */
 	@Override
 	public char getTypeOfObject() 
 	{

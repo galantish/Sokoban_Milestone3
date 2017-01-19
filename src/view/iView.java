@@ -1,6 +1,10 @@
 package view;
 
-public interface iView  
+import common.Level;
+
+public interface iView 
 {
-	public void showErrorMessage(String error);
+	void displayLevel(Level level); 
+	void displayError(String msg);
+	void start();
 }

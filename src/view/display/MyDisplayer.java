@@ -1,8 +1,7 @@
 package view.display;
 
 import java.io.IOException;
-
-import model.data.levels.Level;
+import common.Level;
 import model.data.levels.MyTextLevel;
 
 /**

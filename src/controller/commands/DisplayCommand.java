@@ -1,46 +1,30 @@
 package controller.commands;
 
+import common.Level;
 import controller.SokobanController;
-import model.data.levels.Level;
+import model.iModel;
+import view.iView;
 import view.display.MyDisplayer;
 
 /**
  * The Class DisplayCommand.
  */
 public class DisplayCommand implements iSokobanCommand
-{
-	/** The level. */
-	private Level level;
-	
-	/** A displayer. */
-	private MyDisplayer displayer;
-	
-	/**
-	 * Initializes the Display command.
-	 *
-	 * @param level
-	 *            the level
-	 */
-	public DisplayCommand(Level level)
+{	
+	private iModel model;
+	private iView view;
+
+	public DisplayCommand(SokobanController controller)
 	{
-		this.level = level;
-		this.displayer = new MyDisplayer();
+		this.model = controller.getIModel();
+		this.view = controller.getIView();
 	}
 	
-	/** Execute the command. */
 	@Override
 	public void execute()
 	{
-	
-			//Checking if the user has loaded a level.
-			if(this.level.isEmpty() == true)
-				return;
-			
-			//Display the level
-			displayer.DisplayLevel(this.level);
-			
-			System.out.println();
-	
+		Level theLevel = model.getCurrentLevel();
+		view.displayLevel(theLevel);
 	}
 
 	@Override

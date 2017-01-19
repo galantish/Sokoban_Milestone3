@@ -7,15 +7,9 @@ import java.io.Serializable;
  */
 public class Position implements Serializable
 {
-	/** Point x **/
 	private int x;
-	
-	/** Point y **/
 	private int y;
 	
-	/**
-	 * Initializes the local variables to null.
-	 */
 	public Position() 
 	{
 		this.x = 0;
@@ -41,39 +35,21 @@ public class Position implements Serializable
 		this.y = pos.getY();
 	}
 
-	/**
-	 * GetX - return point x.
-	 * @return point x
-	 */
 	public int getX() 
 	{
 		return x;
 	}
 
-	/**
-	 * SetX - gets a X point and initializes the local x point.
-	 * @param x
-	 * 			point x
-	 */
 	public void setX(int x) 
 	{
 		this.x = x;
 	}
 
-	/**
-	 * GetY - return point y.
-	 * @return point y
-	 */
 	public int getY() 
 	{
 		return y;
 	}
 
-	/**
-	 * SetY - gets a y point and initializes the local y point.
-	 * @param y
-	 * 			point y
-	 */
 	public void setY(int y) 
 	{
 		this.y = y;
@@ -85,10 +61,6 @@ public class Position implements Serializable
 		return ("(" + x + "," + y + ")");
 	}
 
-	/**
-	 * GetPosition - return the (local) position.
-	 * @return position
-	 */
 	public Position getPosition()
 	{
 		return this;

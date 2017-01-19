@@ -7,8 +7,7 @@ import java.util.HashMap;
 */
 public class MovableFactory
 {
-	/** The list of char and the fitting create movable items. */
-	HashMap<Character, FactoryCreator> hashMap;
+	private HashMap<Character, FactoryCreator> hashMap;
 
 	/**
 	* The interface FactoryCreator - An interface that create a movable item by his position.

@@ -1,8 +1,8 @@
 package model.policy;
 
+import common.Level;
 import model.data.items.Position;
 import model.data.items.iMoveable;
-import model.data.levels.Level;
 
 public interface iSokobanPolicy 
 {

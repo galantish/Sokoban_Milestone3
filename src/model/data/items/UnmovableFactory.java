@@ -7,8 +7,7 @@ import java.util.HashMap;
 */
 public class UnmovableFactory
 {
-	/** The list of char and the fitting create unmovable items. */
-	HashMap<Character, FactoryCreator> hashMap;
+	private HashMap<Character, FactoryCreator> hashMap;
 
 	/**
 	* The interface FactoryCreator - An interface that create a unmovable item by his position.

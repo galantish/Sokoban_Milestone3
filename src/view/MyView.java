@@ -1,21 +1,34 @@
 package view;
 
 import java.util.Observable;
+import common.Level;
 
-import controller.SokobanController;
-
-public class MyView extends Observable implements iView
+public class MyView implements iView
 {
-	public MyView(SokobanController controller) 
+
+	@Override
+	public void displayLevel(Level level) 
 	{
-		System.out.println("MyView was created!");
+		String levelToString = level.toString();
+		System.out.println(levelToString);
+		
 	}
 
 	@Override
-	public void showErrorMessage(String error) 
+	public void displayError(String msg) 
 	{
-		//print the error to screen
+
 		
 	}
+
+	@Override
+	public void start() 
+	{
+
+		
+	}
+
+
+
 
 }

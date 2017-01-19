@@ -8,6 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
+import common.Level;
+
 /**
 * The Class MyObjectLevelLoader - The class that load and save an object file.
 */
@@ -19,11 +21,6 @@ public class MyObjectLevel implements iLevelLoader
 		ObjectInputStream objectIn = new ObjectInputStream(new BufferedInputStream(file));
 		Level myLevel = (Level) objectIn.readObject();
 		objectIn.close();
-		
-		//Checking if the level is correct.
-		//if (myLevel.isLevelCorrect() == false)
-			//throw new IOException("ERROR: Invalid Level, try another level.");	
-		
 		return myLevel;
 	}
 

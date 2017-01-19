@@ -1,28 +1,30 @@
 package boot;
 
 import java.io.IOException;
-
 import controller.SokobanController;
-import controller.commands.CLI;
 import model.MyModel;
-import view.MyView;
-import view.display.MyDisplayer;
+import view.CLI;
+import view.Main;
+import view.MainWindowController;
+import view.SokobanDisplayer;
 
 public class Run 
 {
 	public static void main (String[] args) throws ClassNotFoundException, IOException
 	{		
-		SokobanController controller = new SokobanController();
-		MyView view = new MyView(controller);
-		MyModel model = new MyModel(controller);
+		//MyView view = new MyView();
+		CLI view = new CLI();
 		
-		controller.setModel(model);
-		controller.setView(view);	
+		//MainWindowController view = new MainWindowController();
 		
-		//controller.getCommandController().start();
+		MyModel model = new MyModel();
+		SokobanController sokobanController = new SokobanController(model, view);
+
+		model.addObserver(sokobanController);
+		view.addObserver(sokobanController);
 		
-		CLI cli = new CLI(new MyDisplayer());
-		cli.Listen();
+		
+		view.start();
 		
 	}
 }

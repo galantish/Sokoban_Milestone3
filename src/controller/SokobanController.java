@@ -1,71 +1,111 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
-
-import controller.commands.CommandsFactory;
 import controller.commands.iCommand;
+import controller.commands.iSokobanCommand;
+import controller.commands.DisplayCommand;
+import controller.commands.DisplayGUICommand;
+import controller.commands.ExitCommand;
+import controller.commands.LoadLevelCommand;
+import controller.commands.MoveCommand;
+import controller.commands.SaveLevelCommand;
 import model.MyModel;
+import model.iModel;
 import view.MyView;
+import view.iView;
 
 public class SokobanController implements Observer
 {
-	private CommandController commandController;
-	private MyModel model;
-	private MyView view;
-	private CommandsFactory commandFactory;
+	private CommandController controller;
+	private iModel model;
+	private iView view;
+	private HashMap<String, iSokobanCommand> commands;
 
+	public SokobanController(iModel model, iView view) 
+	{
+		this.model = model;
+		this.view = view;
+		this.controller = new CommandController();
+		initCommands();
+		System.out.println("Sokoban Controller was created!");
+		controller.start();
+	}
+
+	private void initCommands()
+	{
+		this.commands = new HashMap<>();
+		this.commands.put("load", new LoadLevelCommand(this));
+		this.commands.put("save", new SaveLevelCommand(this));
+		this.commands.put("move", new MoveCommand(this));
+		this.commands.put("display", new DisplayCommand(this));
+		this.commands.put("exit", new ExitCommand());
+		this.commands.put("change", new DisplayGUICommand());
+	}
+	
+	private String[] objectToStrong(Object arg)
+	{
+		String[] input = ((String)arg).toUpperCase().split(" ");	
+		return input;
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) 
 	{
 		if(o == view)
-		{
-			LinkedList<String> params = (LinkedList<String>) arg;			
-			String commandName = params.removeFirst();			
-			iCommand command = commandFactory.getCommand(commandName);
-			if(command == null)
+		{	
+			String[] input = objectToStrong(arg);
+			String commandName = input[0];
+			String params = null;	
+			if(input.length == 2)
+				params = input[1];
+			
+			iSokobanCommand command = this.commands.get(commandName.toLowerCase());
+
+			if(command == null || input.length > 2)
 			{
-				//v.ShowErrorMessage("ERROR: Invalid Command.");			
-			}
-			else
-			{
-				try 
-				{
-					commandController.insertCommand(command);
-				} 
-				catch (InterruptedException e) 
-				{
-					e.printStackTrace();
-				}
+				view.displayError("Command " + commandName + " not found.");
+				return;
 			}
 			
-			//command.setParams(this);			
-			//controller.insertCommand(command);
+			command.setParams(this, params);
+			try 
+			{
+				controller.insertCommand(command);
+			} 
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}		
 		}
 		
 		else if(o == model)
 		{
-			
-		}	
-		
-	}
+			if(arg.equals("change"))
+			{
+				//System.out.println("--- change from model ---");
+				//view.displayLevel(model.getCurrentLevel());
+			}
 
-	public void setModel(MyModel model) 
-	{
-		this.model = model;
-	}
-
-	public void setView(MyView view) 
-	{
-		this.view = view;
+		}		
 	}
 
 	public CommandController getCommandController() 
 	{
-		return commandController;
+		return controller;
 	}
 
+	public iModel getIModel() 
+	{
+		return model;
+	}
+
+	public iView getIView() 
+	{
+		return view;
+	}
 	
 	
 }

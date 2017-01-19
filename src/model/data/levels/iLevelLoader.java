@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import common.Level;
+
 /**
 *
 * 1. We have built an interface that defines the functionality of data creator, so that data creator creates in external class that doesn’t depends 
