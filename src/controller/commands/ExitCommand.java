@@ -1,24 +1,20 @@
 package controller.commands;
 
-import controller.SokobanController;
-
 /**
  * The Class ExitCommand.
  */
-public class ExitCommand implements iSokobanCommand
+public class ExitCommand extends Command
 {
+	public ExitCommand() 
+	{
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public void execute()
 	{
 		System.out.println("Goodbye!");
 		//we should call controller.stop (command controller)
-	}
-
-	@Override
-	public void setParams(SokobanController sokobanController, String params) 
-	{
-
-
 	}
 
 }

@@ -2,7 +2,7 @@ package model.policy;
 
 import java.io.Serializable;
 
-import common.Level;
+import commons.Level;
 import model.data.items.Box;
 import model.data.items.Floor;
 import model.data.items.Player;

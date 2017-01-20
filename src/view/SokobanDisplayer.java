@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-import common.Level;
+import commons.Level;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
@@ -67,7 +67,6 @@ public class SokobanDisplayer extends Canvas
 				for(int j=0; j<cCol; j++)
 				{
 					char c = levelData[i][j];
-					System.out.print(c);
 					switch (c) 
 					{
 						case 'A':
@@ -88,11 +87,9 @@ public class SokobanDisplayer extends Canvas
 						break;
 					}
 				}
-				System.out.println();
 			}
 			
 			//gc.fillOval(cCol*w, cRow*h, w, h);
-			System.out.println();
 		}
 	}
 
@@ -109,8 +106,8 @@ public class SokobanDisplayer extends Canvas
 		this.cCol = col;
 		this.cRow = row;
 		redraw();
-	}	
-	
+	}
+		
 	public String getWallFileName() 
 	{
 		return wallFileName.get();

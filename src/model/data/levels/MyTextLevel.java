@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import common.Level;
+import commons.Level;
 import model.data.items.Box;
 import model.data.items.MovableFactory;
 import model.data.items.Player;

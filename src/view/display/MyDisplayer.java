@@ -1,27 +1,27 @@
 package view.display;
 
 import java.io.IOException;
-import common.Level;
+
+import commons.Level;
 import model.data.levels.MyTextLevel;
 
 /**
  * The Class CLIDisplayer - Class that display a level to the user.
  */
 public class MyDisplayer implements iDisplayer
-{	
+{
 	@Override
-	public void DisplayLevel(Level level)
-	{		
-		//Using the TextLevelLoader Class in order to save a level and display it to the user
-		MyTextLevel myTextLevelLoader = new MyTextLevel();
+	public void DisplayLevel(Level level) throws IOException 
+	{
+		char[][] levelArr = new char[level.getRow()][level.getCol()];
 		
-		try
+		for(int i=0; i<level.getRow(); i++)
 		{
-			myTextLevelLoader.SaveLevel(level, System.out);
-		} 
-		catch (IOException e)
-		{
-			System.out.println("ERROR: Invalid level.");
+			for(int j=0;j<level.getCol(); j++)	
+				System.out.print(levelArr[i][j]);
+			System.out.println();
 		}
-	}
+	}	
+
+	
 }

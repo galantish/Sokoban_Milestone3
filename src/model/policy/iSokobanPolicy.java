@@ -1,6 +1,6 @@
 package model.policy;
 
-import common.Level;
+import commons.Level;
 import model.data.items.Position;
 import model.data.items.iMoveable;
 

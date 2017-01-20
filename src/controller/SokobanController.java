@@ -1,20 +1,16 @@
 package controller;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
-import controller.commands.iCommand;
-import controller.commands.iSokobanCommand;
+import controller.commands.Command;
 import controller.commands.DisplayCommand;
-import controller.commands.DisplayGUICommand;
 import controller.commands.ExitCommand;
 import controller.commands.LoadLevelCommand;
 import controller.commands.MoveCommand;
 import controller.commands.SaveLevelCommand;
-import model.MyModel;
+import controller.commands.iCommand;
 import model.iModel;
-import view.MyView;
 import view.iView;
 
 public class SokobanController implements Observer
@@ -22,7 +18,7 @@ public class SokobanController implements Observer
 	private CommandController controller;
 	private iModel model;
 	private iView view;
-	private HashMap<String, iSokobanCommand> commands;
+	private HashMap<String, Command> commands;
 
 	public SokobanController(iModel model, iView view) 
 	{
@@ -30,19 +26,18 @@ public class SokobanController implements Observer
 		this.view = view;
 		this.controller = new CommandController();
 		initCommands();
-		System.out.println("Sokoban Controller was created!");
 		controller.start();
 	}
 
 	private void initCommands()
 	{
 		this.commands = new HashMap<>();
-		this.commands.put("load", new LoadLevelCommand(this));
-		this.commands.put("save", new SaveLevelCommand(this));
-		this.commands.put("move", new MoveCommand(this));
-		this.commands.put("display", new DisplayCommand(this));
+		this.commands.put("load", new LoadLevelCommand(model));
+		this.commands.put("save", new SaveLevelCommand(model));
+		this.commands.put("move", new MoveCommand(model));
+		this.commands.put("display", new DisplayCommand(model, view));
 		this.commands.put("exit", new ExitCommand());
-		this.commands.put("change", new DisplayGUICommand());
+		this.commands.put("change", new DisplayCommand(model, view));
 	}
 	
 	private String[] objectToStrong(Object arg)
@@ -53,43 +48,32 @@ public class SokobanController implements Observer
 	
 	@Override
 	public void update(Observable o, Object arg) 
-	{
-		if(o == view)
-		{	
-			String[] input = objectToStrong(arg);
-			String commandName = input[0];
-			String params = null;	
-			if(input.length == 2)
-				params = input[1];
-			
-			iSokobanCommand command = this.commands.get(commandName.toLowerCase());
-
-			if(command == null || input.length > 2)
-			{
-				view.displayError("Command " + commandName + " not found.");
-				return;
-			}
-			
-			command.setParams(this, params);
-			try 
-			{
-				controller.insertCommand(command);
-			} 
-			catch (InterruptedException e) 
-			{
-				e.printStackTrace();
-			}		
+	{		
+		String[] input = objectToStrong(arg);
+		String commandName = input[0];
+		String params = null;	
+		if(input.length > 1)
+			params = input[1];
+		
+		iCommand command = this.commands.get(commandName.toLowerCase());
+		
+		if(command == null || input.length > 2)
+		{
+			view.displayError("Command " + commandName + " not found.");
+			return;
 		}
 		
-		else if(o == model)
-		{
-			if(arg.equals("change"))
-			{
-				//System.out.println("--- change from model ---");
-				//view.displayLevel(model.getCurrentLevel());
-			}
+		command.setParams(params);
 
-		}		
+		try 
+		{
+			controller.insertCommand(command);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}			
+			
 	}
 
 	public CommandController getCommandController() 

@@ -2,7 +2,7 @@ package view;
 
 import java.util.Observable;
 import java.util.Scanner;
-import common.Level;
+import commons.Level;
 
 /**
  * The Class CLI.
@@ -48,7 +48,36 @@ public class CLI extends Observable implements iView
 			
 		t.start();
 	}
-	
+
+	public boolean isClose()
+	{
+		return close;
+	}
+
+	public void setClose(boolean close)
+	{
+		this.close = close;
+	}
+
+	@Override
+	public void displayLevel(Level level) 
+	{
+		char[][] levelArr = level.getLevelBoard();
+		
+		for(int i=0; i<level.getRow(); i++)
+		{
+			for(int j=0;j<level.getCol(); j++)	
+				System.out.print(levelArr[i][j]);
+			System.out.println();
+		}
+	}
+
+	@Override
+	public void displayError(String msg) 
+	{
+		System.out.println("ERROR: " + msg);		
+	}
+
 	public void finish()
 	{
 
@@ -65,31 +94,5 @@ public class CLI extends Observable implements iView
 //					System.out.println("If you want you can start a new level by loading another level.");
 //					System.out.println("***************************************************************");
 //				}		
-	}	
-
-	public boolean isClose()
-	{
-		return close;
 	}
-
-	public void setClose(boolean close)
-	{
-		this.close = close;
-	}
-
-	@Override
-	public void displayLevel(Level level) 
-	{
-		String levelToString = level.toString();
-	}
-
-	@Override
-	public void displayError(String msg) 
-	{
-		System.out.println("ERROR: " + msg);
-		
-	}
-
-
-
 }

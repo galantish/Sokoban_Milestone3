@@ -1,43 +1,25 @@
 package controller.commands;
 
-import controller.SokobanController;
 import model.iModel;
 
 /**
  * The Class SaveLevelCommand.
  */
-public class SaveLevelCommand implements iSokobanCommand
+public class SaveLevelCommand extends Command
 {
-	private String path;
 	private iModel model;
 
-	public SaveLevelCommand(SokobanController controller)
+	public SaveLevelCommand(iModel model)
 	{
-		this.path = null;
-		this.model = controller.getIModel();
+		this.model = model;
 	}
 
 	/** Execute the command. */
 	@Override
 	public void execute()
 	{
-		this.model.saveLevel(this.path);
+		this.model.saveLevel(getParams());
 	}
 
-	@Override
-	public void setParams(SokobanController sokobanController, String params) 
-	{
-		this.setPath(params);
-	}
-	
-	public String getPath()
-	{
-		return path;
-	}
-
-	public void setPath(String path)
-	{
-		this.path = path;
-	}
 
 }

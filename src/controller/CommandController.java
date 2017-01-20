@@ -1,7 +1,11 @@
 package controller;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+import controller.commands.Command;
 import controller.commands.iCommand;
 
 public class CommandController 
@@ -12,8 +16,7 @@ public class CommandController
 	public CommandController() 
 	{
 		this.stop = false;
-		commandQueue = new LinkedBlockingQueue<iCommand>();
-		System.out.println("Command controller was created!");
+		commandQueue = new ArrayBlockingQueue<iCommand>(20);
 	}
 	
 	public void insertCommand(iCommand command) throws InterruptedException
@@ -32,7 +35,7 @@ public class CommandController
 				{
 					try 
 					{
-						iCommand command = commandQueue.take();					
+						iCommand command = getCommandQueue().poll(1, TimeUnit.SECONDS);				
 						if(command != null)				
 							command.execute();	
 					} 
@@ -51,4 +54,16 @@ public class CommandController
 	{
 		this.stop = true;
 	}
+
+	public BlockingQueue<iCommand> getCommandQueue() 
+	{
+		return commandQueue;
+	}
+
+	public void setCommandQueue(BlockingQueue<iCommand> commandQueue) 
+	{
+		this.commandQueue = commandQueue;
+	}
+	
+	
 }

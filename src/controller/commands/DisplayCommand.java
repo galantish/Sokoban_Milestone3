@@ -1,38 +1,25 @@
 package controller.commands;
 
-import common.Level;
-import controller.SokobanController;
 import model.iModel;
 import view.iView;
-import view.display.MyDisplayer;
 
 /**
  * The Class DisplayCommand.
  */
-public class DisplayCommand implements iSokobanCommand
+public class DisplayCommand extends Command
 {	
 	private iModel model;
 	private iView view;
 
-	public DisplayCommand(SokobanController controller)
+	public DisplayCommand(iModel model, iView view)
 	{
-		this.model = controller.getIModel();
-		this.view = controller.getIView();
+		this.model = model;
+		this.view = view;
 	}
 	
 	@Override
 	public void execute()
 	{
-		Level theLevel = model.getCurrentLevel();
-		view.displayLevel(theLevel);
+		view.displayLevel(model.getCurrentLevel());
 	}
-
-	@Override
-	public void setParams(SokobanController sokobanController, String params) 
-	{
-		
-		
-	}
-
-	
 }

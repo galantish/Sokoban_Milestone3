@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Observable;
-import common.Level;
+import commons.Level;
 import model.data.levels.iLevelLoader;
 import model.factories.LevelsExtensionFactory;
 import model.policy.MySokobanPolicy;
@@ -28,27 +28,44 @@ public class MyModel extends Observable implements iModel
 	@Override
 	public void loadLevel(String path) 
 	{
-		iLevelLoader levelLoader = this.levelExtension.CreateLevelLoader(path.toLowerCase());
-		//if(levelLoader == null)
-				//throw new IOException("ERROR: invalid path.");	
+		Thread t = new Thread(new Runnable() 
+		{		
+			@Override
+			public void run() 
+			{
+				iLevelLoader levelLoader = getLevelExtension().CreateLevelLoader(path.toLowerCase());
+				//if(levelLoader == null)
+						//throw new IOException("ERROR: invalid path.");	
+				try 
+				{
+					setTheLevel(levelLoader.LoadLevel(new FileInputStream(new File(path))));
+				} 
+				catch (ClassNotFoundException e) 
+				{
+					//System.out.println("error");
+				} 
+				catch (FileNotFoundException e) 
+				{
+					//System.out.println("error");
+				} 
+				catch (IOException e) 
+				{
+					//System.out.println("error");
+
+				}
+			}
+		});
+		
+		t.start();
 		try 
 		{
-			setTheLevel(levelLoader.LoadLevel(new FileInputStream(new File(path))));
+			t.join();
 		} 
-		catch (ClassNotFoundException e) 
+		catch (InterruptedException e) 
 		{
-			//System.out.println("error");
-		} 
-		catch (FileNotFoundException e) 
-		{
-			//System.out.println("error");
-		} 
-		catch (IOException e) 
-		{
-			//System.out.println("error");
-
+			e.printStackTrace();
 		}
-		
+
 		setChanged();
 		notifyObservers("change");
 	}
@@ -56,25 +73,31 @@ public class MyModel extends Observable implements iModel
 	@Override
 	public void saveLevel(String path) 
 	{
-		iLevelLoader levelSaver = this.levelExtension.CreateLevelLoader(path.toLowerCase());
-		//if(levelLoader == null)
-		//throw new IOException("ERROR: invalid path.");
+		Thread t = new Thread(new Runnable() 
+		{		
+			@Override
+			public void run() 
+			{
+				iLevelLoader levelSaver = getLevelExtension().CreateLevelLoader(path.toLowerCase());
+				//if(levelLoader == null)
+						//throw new IOException("ERROR: invalid path.");	
+				try 
+				{
+					levelSaver.SaveLevel(getTheLevel(), new FileOutputStream(new File(path)));				
+				}  
+				catch (FileNotFoundException e) 
+				{
+					//System.out.println("error");
+				} 
+				catch (IOException e) 
+				{
+					//System.out.println("error");
+
+				}
+			}
+		});
 		
-		try
-		{
-			levelSaver.SaveLevel(getTheLevel(), new FileOutputStream(new File(path)));				
-		} 
-		catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		setChanged();
-		notifyObservers("change");
+		t.start();
 	}
 	
 	@Override
@@ -91,7 +114,7 @@ public class MyModel extends Observable implements iModel
 			boolean isCanMove = policy.move(this.theLevel, moveType);
 
 			if(isCanMove == false)
-				notifyObservers("error");;
+				return;
 		}
 		catch (Exception e)
 		{
@@ -100,13 +123,6 @@ public class MyModel extends Observable implements iModel
 		setChanged();
 		notifyObservers("change");
 	}
-
-//	@Override
-//	public String displayLevel() 
-//	{
-//		
-//		return null;
-//	}
 	
 	@Override
 	public Level getCurrentLevel() 
@@ -122,5 +138,15 @@ public class MyModel extends Observable implements iModel
 	public void setTheLevel(Level theLevel) 
 	{
 		this.theLevel = theLevel;
+	}
+
+	public LevelsExtensionFactory getLevelExtension() 
+	{
+		return levelExtension;
+	}
+
+	public void setLevelExtension(LevelsExtensionFactory levelExtension) 
+	{
+		this.levelExtension = levelExtension;
 	}	
 }

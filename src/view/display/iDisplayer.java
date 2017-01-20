@@ -2,7 +2,7 @@ package view.display;
 
 import java.io.IOException;
 
-import common.Level;
+import commons.Level;
 
 /**
 * The Interface iDisplayer - Interface that holds the function that a displayer

@@ -1,7 +1,9 @@
 package view;
 	
+import controller.SokobanController;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.MyModel;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +29,15 @@ public class Main extends Application
 	}
 	
 	public static void main(String[] args) 
-	{
+	{				
+		MainWindowController view = new MainWindowController();	
+		MyModel model = new MyModel();
+		SokobanController sokobanController = new SokobanController(model, view);
+
+		model.addObserver(sokobanController);
+		view.addObserver(sokobanController);	
+		
+		view.start();
 		launch(args);
 	}
 }

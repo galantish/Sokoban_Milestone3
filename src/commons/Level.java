@@ -1,4 +1,4 @@
-package common;
+package commons;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -478,17 +478,13 @@ public class Level implements Serializable
 		return false;
 	}
 		
-	@Override
-	public String toString() 
+	public char[][] getLevelBoard() 
 	{
-		System.out.println();
+		char[][] levelArr = new char[getRow()][getCol()];
 		for(int i=0; i<getRow(); i++)
-		{
 			for(int j=0;j<getCol(); j++)
-				System.out.print(getItemInPosition(new Position(i, j)).getTypeOfObject());
-			System.out.println();
-		}
+				levelArr[i][j] = getItemInPosition(new Position(i, j)).getTypeOfObject();
 		
-		return super.toString();
+		return levelArr;
 	}
 }

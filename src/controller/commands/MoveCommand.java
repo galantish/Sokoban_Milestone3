@@ -1,34 +1,26 @@
 package controller.commands;
 
 import java.util.ArrayList;
-import controller.SokobanController;
 import model.iModel;
 
 /**
  * The Class MoveCommand.
  */
-public class MoveCommand implements iSokobanCommand
+public class MoveCommand extends Command
 {
 	private iModel model;
-	private String moveType;
 
-	public MoveCommand(SokobanController controller)
+	public MoveCommand(iModel model)
 	{
-		this.model = controller.getIModel();
-		this.moveType = null;
+		this.model = model;
 	}
 
 	@Override
-	public void setParams(SokobanController sokobanController, String params) 
-	{
-		if(isValidMoveType(params) == true)
-			this.moveType = params.toLowerCase();			
-	}	
-	
-	@Override
 	public void execute()
 	{
-		this.model.move(this.moveType);
+		if(isValidMoveType(getParams()) == false)
+			return;
+		this.model.move(getParams());
 	}
 	
 	private boolean isValidMoveType(String moveType)

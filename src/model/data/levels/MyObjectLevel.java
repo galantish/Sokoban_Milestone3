@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import common.Level;
+import commons.Level;
 
 /**
 * The Class MyObjectLevelLoader - The class that load and save an object file.
