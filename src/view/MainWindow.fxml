@@ -8,57 +8,116 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import view.SokobanDisplayer?>
 <?import javafx.scene.media.MediaView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextInputControl?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.text.TextFlow?>
-<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import view.Sokoban?>
 
-
-<BorderPane prefHeight="300" prefWidth="500" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="view.MyView">
+<BorderPane prefHeight="556.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
    <left>
-      <VBox prefHeight="200.0" prefWidth="84.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="595.0" prefWidth="203.0" BorderPane.alignment="CENTER">
          <children>
-             <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Start" />
-             <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Stop" />
-             <Button onAction="#exit" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Exit" />
-             <Label text="Time" prefHeight="10" textFill="RED" textAlignment="CENTER" />
-             
+            <!-- <Button fx:id="start" mnemonicParsing="false" prefHeight="31.0" prefWidth="81.0" text="Start">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="stop" mnemonicParsing="false" prefHeight="31.0" prefWidth="81.0" text="Stop">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
+               </VBox.margin>
+            </Button> -->
+            <Label fx:id="timer" alignment="CENTER" contentDisplay="TOP" prefHeight="37.0" prefWidth="84.0" text="Time:" textAlignment="CENTER">
+               <font>
+                  <Font name="Segoe UI Bold" size="25.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="timerLabel" prefHeight="44.0" prefWidth="181.0" textAlignment="CENTER">
+               <font>
+                  <Font name="Segoe UI Bold" size="25.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="Steps" alignment="CENTER" prefHeight="37.0" prefWidth="84.0" text="Steps:">
+               <font>
+                  <Font name="Segoe UI Bold" size="25.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="playerSteps" prefHeight="44.0" prefWidth="181.0">
+               <font>
+                  <Font name="Segoe UI Bold" size="25.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
+               </VBox.margin>
+            </Label>
+            <MediaView fx:id="mediaView" fitHeight="50.0" fitWidth="50.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
+               </VBox.margin>
+            </MediaView>
+            <Button onAction="#stopMusic" mnemonicParsing="false" prefHeight="31.0" prefWidth="81.0" text="Mute">
+            	<VBox.margin>
+                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button onAction="#exit" mnemonicParsing="false" prefHeight="31.0" prefWidth="81.0" text="Exit">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
          </children>
-         <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </BorderPane.margin>
       </VBox>
    </left>
+   <center>
+      <Sokoban fx:id="sokoban" height="450" width="450" BorderPane.alignment="CENTER" wallFileName="./resources/Images/wall.jpg" playerFileName="./resources/Images/player.jpg" boxFileName="./resources/Images/box.jpg" targetFileName="./resources/Images/target.jpg" floorFileName="./resources/Images/floor.jpg" />
+   </center>
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar prefHeight="25.0" prefWidth="500.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
-              	  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
+              <MenuItem onAction="#openFile" mnemonicParsing="false" text="Load Level" />
+                  <MenuItem onAction="#saveFile" mnemonicParsing="false" text="Save Level" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Music">
+          	<items>
+          		<MenuItem onAction="#playMusic" mnemonicParsing="false" text="Load Song" />
+          	</items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
    <bottom>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <Label prefHeight="17.0" prefWidth="44.0" text="Status">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </Label>
-			<MediaView fx:id="mediaView" fitHeight="5" fitWidth="5" />
-         </children>
-      </HBox>
+      <Label fx:id="status" alignment="CENTER" prefHeight="41.0" prefWidth="786.0" text="" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="1.0">
+               <stops>
+                  <Stop color="#ed1313" />
+                  <Stop color="#ed1313" offset="0.007246376811594203" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
    </bottom>
-   <center>
-      <SokobanDisplayer fx:id="levelDisplayer" height="500" width="500" BorderPane.alignment="CENTER" wallFileName="./resources/wall2.jpg" playerFileName="./resources/player3.jpg" boxFileName="./resources/box2.jpg" targetFileName="./resources/target.jpg"  />
-   </center>
 </BorderPane>

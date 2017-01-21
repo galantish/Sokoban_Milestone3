@@ -1,19 +1,24 @@
 package controller.commands;
 
+import controller.CommandController;
+
 /**
  * The Class ExitCommand.
  */
 public class ExitCommand extends Command
 {
-	public ExitCommand() 
+	private CommandController controller;
+	
+	public ExitCommand(CommandController controller) 
 	{
-		// TODO Auto-generated constructor stub
+		this.controller = controller;
 	}
 	
 	@Override
 	public void execute()
 	{
 		System.out.println("Goodbye!");
+		this.controller.stop();
 		//we should call controller.stop (command controller)
 	}
 

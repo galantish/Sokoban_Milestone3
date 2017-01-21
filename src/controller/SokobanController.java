@@ -19,7 +19,7 @@ public class SokobanController implements Observer
 	private CommandController controller;
 	private iModel model;
 	private iView view;
-	private HashMap<String, Command> commands;
+	private HashMap<String, iCommand> commands;
 
 	public SokobanController(iModel model, iView view) 
 	{
@@ -37,10 +37,9 @@ public class SokobanController implements Observer
 		this.commands.put("save", new SaveLevelCommand(model));
 		this.commands.put("move", new MoveCommand(model));
 		this.commands.put("display", new DisplayCommand(model, view));
-		this.commands.put("exit", new ExitCommand());
+		this.commands.put("exit", new ExitCommand(controller));
 		this.commands.put("change", new DisplayGUICommand(model, view));
 		//this.commands.put("change", new DisplayCommand(model, view));
-
 	}
 	
 	private String[] objectToStrong(Object arg)
@@ -51,7 +50,13 @@ public class SokobanController implements Observer
 	
 	@Override
 	public void update(Observable o, Object arg) 
-	{		
+	{				
+		if(arg == null)
+		{
+			view.displayError("Invalid Key.");
+			return;
+		}
+		
 		String[] input = objectToStrong(arg);
 		String commandName = input[0];
 		String params = null;	

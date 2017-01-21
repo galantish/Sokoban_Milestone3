@@ -53,6 +53,7 @@ public class CommandController
 	public void stop()
 	{
 		this.stop = true;
+		
 	}
 
 	public BlockingQueue<iCommand> getCommandQueue() 

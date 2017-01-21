@@ -32,7 +32,6 @@ public class MyModel extends Observable implements iModel
 			@Override
 			public void run() 
 			{
-				System.out.println("Load");
 				iLevelLoader levelLoader = getLevelExtension().CreateLevelLoader(path.toLowerCase());
 				//if(levelLoader == null)
 						//throw new IOException("ERROR: invalid path.");	

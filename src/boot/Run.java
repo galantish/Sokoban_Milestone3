@@ -2,11 +2,8 @@ package boot;
 
 import java.io.IOException;
 import controller.SokobanController;
-import controller.server.ClientHandler;
 import model.MyModel;
 import view.CLI;
-import view.Main;
-import view.MyView;
 
 public class Run 
 {
