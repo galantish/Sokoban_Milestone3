@@ -19,12 +19,13 @@
 <?import javafx.scene.control.ButtonBar?>
 
 
-<BorderPane prefHeight="500" prefWidth="800" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="view.MainWindowController">
+<BorderPane prefHeight="300" prefWidth="500" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="view.MyView">
    <left>
       <VBox prefHeight="200.0" prefWidth="84.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Start" />
              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Stop" />
+             <Button onAction="#exit" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Exit" />
              <Label text="Time" prefHeight="10" textFill="RED" textAlignment="CENTER" />
              
          </children>
@@ -58,6 +59,6 @@
       </HBox>
    </bottom>
    <center>
-      <SokobanDisplayer fx:id="levelDisplayer" height="600" width="700" BorderPane.alignment="CENTER" wallFileName="./resources/wall3.jpg" playerFileName="./resources/player2.jpg" boxFileName="./resources/box.jpg" targetFileName="./resources/target.jpg"  />
+      <SokobanDisplayer fx:id="levelDisplayer" height="500" width="500" BorderPane.alignment="CENTER" wallFileName="./resources/wall2.jpg" playerFileName="./resources/player3.jpg" boxFileName="./resources/box2.jpg" targetFileName="./resources/target.jpg"  />
    </center>
 </BorderPane>

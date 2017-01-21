@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 import controller.commands.Command;
 import controller.commands.DisplayCommand;
+import controller.commands.DisplayGUICommand;
 import controller.commands.ExitCommand;
 import controller.commands.LoadLevelCommand;
 import controller.commands.MoveCommand;
@@ -37,7 +38,9 @@ public class SokobanController implements Observer
 		this.commands.put("move", new MoveCommand(model));
 		this.commands.put("display", new DisplayCommand(model, view));
 		this.commands.put("exit", new ExitCommand());
-		this.commands.put("change", new DisplayCommand(model, view));
+		this.commands.put("change", new DisplayGUICommand(model, view));
+		//this.commands.put("change", new DisplayCommand(model, view));
+
 	}
 	
 	private String[] objectToStrong(Object arg)

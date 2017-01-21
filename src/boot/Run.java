@@ -6,7 +6,7 @@ import controller.server.ClientHandler;
 import model.MyModel;
 import view.CLI;
 import view.Main;
-import view.MainWindowController;
+import view.MyView;
 
 public class Run 
 {

@@ -1,44 +1,42 @@
 package view;
 
+import javafx.application.Application;
 import java.io.File;
 import java.net.URL;
 import java.util.Observable;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import commons.Level;
+import javafx.event.Event;
+import javafx.event.EventDispatchChain;
+import javafx.event.EventDispatcher;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.shape.MeshView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-
-public class MainWindowController extends Observable implements Initializable, iView
+import javafx.stage.Popup;
+public class MyView extends Observable implements Initializable, iView
 {
-	private char[][] levelData = {
-			{'#','#','#','#','#','#','#','#','#','#'},
-			{'#',' ','@',' ',' ','#','#','#','#','#'},
-			{'#',' ','#','#',' ','#','#','#','#','#'},
-			{'#',' ','o',' ',' ',' ',' ',' ','#','#'},
-			{'#',' ',' ',' ','#',' ','@',' ','#','#'},
-			{'#','#',' ','#','#',' ','#','o','#','#'},
-			{'#','#','#','#','#',' ','#','#','#','#'},
-			{'#','#','#','#','#','A','#','#','#','#'}};
+	private char[][] levelData;
 	
-	@FXML private SokobanDisplayer levelDisplayer;
-	@FXML private MediaView mediaView;
 	private MediaPlayer mediaPlayer;
 	private Media media;
-	
-	public MainWindowController()
-	{
-		this.levelDisplayer = new SokobanDisplayer();
-	}
-	
+	@FXML private MediaView mediaView;
+
+	@FXML 
+	private SokobanDisplayer levelDisplayer;
+			
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -64,30 +62,35 @@ public class MainWindowController extends Observable implements Initializable, i
 				else if(event.getCode() == KeyCode.RIGHT)
 				{
 					command = "move right";
-					//levelDisplayer.setPlayerPosition(r, c+1);
 				}
 				else if(event.getCode() == KeyCode.UP)
 				{
 					command = "move up";
-					//levelDisplayer.setPlayerPosition(r-1, c);
 				}
 				else if(event.getCode() == KeyCode.DOWN)
 				{
 					command = "move down";
-					//levelDisplayer.setPlayerPosition(r+1, c);
 				}
 				
 				System.out.println(command);					
 				setChanged();
 				notifyObservers(command);				
 			}
-		});
+		});		
 	}
 	
 	@Override
 	public void start()
 	{
-		System.out.println("Hello");
+		Thread t = new Thread(new Runnable() 
+		{			
+			@Override
+			public void run() 
+			{
+				Application.launch(Main.class);		
+			}
+		});
+		t.start();
 	}
 	
 	public void openFile()
@@ -117,22 +120,41 @@ public class MainWindowController extends Observable implements Initializable, i
 		if(choosenFile != null)
 		{
 			System.out.println("save " + choosenFile.getPath());
-			//notifyObservers("save " + choosenFile.getPath());
+			setChanged();
+			notifyObservers("save " + choosenFile.getPath());
 		}
 	}
 
 	@Override
 	public void displayLevel(Level theLevel) 
 	{
-
-		
+		char[][] levelArr = theLevel.getLevelBoard();
+		this.levelData = levelArr;
+		this.levelDisplayer.setRowAndCol(this.levelData.length, this.levelData[0].length);
+		this.levelDisplayer.setLevelData(this.levelData);
+		this.levelDisplayer.redraw();		
 	}
 
 	@Override
 	public void displayError(String msg) 
 	{
-
 		
 	}
 	
+	public void exit()
+	{
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Exit");
+		alert.setHeaderText(null);
+		alert.setContentText("Are you sure you want to exit?");
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK)
+		{
+		    System.out.println("Goodbbye!");
+			notifyObservers("exit");
+		} 
+		else
+			System.out.println("Good!");
+	}
 }

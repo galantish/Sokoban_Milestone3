@@ -4,10 +4,10 @@ import controller.SokobanController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.MyModel;
+import model.data.items.Player;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
-
 
 public class Main extends Application 
 {
@@ -16,8 +16,19 @@ public class Main extends Application
 	{
 		try 
 		{
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
-			Scene scene = new Scene(root,1000,700);
+			//BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("MainWindow.fxml"));		
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));				 
+			BorderPane root = (BorderPane) loader.load();
+			MyView view = loader.getController();
+			
+			MyModel model = new MyModel();
+			SokobanController sokobanController = new SokobanController(model, view);
+
+			model.addObserver(sokobanController);
+			view.addObserver(sokobanController);	
+			
+			Scene scene = new Scene(root,900,700);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -30,14 +41,8 @@ public class Main extends Application
 	
 	public static void main(String[] args) 
 	{				
-		MainWindowController view = new MainWindowController();	
-		MyModel model = new MyModel();
-		SokobanController sokobanController = new SokobanController(model, view);
-
-		model.addObserver(sokobanController);
-		view.addObserver(sokobanController);	
-		
-		view.start();
 		launch(args);
+		
 	}
+
 }

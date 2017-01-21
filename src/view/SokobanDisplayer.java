@@ -2,9 +2,6 @@ package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.HashMap;
-
 import commons.Level;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -15,7 +12,6 @@ import javafx.scene.paint.Color;
 
 public class SokobanDisplayer extends Canvas
 {
-	//private TheLevel theLevel;	
 	private char[][] levelData;
 	private int cRow;
 	private int cCol;
@@ -83,25 +79,22 @@ public class SokobanDisplayer extends Canvas
 						break;
 					default:
 						gc.setFill(Color.WHITE);
-						//gc.fillRect(j*w, i*h, w, h);//black is the default color
 						break;
 					}
 				}
 			}
-			
-			//gc.fillOval(cCol*w, cRow*h, w, h);
 		}
 	}
 
 	public void setLevelData(char[][] levelData) 
 	{
 		this.levelData = levelData;
-		this.cRow = levelData.length;
-		this.cCol = levelData[0].length;
+		//this.cRow = levelData.length;
+		//this.cCol = levelData[0].length;
 		redraw();
 	}
 	
-	public void setPlayerPosition(int row, int col)
+	public void setRowAndCol(int row, int col)
 	{
 		this.cCol = col;
 		this.cRow = row;

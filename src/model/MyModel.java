@@ -22,7 +22,6 @@ public class MyModel extends Observable implements iModel
 		this.theLevel = new Level();
 		this.levelExtension = new LevelsExtensionFactory();
 		this.policy = new MySokobanPolicy();
-		System.out.println("MyVModel was created.");
 	}
 	
 	@Override
@@ -33,6 +32,7 @@ public class MyModel extends Observable implements iModel
 			@Override
 			public void run() 
 			{
+				System.out.println("Load");
 				iLevelLoader levelLoader = getLevelExtension().CreateLevelLoader(path.toLowerCase());
 				//if(levelLoader == null)
 						//throw new IOException("ERROR: invalid path.");	
@@ -42,16 +42,15 @@ public class MyModel extends Observable implements iModel
 				} 
 				catch (ClassNotFoundException e) 
 				{
-					//System.out.println("error");
+					System.out.println(e.getMessage());
 				} 
 				catch (FileNotFoundException e) 
 				{
-					//System.out.println("error");
+					System.out.println(e.getMessage());
 				} 
 				catch (IOException e) 
 				{
-					//System.out.println("error");
-
+					System.out.println(e.getMessage());
 				}
 			}
 		});
