@@ -128,6 +128,12 @@ public class MyModel extends Observable implements iModel
 		return theLevel;
 	}
 
+	@Override
+	public int getSteps() 
+	{
+		return this.theLevel.getPlayersSteps();				
+	}	
+	
 	public Level getTheLevel() 
 	{
 		return theLevel;
@@ -146,5 +152,5 @@ public class MyModel extends Observable implements iModel
 	public void setLevelExtension(LevelsExtensionFactory levelExtension) 
 	{
 		this.levelExtension = levelExtension;
-	}	
+	}
 }

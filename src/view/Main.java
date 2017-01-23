@@ -8,9 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
-
 public class Main extends Application 
-{
+{	
 	@Override
 	public void start(Stage primaryStage) 
 	{
@@ -26,10 +25,11 @@ public class Main extends Application
 			model.addObserver(sokobanController);
 			view.addObserver(sokobanController);	
 			
-			Scene scene = new Scene(root,900,700);
+			Scene scene = new Scene(root,1200,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+						
 		} 
 		catch(Exception e) 
 		{

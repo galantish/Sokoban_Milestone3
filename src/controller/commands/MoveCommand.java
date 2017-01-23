@@ -1,6 +1,10 @@
 package controller.commands;
 
 import java.util.ArrayList;
+
+import javax.swing.text.SimpleAttributeSet;
+
+import javafx.beans.property.StringProperty;
 import model.iModel;
 
 /**
@@ -9,10 +13,12 @@ import model.iModel;
 public class MoveCommand extends Command
 {
 	private iModel model;
-
-	public MoveCommand(iModel model)
+	private StringProperty countSteps;
+	
+	public MoveCommand(iModel model, StringProperty countSteps)
 	{
 		this.model = model;
+		this.countSteps = countSteps;
 	}
 
 	@Override
@@ -21,6 +27,8 @@ public class MoveCommand extends Command
 		if(isValidMoveType(getParams()) == false)
 			return;
 		this.model.move(getParams());
+		int steps = this.model.getSteps();
+		this.countSteps.set(""+(steps));
 	}
 	
 	private boolean isValidMoveType(String moveType)

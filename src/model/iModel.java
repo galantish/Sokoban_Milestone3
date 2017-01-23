@@ -8,5 +8,5 @@ public interface iModel
 	public void saveLevel(String path);
 	public void move(String moveType);
 	public Level getCurrentLevel();	
-
+	public int getSteps();
 }

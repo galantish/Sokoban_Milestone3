@@ -1,10 +1,12 @@
 package view;
 
 import commons.Level;
+import javafx.beans.property.StringProperty;
 
 public interface iView 
 {
-	void displayLevel(Level theLevel); 
-	void displayError(String msg);
-	void start();
+	public void displayLevel(Level theLevel); 
+	public void displayError(String msg);
+	public void start();
+	public void createBindSteps(StringProperty Counter);
 }

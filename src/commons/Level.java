@@ -33,7 +33,6 @@ public class Level implements Serializable
 	/** Level time. */
 	private long time;
 
-	
 	/**
 	 * Initializes the level.
 	 */

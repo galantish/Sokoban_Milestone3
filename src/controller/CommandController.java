@@ -2,10 +2,7 @@ package controller;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
-import controller.commands.Command;
 import controller.commands.iCommand;
 
 public class CommandController 
@@ -53,7 +50,7 @@ public class CommandController
 	public void stop()
 	{
 		this.stop = true;
-		
+		System.out.println("Goodbye!");
 	}
 
 	public BlockingQueue<iCommand> getCommandQueue() 

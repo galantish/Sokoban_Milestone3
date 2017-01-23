@@ -3,6 +3,7 @@ package view;
 import java.util.Observable;
 import java.util.Scanner;
 import commons.Level;
+import javafx.beans.property.StringProperty;
 
 /**
  * The Class CLI.
@@ -70,6 +71,8 @@ public class CLI extends Observable implements iView
 				System.out.print(levelArr[i][j]);
 			System.out.println();
 		}
+		
+		System.out.println("Steps: " + level.getPlayersSteps());
 	}
 
 	@Override
@@ -94,5 +97,11 @@ public class CLI extends Observable implements iView
 //					System.out.println("If you want you can start a new level by loading another level.");
 //					System.out.println("***************************************************************");
 //				}		
+	}
+
+	@Override
+	public void createBindSteps(StringProperty Counter) {
+		// TODO Auto-generated method stub
+		
 	}
 }

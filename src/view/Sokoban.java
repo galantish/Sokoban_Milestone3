@@ -2,7 +2,6 @@ package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
@@ -20,7 +19,7 @@ public class Sokoban extends Canvas
 	private StringProperty boxFileName;
 	private StringProperty targetFileName;
 	private StringProperty floorFileName;
-	
+		
 	public Sokoban() 
 	{
 		this.cRow = 0;
@@ -38,8 +37,8 @@ public class Sokoban extends Canvas
 		{
 			double W = getWidth(); //The canvas width
 			double H = getHeight(); //The canvas height
-			double w = W / cCol;
-			double  h = H / cRow;
+			double w = W / Math.max(cCol,cRow);
+			double  h = H /Math.max(cCol,cRow);
 
 			GraphicsContext gc = this.getGraphicsContext2D();
 						
@@ -99,6 +98,7 @@ public class Sokoban extends Canvas
 		this.cRow = arr.length;
 		this.cCol = arr[0].length;
 		this.levelData = arr;
+		redraw();
 	}
 		
 	public char[][] getLevelData() 
@@ -155,5 +155,4 @@ public class Sokoban extends Canvas
 	{
 		this.floorFileName.set(floorFileName);
 	}
-
 }

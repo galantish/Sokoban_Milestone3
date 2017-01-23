@@ -17,9 +17,7 @@ public class ExitCommand extends Command
 	@Override
 	public void execute()
 	{
-		System.out.println("Goodbye!");
 		this.controller.stop();
-		//we should call controller.stop (command controller)
 	}
 
 }
