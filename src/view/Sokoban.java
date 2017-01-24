@@ -2,12 +2,18 @@ package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import javafx.animation.Animation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class Sokoban extends Canvas 
 {
@@ -54,8 +60,8 @@ public class Sokoban extends Canvas
 				box = new Image(new FileInputStream(getBoxFileName()));
 				wall = new Image(new FileInputStream(getWallFileName()));
 				target = new Image(new FileInputStream(getTargetFileName()));
-				floor = new Image(new FileInputStream(getFloorFileName()));
-			} 
+				floor = new Image(new FileInputStream(getFloorFileName()));		
+			}
 			catch (FileNotFoundException e) 
 			{
 				e.printStackTrace();

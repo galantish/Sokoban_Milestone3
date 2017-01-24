@@ -1,18 +1,16 @@
 package controller.server;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
-public class MyServer 
+import java.net.SocketTimeoutException;public class MyServer 
 {
 	private int port;
-	private ClientHandler clientHandler;
-	private volatile  boolean stop;
+	private iClientHandler clientHandler;
+	private volatile boolean stop; //What is volatile?
 	
-	public MyServer(int port, ClientHandler clientHandler) 
+	public MyServer(int port, iClientHandler clientHandler) 
 	{
 		this.port = port;
 		this.clientHandler = clientHandler;
@@ -22,30 +20,26 @@ public class MyServer
 	public void runServer() throws Exception
 	{
 		ServerSocket server = new ServerSocket(this.port);
-		server.setSoTimeout(10000);
+		server.setSoTimeout(1000);
 		
 		while(!stop)//Waiting to the next client
 		{
 			try
 			{
 				Socket aClient = server.accept();//Blocking calls from clients
-								
-				InputStream inFromUser = aClient.getInputStream();
+				System.out.println("Client is connected!");
+				InputStream inFromClient = aClient.getInputStream();
 				OutputStream outToClient = aClient.getOutputStream();
 			
-				clientHandler.handleClient(inFromUser, outToClient);
-
-				aClient.getInputStream().close(); 
-				aClient.getOutputStream().close(); 
-				aClient.close();
+				this.clientHandler.handleClient(inFromClient, outToClient);
 				
-				inFromUser.close();
+				inFromClient.close();
 				outToClient.close();
 				aClient.close();
 			}
 			catch (SocketTimeoutException e) 
 			{
-				System.out.println("ERROR: Timeout.");
+				continue;
 			}
 		}
 		server.close();
@@ -60,6 +54,7 @@ public class MyServer
 			{
 				try 
 				{
+					System.out.println("Running...");
 					runServer();
 				} 
 				catch (Exception e) 

@@ -1,7 +1,6 @@
 package view;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Optional;
@@ -9,7 +8,6 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 import commons.Level;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -17,15 +15,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -35,8 +29,8 @@ import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainWindowController extends Observable implements iView, Initializable
 {
@@ -47,8 +41,8 @@ public class MainWindowController extends Observable implements iView, Initializ
 	@FXML private MediaView mediaView;
 	private MediaPlayer mediaPlayer;
 	private Media media;
-	private boolean isLoadMusic = false;
-	private boolean isMute = false;
+	private boolean isLoadMusic;
+	private boolean isStop;
 	
 	//Errors
 	@FXML private Label status;
@@ -62,8 +56,8 @@ public class MainWindowController extends Observable implements iView, Initializ
 	private StringProperty CounterTime;
 	private int count;
 	
-	//Exit
-	@FXML private Button exitButton;
+	//Stage
+	private Stage primaryStage;
 	
 	//Finish
 	private boolean isFinish;
@@ -72,7 +66,31 @@ public class MainWindowController extends Observable implements iView, Initializ
 	{
 		this.status = new Label();
 		this.CounterTime = new SimpleStringProperty();
+		this.isLoadMusic = false;
+		this.isStop = false;
 		this.isFinish = false;
+		this.count = 0;
+	}
+	
+ 	@Override
+	public void setPrimaryStage(Stage primaryStage)
+	{
+		this.primaryStage = primaryStage;
+		exitPrimaryStage(this.primaryStage);
+	}
+ 	
+	@Override
+	public void exitPrimaryStage(Stage primaryStage)
+	{
+		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() 
+		{
+			@Override
+			public void handle(WindowEvent event) 
+			{
+				setChanged();
+				notifyObservers("exit");
+			}
+		});
 	}
 	
 	@Override
@@ -81,9 +99,9 @@ public class MainWindowController extends Observable implements iView, Initializ
 		this.countText.textProperty().bind(Counter);
 	}
 	
-	private void startTimer() 
+	private void startTimer(int countndex) 
 	{	
-		this.count = 0;
+		this.count = countndex;
 		this.timer = new Timer();	
 		this.timerText.textProperty().bind(this.CounterTime);
 		this.timer.scheduleAtFixedRate(new TimerTask() 
@@ -105,6 +123,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
+		setFocus();
 		sokoban.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->sokoban.requestFocus());		
 		sokoban.setOnKeyPressed(new EventHandler<KeyEvent>() 
 		{
@@ -169,7 +188,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 		fc.setInitialDirectory(new File("./resources"));
 		fc.getExtensionFilters().addAll(new ExtensionFilter("Text File", "*.txt"), new ExtensionFilter("XML File", "*.xml"), new ExtensionFilter("Object File", "*.obj"));
 
-		File choosenFile = fc.showOpenDialog(null);
+		File choosenFile = fc.showOpenDialog(this.primaryStage);
 		if(choosenFile != null)
 		{
 			setChanged();
@@ -179,9 +198,9 @@ public class MainWindowController extends Observable implements iView, Initializ
 		if(isLoadMusic == false)
 			playAutoMusic();
 
-		setFocus();
+		this.isFinish = false;
 		stopTimer();
-		startTimer();
+		startTimer(0);
 	}
 	
 	public void saveFile()
@@ -235,20 +254,21 @@ public class MainWindowController extends Observable implements iView, Initializ
 	
 	public void stopMusic()
 	{
-		if(isMute == false)
+		if(isStop == false)
 		{	
-			mediaPlayer.setVolume(0);
-			isMute = true;
+			mediaPlayer.pause();
+			isStop = true;
 		}
 		else
 		{
-			mediaPlayer.setVolume(20);
-			isMute = false;
+			mediaPlayer.play();
+			isStop = false;
 		}
 	}
 	
 	public void exit()
 	{
+		stopTimer();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Exit");
 		alert.setHeaderText(null);
@@ -256,26 +276,14 @@ public class MainWindowController extends Observable implements iView, Initializ
 		
 		Optional<ButtonType> result = alert.showAndWait();
 		
-		if (result.get().getText().equals("OK"))
+		if (result.get() == ButtonType.OK)
 		{
 			setChanged();
 			notifyObservers("exit");
-			Stage stage = new Stage();
-			Parent root;
-		
-			try 
-			{
-				root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
-				stage.setScene(new Scene(root));
-				stage.initModality(Modality.APPLICATION_MODAL);
-				stage = (Stage)exitButton.getScene().getWindow();
-				stage.close();
-			} 
-			catch (IOException e) 
-			{	
-				e.printStackTrace();
-			}
+			Platform.exit();
 		}
+		
+		startTimer(this.count);
 	}
 	
 	private void setFocus()
@@ -301,18 +309,5 @@ public class MainWindowController extends Observable implements iView, Initializ
 		status.setText("ERROR: " + msg);
 	}
 	
-	@Override
-	public void start() 
-	{
-		Thread t = new Thread(new Runnable() 
-		{			
-			@Override
-			public void run() 
-			{
-				Application.launch(Main.class);	
-			}
-		});
-		t.start();
-	}
 }
 	

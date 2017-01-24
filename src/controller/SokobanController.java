@@ -3,12 +3,15 @@ package controller;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import controller.commands.DisplayCommand;
+import controller.commands.DisplayCLICommand;
+import controller.commands.DisplayGUICommand;
 import controller.commands.ExitCommand;
 import controller.commands.LoadLevelCommand;
 import controller.commands.MoveCommand;
 import controller.commands.SaveLevelCommand;
 import controller.commands.iCommand;
+import controller.server.MyServer;
+import controller.server.SokobanClientHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import model.iModel;
@@ -21,6 +24,8 @@ public class SokobanController implements Observer
 	private iView view;
 	private HashMap<String, iCommand> commands;
 	private StringProperty countSteps;
+	private SokobanClientHandler clientHandler;
+	private MyServer theServer;
 	
 	public SokobanController(iModel model, iView view) 
 	{
@@ -33,16 +38,29 @@ public class SokobanController implements Observer
 		this.view.createBindSteps(this.countSteps);
 	}
 
+	public SokobanController(iModel model, iView view, SokobanClientHandler clientHandler, int port) 
+	{
+		this.model = model;
+		this.view = view;
+		this.controller = new CommandController();
+		this.countSteps = new SimpleStringProperty();
+		this.clientHandler = clientHandler;
+		this.theServer = new MyServer(port, this.clientHandler);
+		this.theServer.start();
+		initCommands();
+		this.controller.start();
+		this.view.createBindSteps(this.countSteps);
+	}
+	
 	private void initCommands()
 	{
 		this.commands = new HashMap<>();
 		this.commands.put("load", new LoadLevelCommand(this.model));
-		this.commands.put("save", new SaveLevelCommand(this.model));
+		this.commands.put("display", new DisplayCLICommand(this.model, this.clientHandler));
 		this.commands.put("move", new MoveCommand(this.model, this.countSteps));
-		this.commands.put("display", new DisplayCommand(this.model, this.view));
-		this.commands.put("exit", new ExitCommand(this.controller));
-		this.commands.put("change", new DisplayCommand(this.model, this.view));
-		//this.commands.put("change", new DisplayCommand(model, view));
+		this.commands.put("save", new SaveLevelCommand(this.model));
+		this.commands.put("exit", new ExitCommand(this.controller, this.theServer));
+		this.commands.put("change", new DisplayGUICommand(this.model, this.view));
 	}
 	
 	private String[] objectToStrong(Object arg)
