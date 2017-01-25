@@ -46,7 +46,6 @@ public class UnmovableFactory
 	*/
 	private class TargetCreator implements FactoryCreator
 	{
-
 		@Override
 		public iUnmoveable Creator(Position position)
 		{
@@ -67,7 +66,6 @@ public class UnmovableFactory
 
 	/**
 	 * Gets char and position.
-	 *
 	 * @param c
 	 * 			a representative char of an item
 	 * @param position

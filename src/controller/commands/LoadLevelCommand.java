@@ -3,7 +3,7 @@ package controller.commands;
 import model.iModel;
 
 /**
- * The Class LoadLevelCommand.
+ * The Class LoadLevelCommand - load a level.
  */
 public class LoadLevelCommand extends Command
 {

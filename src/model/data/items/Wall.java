@@ -21,6 +21,4 @@ public class Wall extends CommonItems implements iUnmoveable
 	{
 		return '#';
 	}
-	
-
 }

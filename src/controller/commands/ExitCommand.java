@@ -4,7 +4,7 @@ import controller.CommandController;
 import controller.server.MyServer;
 
 /**
- * The Class ExitCommand.
+ * The Class ExitCommand - exit the program in an ordery way (close threads and loops).
  */
 public class ExitCommand extends Command
 {
@@ -21,6 +21,7 @@ public class ExitCommand extends Command
 	public void execute()
 	{
 		this.controller.stop();
+		//If the server is open - stop it.
 		if(this.theServer != null)
 			this.theServer.stop();
 	}

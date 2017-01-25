@@ -21,6 +21,4 @@ public class Floor extends CommonItems implements iUnmoveable
 	{
 		return ' ';
 	}
-	
-
 }

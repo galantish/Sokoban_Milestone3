@@ -1,14 +1,11 @@
 package controller.commands;
 
 import java.util.ArrayList;
-
-import javax.swing.text.SimpleAttributeSet;
-
 import javafx.beans.property.StringProperty;
 import model.iModel;
 
 /**
- * The Class MoveCommand.
+ * The Class MoveCommand - move a movable item from one position to another.
  */
 public class MoveCommand extends Command
 {
@@ -31,6 +28,11 @@ public class MoveCommand extends Command
 		this.countSteps.set(""+(steps));
 	}
 	
+	/**
+	 * IsValidMoveType - checking if a move type command is correct ot not.
+	 * @param moveType
+	 * @return
+	 */
 	private boolean isValidMoveType(String moveType)
 	{
 		ArrayList<String> moveList = new ArrayList<String>();
@@ -41,7 +43,6 @@ public class MoveCommand extends Command
 		
 		if(moveList.contains(moveType.toLowerCase()) == true)
 			return true;
-		
 		return false;
 	}
 }

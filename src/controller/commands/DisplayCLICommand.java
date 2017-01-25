@@ -4,13 +4,13 @@ import controller.server.SokobanClientHandler;
 import model.iModel;
 
 /**
- * The Class DisplayCommand.
+ * The Class DisplayCLICommand - display the level to a client.
  */
 public class DisplayCLICommand extends Command
 {	
 	private iModel model;
 	private SokobanClientHandler clientHandler;
-	
+
 	public DisplayCLICommand(iModel model, SokobanClientHandler clientHandler)
 	{
 		this.model = model;

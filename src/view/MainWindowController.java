@@ -1,6 +1,10 @@
 package view;
 
+import java.beans.XMLDecoder;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Optional;
@@ -20,7 +24,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -55,12 +58,16 @@ public class MainWindowController extends Observable implements iView, Initializ
 	private Timer timer;
 	private StringProperty CounterTime;
 	private int count;
+	private boolean isLoadFromGUI;
 	
 	//Stage
 	private Stage primaryStage;
 	
 	//Finish
 	private boolean isFinish;
+	
+	//Keyboard setting
+	private KeySettings keySettings;
 	
 	public MainWindowController() 
 	{
@@ -70,9 +77,30 @@ public class MainWindowController extends Observable implements iView, Initializ
 		this.isStop = false;
 		this.isFinish = false;
 		this.count = 0;
+		this.isLoadFromGUI = false;
+		this.keySettings = initKeySetting("./resources/Settings/keySettings.xml");
 	}
 	
- 	@Override
+ 	private KeySettings initKeySetting(String path)
+ 	{
+ 		XMLDecoder xmlDecoder;
+ 		KeySettings keySetting = null;
+ 		
+ 		try 
+ 		{
+			xmlDecoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(new File(path))));
+	 		keySetting = (KeySettings) xmlDecoder.readObject();
+	 		xmlDecoder.close();
+		} 
+ 		catch (FileNotFoundException e) 
+ 		{
+			e.printStackTrace();
+		}
+ 		
+ 		return keySetting;
+ 	}
+	
+	@Override
 	public void setPrimaryStage(Stage primaryStage)
 	{
 		this.primaryStage = primaryStage;
@@ -134,13 +162,13 @@ public class MainWindowController extends Observable implements iView, Initializ
 				status.setText("");
 								
 				//Change it.
-				if(event.getCode() == KeyCode.LEFT)
+				if(event.getCode() == keySettings.getMoveLeft())
 					command = "move left";				
-				else if(event.getCode() == KeyCode.RIGHT)
+				else if(event.getCode() ==keySettings.getMoveRight())
 					command = "move right";
-				else if(event.getCode() == KeyCode.UP)
+				else if(event.getCode() == keySettings.getMoveUp())
 					command = "move up";
-				else if(event.getCode() == KeyCode.DOWN)
+				else if(event.getCode() == keySettings.getMoveDown())
 					command = "move down";
 				
 				setChanged();
@@ -156,9 +184,15 @@ public class MainWindowController extends Observable implements iView, Initializ
 
 		if(theLevel.isFinished() == true)
 		{
+			this.isFinish = false;
 			finishLevel();
 			stopTimer();
-			notifyObservers("exit");
+		}
+
+		if(isLoadFromGUI == false)
+		{
+			startTimer(0);
+			this.isLoadFromGUI = true;
 		}
 	}
 	
@@ -178,6 +212,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 				alert.show();
 			}
 		});
+		stopTimer();
 		this.isFinish = true;
 	}
 	
@@ -189,11 +224,12 @@ public class MainWindowController extends Observable implements iView, Initializ
 		fc.getExtensionFilters().addAll(new ExtensionFilter("Text File", "*.txt"), new ExtensionFilter("XML File", "*.xml"), new ExtensionFilter("Object File", "*.obj"));
 
 		File choosenFile = fc.showOpenDialog(this.primaryStage);
-		if(choosenFile != null)
-		{
-			setChanged();
-			notifyObservers("load " + choosenFile.getPath());
-		}
+		if(choosenFile == null)
+			return;
+		
+		setChanged();
+		notifyObservers("load " + choosenFile.getPath());
+		this.isLoadFromGUI = true;
 		
 		if(isLoadMusic == false)
 			playAutoMusic();
@@ -229,7 +265,6 @@ public class MainWindowController extends Observable implements iView, Initializ
 	
 	public void playMusic()
 	{
-		
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Open Song file");
 		fc.setInitialDirectory(new File("./resources"));
@@ -254,6 +289,9 @@ public class MainWindowController extends Observable implements iView, Initializ
 	
 	public void stopMusic()
 	{
+		if(isLoadMusic == false)
+			return;
+		
 		if(isStop == false)
 		{	
 			mediaPlayer.pause();

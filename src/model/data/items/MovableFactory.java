@@ -53,7 +53,6 @@ public class MovableFactory
 
 	/**
 	 * Gets char and position.
-	 *
 	 * @param c
 	 * 			a representative char of an item
 	 * @param position

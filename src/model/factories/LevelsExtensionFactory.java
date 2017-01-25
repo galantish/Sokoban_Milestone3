@@ -71,7 +71,6 @@ public class LevelsExtensionFactory
 	
 	/**
 	 * Gets string from the user.
-	 *
 	 *@param path
 	 *			path of level file
 	 *
@@ -81,7 +80,6 @@ public class LevelsExtensionFactory
 	{
 		if(hashMap.get(path.substring(path.lastIndexOf('.') + 1)) == null)
 			return null;
-		
 		return hashMap.get(path.substring(path.lastIndexOf('.') + 1)).CreateLevelLoader();
 	}
 }

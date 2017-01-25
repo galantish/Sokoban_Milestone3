@@ -17,6 +17,9 @@ import javafx.beans.property.StringProperty;
 import model.iModel;
 import view.iView;
 
+/*
+ * SokobanControllrt - a spesipic class that create all the attributes the SOKOBAN controller needs.
+ */
 public class SokobanController implements Observer
 {
 	private CommandController controller;
@@ -27,6 +30,9 @@ public class SokobanController implements Observer
 	private SokobanClientHandler clientHandler;
 	private MyServer theServer;
 	
+	/*
+	 * SokobanController - ordinary CTOR - running without a server&client.
+	 */
 	public SokobanController(iModel model, iView view) 
 	{
 		this.model = model;
@@ -38,6 +44,9 @@ public class SokobanController implements Observer
 		this.view.createBindSteps(this.countSteps);
 	}
 
+	/*
+	 * SokobanController - special CTOR - running with a server&client.
+	 */
 	public SokobanController(iModel model, iView view, SokobanClientHandler clientHandler, int port) 
 	{
 		this.model = model;
@@ -52,6 +61,9 @@ public class SokobanController implements Observer
 		this.view.createBindSteps(this.countSteps);
 	}
 	
+	/*
+	 * InitCommands - init the hash command.
+	 */
 	private void initCommands()
 	{
 		this.commands = new HashMap<>();
@@ -63,7 +75,10 @@ public class SokobanController implements Observer
 		this.commands.put("change", new DisplayGUICommand(this.model, this.view));
 	}
 	
-	private String[] objectToStrong(Object arg)
+	/*
+	 * ObjectToString - convert an object to a string.
+	 */
+	private String[] objectToString(Object arg)
 	{
 		String[] input = ((String)arg).toUpperCase().split(" ");	
 		return input;
@@ -78,7 +93,7 @@ public class SokobanController implements Observer
 			return;
 		}
 		
-		String[] input = objectToStrong(arg);
+		String[] input = objectToString(arg);
 		String commandName = input[0];
 		String params = null;	
 		if(input.length > 1)

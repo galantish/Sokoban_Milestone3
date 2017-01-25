@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import commons.Level;
 
 /**
-*
 * 1. We have built an interface that defines the functionality of data creator, so that data creator creates in external class that doesn’t depends 
 * on data for the level we need to save, instead he gets the data as a variable. In the interface we created a method that return level as an object 
 * (constitute the expression of the data). This way, when we would like to create a level, the data creator will be the only one who do it.<br>
@@ -20,14 +19,11 @@ import commons.Level;
 * <br>
 * 4. We’ve chosen to use InputStream due to the fact that in this way we do not restrict ourselves to load or save files only, 
 * we can load/save any kind of input. <br>
- * 
- *
  */
 public interface iLevelLoader
 {
 	/**
 	 * Load level - Will load a new level.
-	 *
 	 * @param file
 	 *            the path of the input-stream path
 	 */
@@ -35,7 +31,6 @@ public interface iLevelLoader
 	
 	/**
 	 * Save level - Will save the current level.
-	 *
 	 * @param level
 	 *            the current level
 	 * @param out

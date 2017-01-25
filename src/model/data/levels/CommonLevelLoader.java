@@ -9,7 +9,6 @@ public abstract class CommonLevelLoader implements iLevelLoader
 {
 	/** The chars and type of object list */
 	private HashMap<Character, String> hashMapTypes;		
-
 	
 	/**
 	 * Initializes the list of chars and objects type.
@@ -35,7 +34,6 @@ public abstract class CommonLevelLoader implements iLevelLoader
 
 	/**
 	 * Gets a list of chars and objects type and initializes the local list.
-	 * 
 	 * @param hashMapTypes
 	 * 			list of representative chars
 	 */

@@ -17,9 +17,9 @@ public class SokobanClientHandler extends Observable implements iClientHandler
 	
 	public SokobanClientHandler() 
 	{
-		this.serverMessages = new ArrayBlockingQueue<String>(250);
+		this.serverMessages = new ArrayBlockingQueue<String>(25);
 		this.stopSendToClient = false;
-		this.serverMessages.clear();//?
+		this.serverMessages.clear();
 	}
 	
 	@Override
@@ -58,7 +58,6 @@ public class SokobanClientHandler extends Observable implements iClientHandler
 	{
 		String line;
 		boolean isEnd = false; //?
-		
 		try 
 		{
 			while(!isEnd)

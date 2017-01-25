@@ -65,31 +65,31 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 				//Using this method that returns the type of the item
 				switch (getHashMapTypes().get(arr[i][j]))
 				{
-				case "movable":
-					//Creating a movable item and sets the position
-					iMoveable mov = movFactory.CreateMovable(arr[i][j], new Position(i,j));
-					//Inserts the movable item to the 2D array list (Level Class)
-					myLevel.setMovableItemInIndex(mov);
-					//Adding the item to the fitting arraylist
-					if(mov instanceof Player)
-						myLevel.addPlayerToPlayers(mov);
-					else
-						myLevel.addBoxToBoxes(mov);
+					case "movable":
+						//Creating a movable item and sets the position
+						iMoveable mov = movFactory.CreateMovable(arr[i][j], new Position(i,j));
+						//Inserts the movable item to the 2D array list (Level Class)
+						myLevel.setMovableItemInIndex(mov);
+						//Adding the item to the fitting arraylist
+						if(mov instanceof Player)
+							myLevel.addPlayerToPlayers(mov);
+						else
+							myLevel.addBoxToBoxes(mov);
+						break;
+					
+					case "unmovable":
+						//Creating an unmovable item and sets the position
+						iUnmoveable unmov = unmovFactory.CreateUnmovable(arr[i][j], new Position(i, j));
+						//Inserts the unmovable item to the 2D array list (Level Class)
+						myLevel.setUnmovableItemsInIndex(unmov);
+						//Adding the item to the Targers arraylist if it is a type of target
+						if(unmov instanceof Target)
+							myLevel.addTargetToTargets(unmov);
 					break;
-				
-				case "unmovable":
-					//Creating an unmovable item and sets the position
-					iUnmoveable unmov = unmovFactory.CreateUnmovable(arr[i][j], new Position(i, j));
-					//Inserts the unmovable item to the 2D array list (Level Class)
-					myLevel.setUnmovableItemsInIndex(unmov);
-					//Adding the item to the Targers arraylist if it is a type of target
-					if(unmov instanceof Target)
-						myLevel.addTargetToTargets(unmov);
-				break;
-				
-				default:
-					throw new IOException("ERROR: Invalid Input.");					
-				}
+					
+					default:
+						throw new IOException("ERROR: Invalid Input.");					
+					}
 			}
 		}			
 		return myLevel;

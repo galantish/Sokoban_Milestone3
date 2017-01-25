@@ -2,6 +2,9 @@ package model;
 
 import commons.Level;
 
+/**
+ * IModel - an interface that holds all the function that a model should implement.
+ */
 public interface iModel 
 {
 	public void loadLevel(String path);

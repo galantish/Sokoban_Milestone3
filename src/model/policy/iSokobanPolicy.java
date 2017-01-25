@@ -1,11 +1,14 @@
 package model.policy;
 
 import commons.Level;
-import model.data.items.Position;
-import model.data.items.iMoveable;
 
+/*
+ * iSokobanPolicy - an interface that holds all the functions that a policy of a game (SOKOABN) should implement.
+ */
 public interface iSokobanPolicy 
 {
-	//This method checks all the boolean memebers in the class MySokobanPolicy and checks if a movable item can move to the new position.
+	/*
+	 * Move - this method checks all the boolean members in the class MySokobanPolicy and checks if a movable item can move to the new position.
+	 */
 	public boolean move(Level level, String moveType);
 }

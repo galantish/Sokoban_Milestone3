@@ -3,8 +3,7 @@ package model.data.items;
 import java.io.Serializable;
 
 /**
-* The Class CommonItems - The abstract class that implements all the functions for an item
-* of a level game.
+* The Class CommonItems - The abstract class that implements all the functions for an item of a level game.
 */
 public abstract class CommonItems implements iGeneralItem, Serializable
 {
@@ -13,7 +12,7 @@ public abstract class CommonItems implements iGeneralItem, Serializable
 
 	public CommonItems() 
 	{
-		this.position = position;
+		this.position = new Position();
 		this.repChar = ' ';
 	}
 	
@@ -48,6 +47,5 @@ public abstract class CommonItems implements iGeneralItem, Serializable
 	{
 		String s = String.valueOf(this.repChar);
 		return s;
-		
 	}
 }

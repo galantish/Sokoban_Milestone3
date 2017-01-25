@@ -1,13 +1,14 @@
 package view;
 	
+import java.io.FileInputStream;
 import java.util.List;
-
 import controller.SokobanController;
 import controller.server.SokobanClientHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.MyModel;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
@@ -48,6 +49,7 @@ public class Main extends Application
 			Scene scene = new Scene(root,1200,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Sokoban-Pac");
+			primaryStage.getIcons().add(new Image(new FileInputStream("./resources/Images/1.gif")));
 			primaryStage.setScene(scene);
 			primaryStage.show();	
 		} 

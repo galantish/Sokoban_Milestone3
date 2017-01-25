@@ -3,7 +3,6 @@ package model.data.items;
 /**
  * The Class Player - an item in the game. 
  */
-
 public class Player extends CommonItems implements iMoveable
 {
 	public Player() 
@@ -13,7 +12,6 @@ public class Player extends CommonItems implements iMoveable
 	
 	/**
 	 * Initializes player's position.
-	 *
 	 * @param position
 	 *            the new position of a player
 	 */
@@ -39,6 +37,5 @@ public class Player extends CommonItems implements iMoveable
 	public void Move(Position newPos) 
 	{
 		this.setPosition(newPos);
-		
 	}
 }

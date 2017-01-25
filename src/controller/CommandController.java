@@ -5,6 +5,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import controller.commands.iCommand;
 
+/*
+ * CommandController - a common controller that holds all the commands and manages them by queue.
+ */
 public class CommandController 
 {
 	private BlockingQueue<iCommand> commandQueue;
@@ -13,14 +16,20 @@ public class CommandController
 	public CommandController() 
 	{
 		this.stop = false;
-		commandQueue = new ArrayBlockingQueue<iCommand>(20);
+		this.commandQueue = new ArrayBlockingQueue<iCommand>(20);
 	}
 	
+	/*
+	 * InsertCommand - gets a command and insert it to the queue.
+	 */
 	public void insertCommand(iCommand command) throws InterruptedException
 	{
-		commandQueue.put(command);
+		this.commandQueue.put(command);
 	}
 	
+	/*
+	 * Start - inside a thread, poll a command from the queue and execute the command.
+	 */
 	public void start()
 	{
 		Thread t = new Thread(new Runnable() 
@@ -28,10 +37,12 @@ public class CommandController
 			@Override
 			public void run() 
 			{
-				while(!stop)//will run until the user enter exit or the game is finish
+				//will run until the user enter exit or the game is finish
+				while(!stop)
 				{
 					try 
 					{
+						//iCommand command = getCommandQueue().take();
 						iCommand command = getCommandQueue().poll(1, TimeUnit.SECONDS);				
 						if(command != null)				
 							command.execute();	
@@ -47,6 +58,9 @@ public class CommandController
 		t.start();
 	}
 	
+	/*
+	 * Stop - stop the thread (basically it's close the session and close the window after exit command).
+	 */
 	public void stop()
 	{
 		this.stop = true;
@@ -62,6 +76,4 @@ public class CommandController
 	{
 		this.commandQueue = commandQueue;
 	}
-	
-	
 }

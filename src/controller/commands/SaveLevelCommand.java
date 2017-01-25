@@ -3,7 +3,7 @@ package controller.commands;
 import model.iModel;
 
 /**
- * The Class SaveLevelCommand.
+ * The Class SaveLevelCommand - save a level.
  */
 public class SaveLevelCommand extends Command
 {
@@ -14,7 +14,6 @@ public class SaveLevelCommand extends Command
 		this.model = model;
 	}
 
-	/** Execute the command. */
 	@Override
 	public void execute()
 	{
@@ -22,8 +21,5 @@ public class SaveLevelCommand extends Command
 			return;
 		else
 			this.model.saveLevel(getParams());
-
 	}
-
-
 }

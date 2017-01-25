@@ -68,7 +68,6 @@ public class Position implements Serializable
 
 	/**
 	 * IsEqualPosition - checking if 2 positions are equals.
-	 * 
 	 * @param position
 	 * 			a position to compare
 	 * @return true/false if the local position is equal to a position.
@@ -77,8 +76,6 @@ public class Position implements Serializable
 	{
 		if((this.getX() == position.getX()) && (this.getY() == position.getY()))
 			return true;
-		
 		return false;
 	}
-
 }

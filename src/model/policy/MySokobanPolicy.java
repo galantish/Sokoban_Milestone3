@@ -30,14 +30,20 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 		this.isPlayerCanWalkOnWall = false;
 	}
 
-
+	/*
+	 * MoveInDirection - move some movable item to a new position if it's allowed by the policy.
+	 */
 	private void moveInDirection(Level level, iMoveable item, Position newPos, Position nextBoxPos) throws Exception
 	{			
+		//Saving the original item's position
 		Position backupItemPos = new Position(item.getPosition());
+		//Discover who is the item that is located in the new position.
 		iGeneralItem itemInNewPos = level.getItemInPosition(newPos);
 
+		//Checking if the item we found is a type of floor
 		if(itemInNewPos instanceof Floor)
 		{
+			//Sets the item we found in new position.
 			level.getItemsOnBoard()[newPos.getX()][newPos.getY()] = item;
 			if(item instanceof Player)
 				((Player) item).setPosition(newPos);
@@ -45,39 +51,49 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 				((Box) item).setPosition(newPos);
 		}
 		
+		//Checking if the item we found is a type of box.
 		else if(itemInNewPos instanceof Box)
 		{					
+			//Discover who is the item that is located next to box.
 			iGeneralItem itemForBox = level.getItemInPosition(nextBoxPos);
 		
+			//Sets new position for the item next to box,
 			((Box) itemInNewPos).setPosition(nextBoxPos);
 			level.getItemsOnBoard()[nextBoxPos.getX()][nextBoxPos.getY()] = (Box) itemInNewPos;
 			
+			//Checking if the next items of box is type of target.
 			if(itemForBox instanceof Target)
-				((Box) itemInNewPos).setIsBoxInTarget(true);		
+				((Box) itemInNewPos).setIsBoxInTarget(true);
+			else
+				((Box) itemInNewPos).setIsBoxInTarget(false);
 		}
 		
+		//Sets new position for a player and modify the 2D array.
 		level.getItemsOnBoard()[newPos.getX()][newPos.getY()] = (Player) item;
 		((Player) item).Move(newPos);
 		level.getPlayers().get(0).setPosition(newPos);
 		
-//		if(item instanceof Player)
-//		{
-//			level.getItemsOnBoard()[newPos.getX()][newPos.getY()] = (Player) item;
-//			((Player) item).Move(newPos);
-//			level.getPlayers().get(0).setPosition(newPos);
-//		}
-//		
-//		else
-//		{
-//			level.getItemsOnBoard()[newPos.getX()][newPos.getY()] = (Box) item;
-//			((Box) item).Move(newPos);
-//		}
-//	
+		/*if(item instanceof Player)
+		{
+			level.getItemsOnBoard()[newPos.getX()][newPos.getY()] = (Player) item;
+			((Player) item).Move(newPos);
+			level.getPlayers().get(0).setPosition(newPos);
+		}
+		
+		else
+		{
+			level.getItemsOnBoard()[newPos.getX()][newPos.getY()] = (Box) item;
+			((Box) item).Move(newPos);
+		}*/
+	
 		level.getItemsOnBoard()[backupItemPos.getX()][backupItemPos.getY()] = null;
 		level.setPlayersSteps(level.getPlayersSteps() + 1);
 
 	}
 	
+	/*
+	 * Move - return true/false if a movable item can move to the new position by checking the directions.
+	 */
 	@Override
 	public boolean move(Level level, String moveType) 
 	{
@@ -120,6 +136,9 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 		return true;
 	}
 	
+	/*
+	 * IsMovePossible - return true/false if a movable item can move to the new position by checking the boolean variables.
+	 */
 	private boolean isMovePossible(Level level, iMoveable item, Position newPos, Position nextToBox) 
 	{
 		if(level.isValidPosition(newPos) == false)
@@ -153,11 +172,8 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 		return true;
 	}
 
-	
-
 	/**
 	 * GetIsPlayerCanWalkOnWall.
-	 * 
 	 * @return true/false if the player can walk on walls
 	 */
 	public boolean getIsPlayerCanWalkOnWall()
@@ -167,7 +183,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * SetPlayerCanWalkOnWall - gets a policy and initializes it to the local policy.
-	 * 
 	 * @param isPlayerCanWalkOnWall
 	 * 			a policy
 	 */
@@ -178,7 +193,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * GetIsPlayerCanPullBox.
-	 * 
 	 * @return true/false if the player can pull boxes
 	 */
 	public boolean getIsPlayerCanPullBox()
@@ -188,7 +202,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * SetPlayerCanPullBox - gets a policy and initializes it to the local policy.
-	 * 
 	 * @param isPlayerCanPullBox
 	 * 			a policy
 	 */
@@ -199,7 +212,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * GetIsBoxCanWalkInWall.
-	 * 
 	 * @return true/false if a box can walk on walls
 	 */
 	public boolean getIsBoxCanWalkInWall()
@@ -209,7 +221,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * SetBoxCanWalkInWall - gets a policy and initializes it to the local policy.
-	 * 
 	 * @param isBoxCanWalkOnWall
 	 * 			a policy
 	 */
@@ -220,7 +231,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * GetIsBoxCanPushBox.
-	 * 
 	 * @return true/false if a box can push boxes
 	 */
 	public boolean getIsBoxCanPushBox()
@@ -230,7 +240,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * SetBoxCanPushBox - gets a policy and initializes it to the local policy.
-	 * 
 	 * @param isBoxCanPushBox
 	 * 			a policy
 	 */
@@ -241,7 +250,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * IsBoxCanWalkOnWall.
-	 * 
 	 * @return true/false if a box can walk on walls.
 	 */
 	public boolean getIsBoxCanWalkOnWall()
@@ -251,7 +259,6 @@ public class MySokobanPolicy implements Serializable, iSokobanPolicy
 
 	/**
 	 * SetBoxCanWalkOnWall - gets a policy and initializes it to the local policy.
-	 * 
 	 * @param isBoxCanWalkOnWall
 	 * 			a policy
 	 */

@@ -36,6 +36,7 @@ import java.net.SocketTimeoutException;public class MyServer
 				inFromClient.close();
 				outToClient.close();
 				aClient.close();
+				System.out.println("Client is not connected!");
 			}
 			catch (SocketTimeoutException e) 
 			{

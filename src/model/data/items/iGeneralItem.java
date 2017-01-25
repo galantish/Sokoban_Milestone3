@@ -1,8 +1,7 @@
 package model.data.items;
 
 /**
-* The Interface iGeneralItem - Interface that holds all the function that an item
-* should implement.
+* The Interface iGeneralItem - Interface that holds all the function that an item should implement.
 */
 public interface iGeneralItem 
 {

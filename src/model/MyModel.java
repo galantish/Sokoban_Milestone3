@@ -11,6 +11,9 @@ import model.data.levels.iLevelLoader;
 import model.factories.LevelsExtensionFactory;
 import model.policy.MySokobanPolicy;
 
+/*
+ * MyModel - a class that is a type of iModel and an observable to the SOKOBAN controller.
+ */
 public class MyModel extends Observable implements iModel 
 {
 	private Level theLevel;
@@ -23,7 +26,7 @@ public class MyModel extends Observable implements iModel
 		this.levelExtension = new LevelsExtensionFactory();
 		this.policy = new MySokobanPolicy();
 	}
-	
+
 	@Override
 	public void loadLevel(String path) 
 	{
@@ -53,7 +56,6 @@ public class MyModel extends Observable implements iModel
 				}
 			}
 		});
-		
 		t.start();
 		try 
 		{
@@ -90,11 +92,9 @@ public class MyModel extends Observable implements iModel
 				catch (IOException e) 
 				{
 					//System.out.println("error");
-
 				}
 			}
 		});
-		
 		t.start();
 	}
 	

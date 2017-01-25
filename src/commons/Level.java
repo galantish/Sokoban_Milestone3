@@ -1,38 +1,24 @@
 package commons;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import model.data.items.*;
-import model.policy.MySokobanPolicy;
 
 /**
-* The Class Level - The class that build a level.
+* The Class Level - The common class that build a level.
 */
 public class Level implements Serializable 
 {
-	/** The numbers of players's steps. */
 	private int playersSteps;
-	/** The list of players. */
 	private ArrayList<Player> players;
-	/** The list of boxes. */
 	private ArrayList<Box> boxes;	
-	/** The list of targets. */
 	private ArrayList<Target> targets;	
-	/** The 2D array of the movable items. */
 	private iMoveable[][] itemsOnBoard;
-	/** The 2D array of the unmovable items (the board game). */
 	private iUnmoveable[][] board;
-	/** The 2D arrays's length. */
 	private int row;
-	/** The 2D arrays's width. */
 	private int col;
-	/** Level time. */
-	private long time;
-
+	
 	/**
 	 * Initializes the level.
 	 */
@@ -46,16 +32,14 @@ public class Level implements Serializable
 		this.targets = new ArrayList<Target>();
 		this.itemsOnBoard = new iMoveable[this.row][this.col];		
 		this.board = new iUnmoveable[this.row][this.col];	
-		this.time = System.currentTimeMillis();
 	}
 	
 	/**
-	 * Initializes the level.
-	 * 
+	 * Initializes the level by row and col.
 	 * @param row
-	 * 				2D arrays's length
+	 * 			2D arrays's length
 	 * @param col
-	 * 				2D arrays's width
+	 * 			2D arrays's width
 	 */
 	public Level(int row, int col)
 	{
@@ -67,14 +51,18 @@ public class Level implements Serializable
 		this.targets = new ArrayList<Target>();
 		this.itemsOnBoard = new iMoveable[this.row][this.col];		
 		this.board = new iUnmoveable[this.row][this.col];
-		this.time = System.currentTimeMillis();
+		
 		//Initializing the background array to Floor
 		for(int i = 0; i < this.row; i++)
 			for(int j = 0; j < this.col; j++)
 				this.board[i][j] = new Floor();
 	}
 	
-
+	/**
+	 * Initializes the level by another level (copy-ctor)
+	 * @param level
+	 * 			a level
+	 */
 	public Level(Level level) 
 	{
 		this.row = level.row;
@@ -85,12 +73,10 @@ public class Level implements Serializable
 		this.boxes = level.boxes;
 		this.targets = level.targets;
 		this.playersSteps = level.playersSteps;
-		this.time = System.currentTimeMillis();
 	}
 
 	/**
 	* GetItemsOnBoard.
-	* 
 	* @return the 2D array of movable items
 	*/
 	public iMoveable[][] getItemsOnBoard() 
@@ -100,7 +86,6 @@ public class Level implements Serializable
 
 	/**
 	* SetItemsOnBoard.
-	* 
 	* @param itemsOnBoard 
 	* 			the current level time
 	*/
@@ -110,29 +95,7 @@ public class Level implements Serializable
 	}
 
 	/**
-	* GetTime.
-	* 
-	* @return thea 2D array of movable items
-	*/
-	public long getTime()
-	{
-		return time;
-	}
-
-	/**
-	* SetTime.
-	* 
-	* @param time 
-	* 			level time
-	*/
-	public void setTime(long time)
-	{
-		this.time = time;
-	}
-
-	/**
 	* GetBoard.
-	* 
 	* @return the 2D array of unmovable items
 	*/
 	public iUnmoveable[][] getBoard() 
@@ -142,7 +105,6 @@ public class Level implements Serializable
 
 	/**
 	* SetBoard.
-	* 
 	* @param board 
 	* 			the 2D array of unmovable items
 	*/
@@ -153,7 +115,6 @@ public class Level implements Serializable
 
 	/**
 	* GetRow.
-	* 
 	* @return the length of the 2D arrays
 	*/	
 	public int getRow() 
@@ -163,7 +124,6 @@ public class Level implements Serializable
 
 	/**
 	* SetRow.
-	* 
 	* @param row
 	* 			the length of the 2D arrays
 	*/	
@@ -174,7 +134,6 @@ public class Level implements Serializable
 
 	/**
 	* GetCol.
-	* 
 	* @return the width of the 2D arrays
 	*/	
 	public int getCol() 
@@ -184,7 +143,6 @@ public class Level implements Serializable
 
 	/**
 	* SetCol.
-	* 
 	* @param col
 	* 			the width of the 2D arrays
 	*/	
@@ -195,7 +153,6 @@ public class Level implements Serializable
 	
 	/**
 	* GetPlayers.
-	* 
 	* @return players list
 	*/	
 	public ArrayList<Player> getPlayers()
@@ -205,7 +162,6 @@ public class Level implements Serializable
 
 	/**
 	* SetPlayers.
-	* 
 	* @param players
 	* 			players list
 	*/
@@ -216,7 +172,6 @@ public class Level implements Serializable
 
 	/**
 	* GetBoxes.
-	* 
 	* @return boxes list
 	*/
 	public ArrayList<Box> getBoxes()
@@ -226,7 +181,6 @@ public class Level implements Serializable
 
 	/**
 	* SetBoxes.
-	* 
 	* @param boxes
 	* 			boxes list
 	*/
@@ -237,7 +191,6 @@ public class Level implements Serializable
 
 	/**
 	* GetTagets.
-	* 
 	* @return targets list
 	*/
 	public ArrayList<Target> getTargets()
@@ -247,7 +200,6 @@ public class Level implements Serializable
 
 	/**
 	* SetTagets.
-	* 
 	* @param targets
 	* 			targets list
 	*/
@@ -258,7 +210,6 @@ public class Level implements Serializable
 
 	/**
 	* GetPlayersSteps.
-	* 
 	* @return player's steps
 	*/
 	public int getPlayersSteps()
@@ -268,7 +219,6 @@ public class Level implements Serializable
 
 	/**
 	* SetPlayersSteps.
-	* 
 	* @param playersSteps
 	* 			player's steps
 	*/
@@ -279,7 +229,6 @@ public class Level implements Serializable
 
 	/**
 	* SetMovableItemInIndex.
-	* 
 	* @param mov
 	* 			movable item
 	*/
@@ -290,7 +239,6 @@ public class Level implements Serializable
 	
 	/**
 	* SetUnmovableItemsInIndex.
-	* 
 	* @param unmov
 	* 			 unmovable item
 	*/
@@ -301,7 +249,6 @@ public class Level implements Serializable
 
 	/**
 	* AddBoxToBoxes.
-	* 
 	* @param move
 	* 			movable item
 	*/
@@ -312,7 +259,6 @@ public class Level implements Serializable
 	
 	/**
 	* AddPlayerToPlayers.
-	* 
 	* @param move
 	* 			movable item
 	*/
@@ -323,7 +269,6 @@ public class Level implements Serializable
 	
 	/**
 	* AddTargetToTargets.
-	* 
 	* @param unmov
 	* 			unmovable item
 	*/
@@ -334,10 +279,8 @@ public class Level implements Serializable
 	
 	/**
 	* IsBoxOnTarger.
-	* 
 	* @param box
 	* 			box
-	* 
 	* @return true/false if a box is on target
 	*/
 	public boolean isBoxOnTarget(Box box)
@@ -350,7 +293,6 @@ public class Level implements Serializable
 	
 	/**
 	* IsBoxOnTarger.
-	* 
 	* @return numbers of boxes in targets
 	*/
 	public int numOfBoxesInTarget()
@@ -359,13 +301,11 @@ public class Level implements Serializable
 		for(int i = 0; i <this.numOfBoxes(); i++)
 			if(this.getBoxes().get(i).getIsBoxInTarget() == true)
 				count++;
-		
 		return count;
 	}
 	
 	/**
 	* IsBoxOnTarger.
-	* 
 	* @param move
 	* 			movable item
 	* @param position
@@ -376,37 +316,31 @@ public class Level implements Serializable
 	{
 		if((this.board[position.getX()][position.getY()]) instanceof Floor)
 			return true;
-		
 		return false;
 	}
 	
 	/**
 	* IsFinished.
-	* 
 	* @return true/false if the level is finish (if the user win)
 	*/
 	public Boolean isFinished() 
 	{
 		if (numOfBoxesInTarget() == numOfTargets())
 			return true;
-		
 		return false;
 	}
 
 	/**
 	* IsLevelSolvable.
-	* 
 	* @return true/false if the level is solvable
 	*/
-	public Boolean isLevelSolvable()
+	public Boolean isLevelSolvable() //TO DO
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/**
 	* NumOfBoxes.
-	* 
 	* @return number of boxes 
 	*/
 	public int numOfBoxes()
@@ -416,7 +350,6 @@ public class Level implements Serializable
 
 	/**
 	* NumOfPlayers.
-	* 
 	* @return number of players 
 	*/
 	public int numOfPlayers()
@@ -426,7 +359,6 @@ public class Level implements Serializable
 
 	/**
 	* NumOfTargets.
-	* 
 	* @return number of targets 
 	*/
 	public int numOfTargets()
@@ -436,7 +368,6 @@ public class Level implements Serializable
 	
 	/**
 	* GetItemInPosition.
-	* 
 	* @param position
 	* 			position of an item
 	* @return the item 
@@ -453,7 +384,6 @@ public class Level implements Serializable
 
 	/**
 	* IsValidPosition.
-	* 
 	* @param position
 	* 			position of an item
 	* @return true/false if the position is correct
@@ -462,28 +392,32 @@ public class Level implements Serializable
 	{
 		if((position.getX() < this.col) && (position.getX() >= 0))
 			return true;
-
 		if((position.getY() < this.row) && (position.getY() >= 0))
 			return true;
-		
 		return false;
 	}
 	
+	/**
+	 * IsEmpty.
+	 * @return true/false if the level is empty or not
+	 */
 	public boolean isEmpty()
 	{
 		if(this.numOfPlayers() == 0)
 			return true;
-		
 		return false;
 	}
-		
+	
+	/**
+	 * GetLevelBoard - return a 2D char array that represent a level.
+	 * @return the 2D char array
+	 */
 	public char[][] getLevelBoard() 
 	{
 		char[][] levelArr = new char[getRow()][getCol()];
 		for(int i=0; i<getRow(); i++)
 			for(int j=0;j<getCol(); j++)
 				levelArr[i][j] = getItemInPosition(new Position(i, j)).getTypeOfObject();
-		
 		return levelArr;
 	}
 }
