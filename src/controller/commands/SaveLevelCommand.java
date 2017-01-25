@@ -17,9 +17,6 @@ public class SaveLevelCommand extends Command
 	@Override
 	public void execute()
 	{
-		if(this.model.getCurrentLevel().isEmpty() == true)
-			return;
-		else
-			this.model.saveLevel(getParams());
+		this.model.saveLevel(getParams());
 	}
 }

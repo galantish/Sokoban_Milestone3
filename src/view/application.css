@@ -1,3 +1,43 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.header
+{
+	-fx-background-image: url("../../resources/Images/background.jpg");
+  	-fx-background-repeat:repeat;  
+    -fx-background-size: auto;
+    -fx-background-position: center;
+    -fx-background-color: white ;
+    -fx-font-family: Segoe UI Bold;
+}
+
+.menu
+{
+	-fx-background-color: yellow ;
+}
+
+.vbox
+{
+	-fx-text-fill: black;
+	-fx-background-color: white ;
+	-fx-animated: false  ;
+	-fx-background-image: url("../../resources/Images/1.gif") ;
+	-fx-background-repeat:no-repeat ; 
+	-fx-background-position: bottom ;
+	-fx-background-fills: transparent ;
+	  
+	
+}
+
+.statusLabel
+{
+	-fx-font-size: 26;
+	-fx-font-style: normal;
+	-fx-text-fill: red  ;
+	-fx-text-alignment: right ;
+	-fx-font-weight: bold;
+}
+
+.sokoban
+{
+	-fx-animated: true;
+}
 
 

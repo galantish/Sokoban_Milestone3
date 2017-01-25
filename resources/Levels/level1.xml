@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_111" class="java.beans.XMLDecoder">
+ <object class="commons.Level" id="Level0">
+  <void property="board">
+   <array class="[Lmodel.data.items.iUnmoveable;" length="7">
+    <void index="0">
+     <array class="model.data.items.iUnmoveable" length="7">
+      <void index="0">
+       <object class="model.data.items.Floor"/>
+      </void>
+      <void index="1">
+       <object class="model.data.items.Floor" id="Floor0">
+        <void property="position">
+         <void property="y">
+          <int>1</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="2">
+       <object class="model.data.items.Wall" id="Wall0">
+        <void property="position">
+         <void property="y">
+          <int>2</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="3">
+       <object class="model.data.items.Wall" id="Wall1">
+        <void property="position">
+         <void property="y">
+          <int>3</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="4">
+       <object class="model.data.items.Wall" id="Wall2">
+        <void property="position">
+         <void property="y">
+          <int>4</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="5">
+       <object class="model.data.items.Floor" id="Floor1">
+        <void property="position">
+         <void property="y">
+          <int>5</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="6">
+       <object class="model.data.items.Floor" id="Floor2">
+        <void property="position">
+         <void property="y">
+          <int>6</int>
+         </void>
+        </void>
+       </object>
+      </void>
+     </array>
+    </void>
+    <void index="1">
+     <array class="model.data.items.iUnmoveable" length="7">
+      <void index="0">
+       <object class="model.data.items.Floor" id="Floor3">
+        <void property="position">
+         <void property="x">
+          <int>1</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="1">
+       <object class="model.data.items.Floor" id="Floor4">
+        <void property="position">
+         <void property="x">
+          <int>1</int>
+         </void>
+         <void property="y">
+          <int>1</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="2">
+       <object class="model.data.items.Wall" id="Wall3">
+        <void property="position">
+         <void property="x">
+          <int>1</int>
+         </void>
+         <void property="y">
+          <int>2</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="3">
+       <object class="model.data.items.Target" id="Target0">
+        <void property="position">
+         <void property="x">
+          <int>1</int>
+         </void>
+         <void property="y">
+          <int>3</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="4">
+       <object class="model.data.items.Wall" id="Wall4">
+        <void property="position">
+         <void property="x">
+          <int>1</int>
+         </void>
+         <void property="y">
+          <int>4</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="5">
+       <object class="model.data.items.Floor" id="Floor5">
+        <void property="position">
+         <void property="x">
+          <int>1</int>
+         </void>
+         <void property="y">
+          <int>5</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="6">
+       <object class="model.data.items.Floor" id="Floor6">
+        <void property="position">
+         <void property="x">
+          <int>1</int>
+         </void>
+         <void property="y">
+          <int>6</int>
+         </void>
+        </void>
+       </object>
+      </void>
+     </array>
+    </void>
+    <void index="2">
+     <array class="model.data.items.iUnmoveable" length="7">
+      <void index="0">
+       <object class="model.data.items.Wall" id="Wall5">
+        <void property="position">
+         <void property="x">
+          <int>2</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="1">
+       <object class="model.data.items.Wall" id="Wall6">
+        <void property="position">
+         <void property="x">
+          <int>2</int>
+         </void>
+         <void property="y">
+          <int>1</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="2">
+       <object class="model.data.items.Wall" id="Wall7">
+        <void property="position">
+         <void property="x">
+          <int>2</int>
+         </void>
+         <void property="y">
+          <int>2</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="3">
+       <object class="model.data.items.Floor"/>
+      </void>
+      <void index="4">
+       <object class="model.data.items.Wall" id="Wall8">
+        <void property="position">
+         <void property="x">
+          <int>2</int>
+         </void>
+         <void property="y">
+          <int>4</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="5">
+       <object class="model.data.items.Wall" id="Wall9">
+        <void property="position">
+         <void property="x">
+          <int>2</int>
+         </void>
+         <void property="y">
+          <int>5</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="6">
+       <object class="model.data.items.Wall" id="Wall10">
+        <void property="position">
+         <void property="x">
+          <int>2</int>
+         </void>
+         <void property="y">
+          <int>6</int>
+         </void>
+        </void>
+       </object>
+      </void>
+     </array>
+    </void>
+    <void index="3">
+     <array class="model.data.items.iUnmoveable" length="7">
+      <void index="0">
+       <object class="model.data.items.Wall" id="Wall11">
+        <void property="position">
+         <void property="x">
+          <int>3</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="1">
+       <object class="model.data.items.Target" id="Target1">
+        <void property="position">
+         <void property="x">
+          <int>3</int>
+         </void>
+         <void property="y">
+          <int>1</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="2">
+       <object class="model.data.items.Floor"/>
+      </void>
+      <void index="3">
+       <object class="model.data.items.Floor"/>
+      </void>
+      <void index="4">
+       <object class="model.data.items.Floor"/>
+      </void>
+      <void index="5">
+       <object class="model.data.items.Target" id="Target2">
+        <void property="position">
+         <void property="x">
+          <int>3</int>
+         </void>
+         <void property="y">
+          <int>5</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="6">
+       <object class="model.data.items.Wall" id="Wall12">
+        <void property="position">
+         <void property="x">
+          <int>3</int>
+         </void>
+         <void property="y">
+          <int>6</int>
+         </void>
+        </void>
+       </object>
+      </void>
+     </array>
+    </void>
+    <void index="4">
+     <array class="model.data.items.iUnmoveable" length="7">
+      <void index="0">
+       <object class="model.data.items.Wall" id="Wall13">
+        <void property="position">
+         <void property="x">
+          <int>4</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="1">
+       <object class="model.data.items.Wall" id="Wall14">
+        <void property="position">
+         <void property="x">
+          <int>4</int>
+         </void>
+         <void property="y">
+          <int>1</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="2">
+       <object class="model.data.items.Wall" id="Wall15">
+        <void property="position">
+         <void property="x">
+          <int>4</int>
+         </void>
+         <void property="y">
+          <int>2</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="3">
+       <object class="model.data.items.Floor"/>
+      </void>
+      <void index="4">
+       <object class="model.data.items.Wall" id="Wall16">
+        <void property="position">
+         <void property="x">
+          <int>4</int>
+         </void>
+         <void property="y">
+          <int>4</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="5">
+       <object class="model.data.items.Wall" id="Wall17">
+        <void property="position">
+         <void property="x">
+          <int>4</int>
+         </void>
+         <void property="y">
+          <int>5</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="6">
+       <object class="model.data.items.Wall" id="Wall18">
+        <void property="position">
+         <void property="x">
+          <int>4</int>
+         </void>
+         <void property="y">
+          <int>6</int>
+         </void>
+        </void>
+       </object>
+      </void>
+     </array>
+    </void>
+    <void index="5">
+     <array class="model.data.items.iUnmoveable" length="7">
+      <void index="0">
+       <object class="model.data.items.Floor" id="Floor7">
+        <void property="position">
+         <void property="x">
+          <int>5</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="1">
+       <object class="model.data.items.Floor" id="Floor8">
+        <void property="position">
+         <void property="x">
+          <int>5</int>
+         </void>
+         <void property="y">
+          <int>1</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="2">
+       <object class="model.data.items.Wall" id="Wall19">
+        <void property="position">
+         <void property="x">
+          <int>5</int>
+         </void>
+         <void property="y">
+          <int>2</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="3">
+       <object class="model.data.items.Target" id="Target3">
+        <void property="position">
+         <void property="x">
+          <int>5</int>
+         </void>
+         <void property="y">
+          <int>3</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="4">
+       <object class="model.data.items.Wall" id="Wall20">
+        <void property="position">
+         <void property="x">
+          <int>5</int>
+         </void>
+         <void property="y">
+          <int>4</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="5">
+       <object class="model.data.items.Floor" id="Floor9">
+        <void property="position">
+         <void property="x">
+          <int>5</int>
+         </void>
+         <void property="y">
+          <int>5</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="6">
+       <object class="model.data.items.Floor" id="Floor10">
+        <void property="position">
+         <void property="x">
+          <int>5</int>
+         </void>
+         <void property="y">
+          <int>6</int>
+         </void>
+        </void>
+       </object>
+      </void>
+     </array>
+    </void>
+    <void index="6">
+     <array class="model.data.items.iUnmoveable" length="7">
+      <void index="0">
+       <object class="model.data.items.Floor" id="Floor11">
+        <void property="position">
+         <void property="x">
+          <int>6</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="1">
+       <object class="model.data.items.Floor" id="Floor12">
+        <void property="position">
+         <void property="x">
+          <int>6</int>
+         </void>
+         <void property="y">
+          <int>1</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="2">
+       <object class="model.data.items.Wall" id="Wall21">
+        <void property="position">
+         <void property="x">
+          <int>6</int>
+         </void>
+         <void property="y">
+          <int>2</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="3">
+       <object class="model.data.items.Wall" id="Wall22">
+        <void property="position">
+         <void property="x">
+          <int>6</int>
+         </void>
+         <void property="y">
+          <int>3</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="4">
+       <object class="model.data.items.Wall" id="Wall23">
+        <void property="position">
+         <void property="x">
+          <int>6</int>
+         </void>
+         <void property="y">
+          <int>4</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="5">
+       <object class="model.data.items.Floor" id="Floor13">
+        <void property="position">
+         <void property="x">
+          <int>6</int>
+         </void>
+         <void property="y">
+          <int>5</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="6">
+       <object class="model.data.items.Floor" id="Floor14">
+        <void property="position">
+         <void property="x">
+          <int>6</int>
+         </void>
+         <void property="y">
+          <int>6</int>
+         </void>
+        </void>
+       </object>
+      </void>
+     </array>
+    </void>
+   </array>
+  </void>
+  <void property="boxes">
+   <void method="add">
+    <object class="model.data.items.Box" id="Box0">
+     <void property="isBoxInTarget">
+      <boolean>true</boolean>
+     </void>
+     <void property="position">
+      <void property="x">
+       <int>1</int>
+      </void>
+      <void property="y">
+       <int>3</int>
+      </void>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="model.data.items.Box" id="Box1">
+     <void property="position">
+      <void property="x">
+       <int>3</int>
+      </void>
+      <void property="y">
+       <int>2</int>
+      </void>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="model.data.items.Box" id="Box2">
+     <void property="position">
+      <void property="x">
+       <int>3</int>
+      </void>
+      <void property="y">
+       <int>4</int>
+      </void>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="model.data.items.Box" id="Box3">
+     <void property="position">
+      <void property="x">
+       <int>4</int>
+      </void>
+      <void property="y">
+       <int>3</int>
+      </void>
+     </void>
+    </object>
+   </void>
+  </void>
+  <void property="col">
+   <int>7</int>
+  </void>
+  <void property="itemsOnBoard">
+   <array class="[Lmodel.data.items.iMoveable;" length="7">
+    <void index="0">
+     <array class="model.data.items.iMoveable" length="7"/>
+    </void>
+    <void index="1">
+     <array class="model.data.items.iMoveable" length="7">
+      <void index="3">
+       <object idref="Box0"/>
+      </void>
+     </array>
+    </void>
+    <void index="2">
+     <array class="model.data.items.iMoveable" length="7"/>
+    </void>
+    <void index="3">
+     <array class="model.data.items.iMoveable" length="7">
+      <void index="2">
+       <object idref="Box1"/>
+      </void>
+      <void index="3">
+       <object class="model.data.items.Player" id="Player0">
+        <void property="position">
+         <void property="x">
+          <int>3</int>
+         </void>
+         <void property="y">
+          <int>3</int>
+         </void>
+        </void>
+       </object>
+      </void>
+      <void index="4">
+       <object idref="Box2"/>
+      </void>
+     </array>
+    </void>
+    <void index="4">
+     <array class="model.data.items.iMoveable" length="7">
+      <void index="3">
+       <object idref="Box3"/>
+      </void>
+     </array>
+    </void>
+    <void index="5">
+     <array class="model.data.items.iMoveable" length="7"/>
+    </void>
+    <void index="6">
+     <array class="model.data.items.iMoveable" length="7"/>
+    </void>
+   </array>
+  </void>
+  <void property="players">
+   <void method="add">
+    <object idref="Player0"/>
+   </void>
+  </void>
+  <void property="playersSteps">
+   <int>2</int>
+  </void>
+  <void property="row">
+   <int>7</int>
+  </void>
+  <void property="targets">
+   <void method="add">
+    <object idref="Target0"/>
+   </void>
+   <void method="add">
+    <object idref="Target1"/>
+   </void>
+   <void method="add">
+    <object idref="Target2"/>
+   </void>
+   <void method="add">
+    <object idref="Target3"/>
+   </void>
+  </void>
+ </object>
+</java>

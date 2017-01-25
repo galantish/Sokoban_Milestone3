@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 import controller.commands.DisplayCLICommand;
 import controller.commands.DisplayGUICommand;
+import controller.commands.ErrorCommand;
 import controller.commands.ExitCommand;
 import controller.commands.LoadLevelCommand;
 import controller.commands.MoveCommand;
@@ -73,6 +74,7 @@ public class SokobanController implements Observer
 		this.commands.put("save", new SaveLevelCommand(this.model));
 		this.commands.put("exit", new ExitCommand(this.controller, this.theServer));
 		this.commands.put("change", new DisplayGUICommand(this.model, this.view));
+		this.commands.put("error", new ErrorCommand(this.view, this.clientHandler));
 	}
 	
 	/*
@@ -80,19 +82,21 @@ public class SokobanController implements Observer
 	 */
 	private String[] objectToString(Object arg)
 	{
-		String[] input = ((String)arg).toUpperCase().split(" ");	
+		String[] input;
+		String command = (String)arg;
+		input = command.split(" ", 2);
 		return input;
 	}
 	
 	@Override
 	public void update(Observable o, Object arg) 
 	{				
-		if(arg == null)
-		{
-			view.displayError("Invalid Key.");
-			return;
-		}
-		
+//		if(arg == null)
+//		{
+//			view.displayError("Invalid Key.");
+//			return;
+//		}
+//		
 		String[] input = objectToString(arg);
 		String commandName = input[0];
 		String params = null;	
@@ -100,10 +104,11 @@ public class SokobanController implements Observer
 			params = input[1];
 		
 		iCommand command = this.commands.get(commandName.toLowerCase());
-		
-		if(command == null || input.length > 2)
+		if(command == null)
 		{
-			view.displayError("Command " + commandName + " not found.");
+			this.view.displayError("Command " + commandName + " not found.");
+			if(this.clientHandler != null)
+				this.clientHandler.insertToMessageQueue("Command " + commandName + " not found.");
 			return;
 		}
 		

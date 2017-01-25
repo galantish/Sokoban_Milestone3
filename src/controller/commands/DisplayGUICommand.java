@@ -8,8 +8,8 @@ import view.iView;
  */
 public class DisplayGUICommand extends Command 
 {
-	iModel model;
-	iView view;
+	private iModel model;
+	private iView view;
 	
 	public DisplayGUICommand(iModel model, iView view) 
 	{

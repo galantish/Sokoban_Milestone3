@@ -129,7 +129,7 @@ public class SokobanClientHandler extends Observable implements iClientHandler
 		return t;
 	}
 	
-	private void insertToMessageQueue(String outputStr)
+	public void insertToMessageQueue(String outputStr)
 	{
 		try 
 		{

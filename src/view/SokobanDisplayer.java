@@ -9,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public class Sokoban extends Canvas 
+public class SokobanDisplayer extends Canvas 
 {
 	private char[][] levelData;
 	private int cRow; //levelData.length
@@ -20,7 +20,7 @@ public class Sokoban extends Canvas
 	private StringProperty targetFileName;
 	private StringProperty floorFileName;
 		
-	public Sokoban() 
+	public SokobanDisplayer() 
 	{
 		this.cRow = 0;
 		this.cCol = 0;
@@ -33,12 +33,12 @@ public class Sokoban extends Canvas
 	
 	public void redraw()
 	{
-		if(levelData != null)
+		if(this.levelData != null)
 		{
 			double W = getWidth(); //The canvas width
 			double H = getHeight(); //The canvas height
-			double w = W / Math.max(cCol,cRow);
-			double  h = H /Math.max(cCol,cRow);
+			double w = W / Math.max(this.cCol,this.cRow);
+			double  h = H / Math.max(this.cCol, this.cRow);
 
 			GraphicsContext gc = this.getGraphicsContext2D();
 						
@@ -84,6 +84,7 @@ public class Sokoban extends Canvas
 						break;
 						case ' ':
 							gc.drawImage(floor, j*w, i*h, w, h);
+						break;
 					default:
 						gc.setFill(Color.BLUE);
 						break;

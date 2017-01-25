@@ -390,9 +390,7 @@ public class Level implements Serializable
 	*/
 	public boolean isValidPosition(Position position)
 	{
-		if((position.getX() < this.col) && (position.getX() >= 0))
-			return true;
-		if((position.getY() < this.row) && (position.getY() >= 0))
+		if((position.getX() < this.row) && (position.getX() >= 0) && (position.getY() < this.col) && (position.getY() >= 0))
 			return true;
 		return false;
 	}

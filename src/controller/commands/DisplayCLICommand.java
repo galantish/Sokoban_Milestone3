@@ -20,6 +20,9 @@ public class DisplayCLICommand extends Command
 	@Override
 	public void execute()
 	{
-		this.clientHandler.sendLevel(this.model.getCurrentLevel().getLevelBoard());
+		if(this.model.getCurrentLevel().isEmpty() == true)
+			this.clientHandler.insertToMessageQueue("You need to load level first.");
+		else
+			this.clientHandler.sendLevel(this.model.getCurrentLevel().getLevelBoard());
 	}
 }

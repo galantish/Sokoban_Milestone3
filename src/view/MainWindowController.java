@@ -38,13 +38,12 @@ import javafx.stage.WindowEvent;
 public class MainWindowController extends Observable implements iView, Initializable
 {
 	//SokobanDisplayer
-	@FXML private Sokoban sokoban;
+	@FXML private SokobanDisplayer sokobanDisplayer;
 
 	//Music
 	@FXML private MediaView mediaView;
 	private MediaPlayer mediaPlayer;
 	private Media media;
-	private boolean isLoadMusic;
 	private boolean isStop;
 	
 	//Errors
@@ -57,14 +56,12 @@ public class MainWindowController extends Observable implements iView, Initializ
 	@FXML private Text timerText;
 	private Timer timer;
 	private StringProperty CounterTime;
-	private int count;
+	private int seconds;
+	private int minutes;
 	private boolean isLoadFromGUI;
 	
 	//Stage
 	private Stage primaryStage;
-	
-	//Finish
-	private boolean isFinish;
 	
 	//Keyboard setting
 	private KeySettings keySettings;
@@ -73,10 +70,9 @@ public class MainWindowController extends Observable implements iView, Initializ
 	{
 		this.status = new Label();
 		this.CounterTime = new SimpleStringProperty();
-		this.isLoadMusic = false;
 		this.isStop = false;
-		this.isFinish = false;
-		this.count = 0;
+		this.seconds = 0;
+		this.minutes = 0;
 		this.isLoadFromGUI = false;
 		this.keySettings = initKeySetting("./resources/Settings/keySettings.xml");
 	}
@@ -127,9 +123,10 @@ public class MainWindowController extends Observable implements iView, Initializ
 		this.countText.textProperty().bind(Counter);
 	}
 	
-	private void startTimer(int countndex) 
+	private void startTimer(int sec, int min) 
 	{	
-		this.count = countndex;
+		this.seconds = sec;
+		this.minutes = min;
 		this.timer = new Timer();	
 		this.timerText.textProperty().bind(this.CounterTime);
 		this.timer.scheduleAtFixedRate(new TimerTask() 
@@ -137,12 +134,26 @@ public class MainWindowController extends Observable implements iView, Initializ
 			@Override
 			public void run() 
 			{
-				CounterTime.set(" "+(++count));
+				seconds++;
+				if(seconds > 59)
+				{
+					minutes++;
+					seconds = 0;
+				}
+				if(minutes < 10)
+				{
+					if(seconds < 10)
+						CounterTime.set("0" + (minutes) + ":0" + (seconds));
+					else
+						CounterTime.set("0" + (minutes) + ":" + (seconds));
+				}
+				else
+					CounterTime.set("" + (minutes) + ":" + (seconds));
 			}
 		}, 0, 1000);
 	}
 	
-	public void stopTimer()
+	private void stopTimer()
 	{
 		if(timer != null)
 			timer.cancel();
@@ -152,27 +163,36 @@ public class MainWindowController extends Observable implements iView, Initializ
 	public void initialize(URL location, ResourceBundle resources) 
 	{
 		setFocus();
-		sokoban.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->sokoban.requestFocus());		
-		sokoban.setOnKeyPressed(new EventHandler<KeyEvent>() 
+		playAutoMusic();
+		sokobanDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->sokobanDisplayer.requestFocus());		
+		sokobanDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() 
 		{
 			@Override
 			public void handle(KeyEvent event) 
 			{
 				String command = null;
 				status.setText("");
-								
+				
 				//Change it.
 				if(event.getCode() == keySettings.getMoveLeft())
 					command = "move left";				
-				else if(event.getCode() ==keySettings.getMoveRight())
+				else if(event.getCode() == keySettings.getMoveRight())
 					command = "move right";
 				else if(event.getCode() == keySettings.getMoveUp())
 					command = "move up";
 				else if(event.getCode() == keySettings.getMoveDown())
 					command = "move down";
+				else
+				{
+					command = null;
+					displayError("Invalid key.");
+				}
 				
-				setChanged();
-				notifyObservers(command);
+				if(command != null)
+				{
+					setChanged();
+					notifyObservers(command);
+				}
 			}
 		});	
 	}
@@ -180,26 +200,23 @@ public class MainWindowController extends Observable implements iView, Initializ
 	@Override
 	public void displayLevel(Level theLevel) 
 	{
-		this.sokoban.setLevelData(theLevel.getLevelBoard());
+		this.sokobanDisplayer.setLevelData(theLevel.getLevelBoard());
 
 		if(theLevel.isFinished() == true)
 		{
-			this.isFinish = false;
 			finishLevel();
 			stopTimer();
 		}
 
 		if(isLoadFromGUI == false)
 		{
-			startTimer(0);
+			startTimer(0,0);
 			this.isLoadFromGUI = true;
 		}
 	}
 	
 	private void finishLevel()
 	{
-		if(this.isFinish == true)
-			return;
 		Platform.runLater(new Runnable() 
 		{
 			@Override
@@ -213,7 +230,6 @@ public class MainWindowController extends Observable implements iView, Initializ
 			}
 		});
 		stopTimer();
-		this.isFinish = true;
 	}
 	
 	public void openFile()
@@ -230,13 +246,9 @@ public class MainWindowController extends Observable implements iView, Initializ
 		setChanged();
 		notifyObservers("load " + choosenFile.getPath());
 		this.isLoadFromGUI = true;
-		
-		if(isLoadMusic == false)
-			playAutoMusic();
 
-		this.isFinish = false;
 		stopTimer();
-		startTimer(0);
+		startTimer(0,0);
 	}
 	
 	public void saveFile()
@@ -250,57 +262,6 @@ public class MainWindowController extends Observable implements iView, Initializ
 		{
 			setChanged();
 			notifyObservers("save " + choosenFile.getPath());
-		}
-	}
-	
-	public void playAutoMusic()
-	{
-		media = new Media(new File("./resources/Songs/Supaplex.mp3").toURI().toString());
-		mediaPlayer = new MediaPlayer(media);
-		mediaView.setMediaPlayer(mediaPlayer);
-		mediaPlayer.setAutoPlay(true);
-		mediaPlayer.setOnEndOfMedia(null);
-		isLoadMusic = true;
-	}
-	
-	public void playMusic()
-	{
-		FileChooser fc = new FileChooser();
-		fc.setTitle("Open Song file");
-		fc.setInitialDirectory(new File("./resources"));
-		fc.getExtensionFilters().addAll(new ExtensionFilter("MP3", "*.mp3"), new ExtensionFilter("MP4", "*.mp4"));
-
-		File choosenFile = fc.showOpenDialog(null);
-		
-		if(choosenFile != null)
-		{
-			if(isLoadMusic == true )
-				mediaPlayer.stop();
-			
-			String path = choosenFile.getAbsolutePath();
-			media = new Media(new File(path).toURI().toString());
-			mediaPlayer = new MediaPlayer(media);
-			mediaView.setMediaPlayer(mediaPlayer);
-			mediaPlayer.setAutoPlay(true);
-			mediaPlayer.setOnEndOfMedia(null);
-			isLoadMusic = true;
-		}
-	}
-	
-	public void stopMusic()
-	{
-		if(isLoadMusic == false)
-			return;
-		
-		if(isStop == false)
-		{	
-			mediaPlayer.pause();
-			isStop = true;
-		}
-		else
-		{
-			mediaPlayer.play();
-			isStop = false;
 		}
 	}
 	
@@ -321,12 +282,69 @@ public class MainWindowController extends Observable implements iView, Initializ
 			Platform.exit();
 		}
 		
-		startTimer(this.count);
+		startTimer(this.seconds, this.minutes);
+	}
+	
+	public void stopMusic()
+	{
+		if(isStop == false)
+		{	
+			mediaPlayer.pause();
+			isStop = true;
+		}
+		else
+		{
+			mediaPlayer.play();
+			isStop = false;
+		}
+	}
+	
+	private void playAutoMusic()
+	{
+		media = new Media(new File("./resources/Songs/Supaplex.mp3").toURI().toString());
+		mediaPlayer = new MediaPlayer(media);
+		mediaView.setMediaPlayer(mediaPlayer);
+		mediaPlayer.setAutoPlay(true);
+		mediaPlayer.setOnEndOfMedia(null);
+	}
+	
+	public void playMusic()
+	{
+		FileChooser fc = new FileChooser();
+		fc.setTitle("Open Song file");
+		fc.setInitialDirectory(new File("./resources"));
+		fc.getExtensionFilters().addAll(new ExtensionFilter("MP3", "*.mp3"), new ExtensionFilter("MP4", "*.mp4"));
+
+		File choosenFile = fc.showOpenDialog(null);
+		
+		if(choosenFile != null)
+		{
+			stopMusic();
+			String path = choosenFile.getAbsolutePath();
+			media = new Media(new File(path).toURI().toString());
+			mediaPlayer = new MediaPlayer(media);
+			mediaView.setMediaPlayer(mediaPlayer);
+			mediaPlayer.setAutoPlay(true);
+			mediaPlayer.setOnEndOfMedia(null);
+		}
+	}
+	
+	@Override
+	public void displayError(String msg) 
+	{
+		Platform.runLater(new Runnable() 
+		{
+			@Override
+			public void run() 
+			{
+				status.setText("ERROR: " + msg);
+			}
+		});
 	}
 	
 	private void setFocus()
 	{
-		sokoban.focusedProperty().addListener(new ChangeListener<Boolean>()
+		sokobanDisplayer.focusedProperty().addListener(new ChangeListener<Boolean>()
 		{
             public void changed(ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) 
             {
@@ -334,18 +352,10 @@ public class MainWindowController extends Observable implements iView, Initializ
                 {
                     public void run() 
                     {
-                    	sokoban.requestFocus();
+                    	sokobanDisplayer.requestFocus();
                     }
                 });                    
             }
         });
 	}
-	
-	@Override
-	public void displayError(String msg) 
-	{
-		status.setText("ERROR: " + msg);
-	}
-	
 }
-	

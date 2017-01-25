@@ -26,8 +26,9 @@ import model.data.items.iUnmoveable;
 public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 {	
 	@Override
-	public Level LoadLevel(InputStream file) throws IOException
+	public Level LoadLevel(InputStream file) throws IOException, ClassNotFoundException
 	{			
+		System.out.println("Load level");
 		//Reading the contents of a text file
 		BufferedReader bf = new BufferedReader(new InputStreamReader(file));
 		String line;
@@ -37,6 +38,7 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 		int row = 0;
 		int col = 0;
 		
+		
 		while((line = bf.readLine()) != null)
 		{
 			if(line.length() > col)
@@ -44,6 +46,7 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 			row++;
 			linesArr.add(line);
 		}
+
 		
 		//Creating a 2D array which every cell is a char
 		char[][] arr = new char[row][col];
@@ -86,7 +89,6 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 						if(unmov instanceof Target)
 							myLevel.addTargetToTargets(unmov);
 					break;
-					
 					default:
 						throw new IOException("ERROR: Invalid Input.");					
 					}

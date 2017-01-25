@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import commons.Level;
 import model.data.levels.iLevelLoader;
@@ -35,63 +36,90 @@ public class MyModel extends Observable implements iModel
 			@Override
 			public void run() 
 			{
-				iLevelLoader levelLoader = getLevelExtension().CreateLevelLoader(path.toLowerCase());
-				//if(levelLoader == null)
-						//throw new IOException("ERROR: invalid path.");	
+				iLevelLoader levelLoader = levelExtension.CreateLevelLoader(path.toLowerCase());
+				if(levelLoader == null)
+				{
+					setChanged();
+					notifyObservers("error Invalid file.");
+					return;
+				}
+				FileInputStream in = null;
 				try 
 				{
-					setTheLevel(levelLoader.LoadLevel(new FileInputStream(new File(path))));
-				} 
-				catch (ClassNotFoundException e) 
-				{
-					System.out.println(e.getMessage());
+					in = new FileInputStream(new File(path));
+					setTheLevel(levelLoader.LoadLevel(in));
+					setChanged();
+					notifyObservers("change");
 				} 
 				catch (FileNotFoundException e) 
 				{
-					System.out.println(e.getMessage());
-				} 
-				catch (IOException e) 
+					setChanged();
+					notifyObservers("error Invalid file.");
+					return;
+				}
+				catch (ClassNotFoundException | IOException e) 
 				{
-					System.out.println(e.getMessage());
+					setChanged();
+					notifyObservers("error Invalid file.");
+					return;
 				}
 			}
 		});
 		t.start();
+		
 		try 
 		{
 			t.join();
 		} 
 		catch (InterruptedException e) 
 		{
-			e.printStackTrace();
+			setChanged();
+			notifyObservers("error " + e.getMessage());
 		}
-
-		setChanged();
-		notifyObservers("change");
 	}
 	
 	@Override
 	public void saveLevel(String path) 
 	{
+		if(this.theLevel.isEmpty() == true)
+		{
+			setChanged();
+			notifyObservers("error You need to load level first.");
+			return;
+		}
+		
 		Thread t = new Thread(new Runnable() 
 		{		
 			@Override
 			public void run() 
 			{
 				iLevelLoader levelSaver = getLevelExtension().CreateLevelLoader(path.toLowerCase());
-				//if(levelLoader == null)
-						//throw new IOException("ERROR: invalid path.");	
+				if(levelSaver == null)
+				{
+					setChanged();
+					notifyObservers("error Invalid file.");
+					return;
+				}	
+				FileOutputStream out = null;
 				try 
 				{
-					levelSaver.SaveLevel(getTheLevel(), new FileOutputStream(new File(path)));				
+					out = new FileOutputStream(new File(path));
+					levelSaver.SaveLevel(getTheLevel(), out);
+					setChanged();
+					notifyObservers("change");
+					return;
 				}  
 				catch (FileNotFoundException e) 
 				{
-					//System.out.println("error");
+					setChanged();
+					notifyObservers("error Invalid file.");
+					return;
 				} 
 				catch (IOException e) 
 				{
-					//System.out.println("error");
+					setChanged();
+					notifyObservers("error Invalid file.");
+					return;
 				}
 			}
 		});
@@ -101,13 +129,27 @@ public class MyModel extends Observable implements iModel
 	@Override
 	public void move(String moveType) 
 	{
+		if(isValidMoveType(moveType) == false)
+		{
+			setChanged();
+			notifyObservers("error Invalid move type.");
+			return;
+		}
 		try
 		{
 			if(this.theLevel.isEmpty() == true)
-				throw new Exception("ERROE: Invalid level.");
+			{
+				setChanged();
+				notifyObservers("error You need to load level first.");
+				return;
+			}
 			
 			if(moveType == null)
-				throw new Exception("ERROE: Invalid move type.");
+			{
+				setChanged();
+				notifyObservers("error Invalid move type.");
+				return;
+			}	
 
 			boolean isCanMove = policy.move(this.theLevel, moveType);
 
@@ -120,6 +162,24 @@ public class MyModel extends Observable implements iModel
 		}
 		setChanged();
 		notifyObservers("change");
+	}
+	
+	/**
+	 * IsValidMoveType - checking if a move type command is correct ot not.
+	 * @param moveType
+	 * @return
+	 */
+	public boolean isValidMoveType(String moveType)
+	{
+		ArrayList<String> moveList = new ArrayList<String>();
+		moveList.add("up");
+		moveList.add("down");
+		moveList.add("right");
+		moveList.add("left");
+		
+		if(moveList.contains(moveType.toLowerCase()) == true)
+			return true;
+		return false;
 	}
 	
 	@Override

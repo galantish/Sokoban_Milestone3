@@ -10,6 +10,7 @@ import model.MyModel;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.fxml.FXMLLoader;
 
 public class Main extends Application 
@@ -45,7 +46,7 @@ public class Main extends Application
 			model.addObserver(sokobanController);
 			view.addObserver(sokobanController);	
 			view.setPrimaryStage(primaryStage);
-			
+	       
 			Scene scene = new Scene(root,1200,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Sokoban-Pac");

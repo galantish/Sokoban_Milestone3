@@ -16,7 +16,7 @@ import commons.Level;
 public class MyXMLLevel implements iLevelLoader
 {
 	@Override
-	public Level LoadLevel(InputStream file) throws IOException, ClassNotFoundException
+	public Level LoadLevel(InputStream file) throws IOException
 	{
 		XMLDecoder xmlDecoder = new XMLDecoder(new BufferedInputStream(file));		
 		Level myLevel = (Level) xmlDecoder.readObject();		

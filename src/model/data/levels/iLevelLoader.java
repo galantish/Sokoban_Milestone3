@@ -1,5 +1,6 @@
 package model.data.levels;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,7 +28,7 @@ public interface iLevelLoader
 	 * @param file
 	 *            the path of the input-stream path
 	 */
-	public Level LoadLevel(InputStream file) throws IOException, ClassNotFoundException;
+	public Level LoadLevel(InputStream file) throws IOException, ClassNotFoundException, FileNotFoundException;
 	
 	/**
 	 * Save level - Will save the current level.
