@@ -49,7 +49,7 @@ public class Main extends Application
 	       
 			Scene scene = new Scene(root,1200,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setTitle("Sokoban-Pac");
+			primaryStage.setTitle("Pac-Ban");
 			primaryStage.getIcons().add(new Image(new FileInputStream("./resources/Images/1.gif")));
 			primaryStage.setScene(scene);
 			primaryStage.show();	

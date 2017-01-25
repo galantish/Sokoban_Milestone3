@@ -23,7 +23,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -45,6 +48,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 	private MediaPlayer mediaPlayer;
 	private Media media;
 	private boolean isStop;
+	@FXML private Button musicButton;
 	
 	//Errors
 	@FXML private Label status;
@@ -65,7 +69,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 	
 	//Keyboard setting
 	private KeySettings keySettings;
-	
+		
 	public MainWindowController() 
 	{
 		this.status = new Label();
@@ -81,7 +85,6 @@ public class MainWindowController extends Observable implements iView, Initializ
  	{
  		XMLDecoder xmlDecoder;
  		KeySettings keySetting = null;
- 		
  		try 
  		{
 			xmlDecoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(new File(path))));
@@ -92,7 +95,6 @@ public class MainWindowController extends Observable implements iView, Initializ
  		{
 			e.printStackTrace();
 		}
- 		
  		return keySetting;
  	}
 	
@@ -162,8 +164,8 @@ public class MainWindowController extends Observable implements iView, Initializ
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
-		setFocus();
 		playAutoMusic();
+		setFocus();
 		sokobanDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->sokobanDisplayer.requestFocus());		
 		sokobanDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() 
 		{
@@ -287,21 +289,57 @@ public class MainWindowController extends Observable implements iView, Initializ
 	
 	public void stopMusic()
 	{
+		this.musicButton.setText("");
+
 		if(isStop == false)
 		{	
 			mediaPlayer.pause();
 			isStop = true;
+			try 
+			{
+				ImageView mute = new ImageView(new Image(new FileInputStream("./resources/Images/off.jpg")));
+				mute.setFitWidth(25);
+				mute.setFitHeight(25);
+				this.musicButton.setGraphic(mute);
+			} 
+			catch (FileNotFoundException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		else
 		{
 			mediaPlayer.play();
 			isStop = false;
+			try 
+			{
+				ImageView mute = new ImageView(new Image(new FileInputStream("./resources/Images/on.jpg")));
+				mute.setFitWidth(25);
+				mute.setFitHeight(25);
+				this.musicButton.setGraphic(mute);
+			} 
+			catch (FileNotFoundException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	private void playAutoMusic()
 	{
-		media = new Media(new File("./resources/Songs/Supaplex.mp3").toURI().toString());
+		try 
+		{
+			ImageView mute = new ImageView(new Image(new FileInputStream("./resources/Images/on.jpg")));
+			mute.setFitWidth(25);
+			mute.setFitHeight(25);
+			this.musicButton.setGraphic(mute);
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		media = new Media(new File("./resources/Songs/pacman.mp3").toURI().toString());
 		mediaPlayer = new MediaPlayer(media);
 		mediaView.setMediaPlayer(mediaPlayer);
 		mediaPlayer.setAutoPlay(true);
@@ -320,6 +358,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 		if(choosenFile != null)
 		{
 			stopMusic();
+			this.isStop = false;
 			String path = choosenFile.getAbsolutePath();
 			media = new Media(new File(path).toURI().toString());
 			mediaPlayer = new MediaPlayer(media);

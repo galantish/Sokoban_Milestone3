@@ -30,15 +30,15 @@
             </Label>
             <Text textOrigin="CENTER" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="LEFT" wrappingWidth="90" fx:id="timerText">
                <VBox.margin>
-                  <Insets bottom="10.0" left="32.0" right="10.0" top="20.0" />
+                  <Insets bottom="10.0" left="38.0" right="10.0" top="20.0" />
                </VBox.margin>
                <font>
-                   <Font name="Segoe UI Bold" size="30.0"/>
+                   <Font name="Segoe UI" size="25.0"/>
                 </font>
             </Text>
             <Label contentDisplay="LEFT" prefHeight="37.0" prefWidth="125" text="Steps:" textAlignment="LEFT" textFill="BLACK">
                <VBox.margin>
-                  <Insets bottom="10.0" left="32.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="28.0" right="10.0" top="10.0" />
                </VBox.margin>
                <font>
                   <Font name="Segoe UI Bold" size="30.0" />
@@ -46,24 +46,30 @@
             </Label>
         	<Text textOrigin="CENTER" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="LEFT" wrappingWidth="90" fx:id="countText">
                <VBox.margin>
-                  <Insets bottom="10.0" left="65.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="60.0" right="10.0" top="10.0" />
                </VBox.margin>
                <font>
-                   <Font name="Segoe UI Bold" size="30.0" />
+                   <Font name="Segoe UI" size="25.0" />
                 </font>
             </Text>           
             <MediaView fx:id="mediaView" fitHeight="10.0" fitWidth="10.0">
-               <VBox.margin>
+                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
                </VBox.margin>
             </MediaView>
-            <Button styleClass="music" onAction="#stopMusic" mnemonicParsing="false" prefHeight="31.0" prefWidth="130" text="On/Off Music" textFill="BLACK" >
-            	<VBox.margin>
+            <Button fx:id="musicButton" styleClass="music" onAction="#stopMusic" mnemonicParsing="false" prefHeight="35" prefWidth="100" text=" " textFill="BLACK" >
+            	<font>
+                   <Font name="Segoe UI Bold" size="15.0" />
+                </font>
+                <VBox.margin>
                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button onAction="#exit" mnemonicParsing="false" prefHeight="31.0" prefWidth="130" text="Exit" textFill="BLACK">
-               <VBox.margin>
+            <Button onAction="#exit" mnemonicParsing="false" prefHeight="35" prefWidth="100" text="Exit" textFill="BLACK">
+              	<font>
+                   <Font name="Segoe UI Bold" size="15.0" />
+                </font>
+                 <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Button>
@@ -79,7 +85,7 @@
 			      floorFileName="./resources/Images/pacfloor2.jpg" />
    </center>
    <top>
-      <MenuBar styleClass="menu" prefHeight="25.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+      <MenuBar styleClass="menu" prefHeight="35.0" prefWidth="500.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -91,11 +97,6 @@
           	<items>
           		<MenuItem onAction="#playMusic" mnemonicParsing="false" text="Load Song" />
           	</items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
           </Menu>
         </menus>
       </MenuBar>
