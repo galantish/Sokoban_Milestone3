@@ -62,15 +62,15 @@
                    <Font name="Segoe UI Bold" size="15.0" />
                 </font>
                 <VBox.margin>
-                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                   <Insets bottom="10.0" left="28" right="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button onAction="#exit" mnemonicParsing="false" prefHeight="35" prefWidth="100" text="Exit" textFill="BLACK">
+            <Button styleClass="exit" onAction="#exit" mnemonicParsing="false" prefHeight="35" prefWidth="100" text="Exit" textFill="BLACK">
               	<font>
                    <Font name="Segoe UI Bold" size="15.0" />
                 </font>
                  <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="28" right="10.0" top="10.0" />
                </VBox.margin>
             </Button>
          </children>
@@ -79,10 +79,13 @@
    <center>
       <SokobanDisplayer styleClass="sokoban" fx:id="sokobanDisplayer" height="700" width="700" BorderPane.alignment="CENTER" 
 			      wallFileName="./resources/Images/test.jpg" 
-			      playerFileName="./resources/Images/pacman.gif" 
 			      boxFileName="./resources/Images/pacredbox.jpg" 
 			      targetFileName="./resources/Images/pactarget.jpg" 
-			      floorFileName="./resources/Images/pacfloor2.jpg" />
+			      floorFileName="./resources/Images/pacfloor2.jpg" 
+			      playerLeftFileName="./resources/Images/left.jpg"
+			      playerRightFileName="./resources/Images/right.jpg"
+			      playerDownFileName="./resources/Images/down.jpg"
+			      playerUpFileName="./resources/Images/up.jpg" />
    </center>
    <top>
       <MenuBar styleClass="menu" prefHeight="35.0" prefWidth="500.0" BorderPane.alignment="CENTER">

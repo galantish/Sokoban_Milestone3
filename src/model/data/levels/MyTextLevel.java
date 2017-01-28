@@ -28,7 +28,6 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 	@Override
 	public Level LoadLevel(InputStream file) throws IOException, ClassNotFoundException
 	{			
-		System.out.println("Load level");
 		//Reading the contents of a text file
 		BufferedReader bf = new BufferedReader(new InputStreamReader(file));
 		String line;

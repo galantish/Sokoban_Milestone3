@@ -2,6 +2,9 @@ package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
@@ -15,21 +18,57 @@ public class SokobanDisplayer extends Canvas
 	private int cRow; //levelData.length
 	private int cCol; //levelData[0].length
 	private StringProperty wallFileName;
-	private StringProperty playerFileName;
 	private StringProperty boxFileName;
 	private StringProperty targetFileName;
 	private StringProperty floorFileName;
-		
+	private StringProperty playerLeftFileName;
+	private StringProperty playerRightFileName;
+	private StringProperty playerUpFileName;
+	private StringProperty playerDownFileName;
+	private String direction;
+	
 	public SokobanDisplayer() 
 	{
+		this.direction = "init";
 		this.cRow = 0;
 		this.cCol = 0;
 		this.wallFileName = new SimpleStringProperty();
-		this.playerFileName = new SimpleStringProperty();
 		this.boxFileName = new SimpleStringProperty();
 		this.targetFileName = new SimpleStringProperty();	
 		this.floorFileName = new SimpleStringProperty();
+		this.playerLeftFileName = new SimpleStringProperty();
+		this.playerRightFileName = new SimpleStringProperty();
+		this.playerUpFileName = new SimpleStringProperty();
+		this.playerDownFileName = new SimpleStringProperty();
+
 	}
+	
+ 	public void setDirection(String command)
+ 	{
+ 		String[]directionStr = command.split(" ");
+ 		if(directionStr.length < 2)
+ 			return;
+ 		this.direction = directionStr[1];
+ 	}
+	
+ 	public String getDirection()
+ 	{
+ 		switch (this.direction) 
+ 		{
+		case "init":
+			return getPlayerRightFileName();
+		case "left":
+			return getPlayerLeftFileName();
+		case "right":
+			return getPlayerRightFileName();
+		case "up":
+			return getPlayerUpFileName();
+		case "down":
+			return getPlayerDownFileName();
+		default:
+			return getPlayerRightFileName();
+		}
+ 	}
 	
 	public void redraw()
 	{
@@ -42,19 +81,19 @@ public class SokobanDisplayer extends Canvas
 
 			GraphicsContext gc = this.getGraphicsContext2D();
 						
-			Image player = null;
 			Image box = null;
 			Image wall = null;
 			Image target = null;
 			Image floor = null;
+			Image playerDirection = null;
 			
 			try 
 			{
-				player = new Image(new FileInputStream(getPlayerFileName()));
 				box = new Image(new FileInputStream(getBoxFileName()));
 				wall = new Image(new FileInputStream(getWallFileName()));
 				target = new Image(new FileInputStream(getTargetFileName()));
-				floor = new Image(new FileInputStream(getFloorFileName()));		
+				floor = new Image(new FileInputStream(getFloorFileName()));	
+				playerDirection = new Image(new FileInputStream(getDirection()));
 			}
 			catch (FileNotFoundException e) 
 			{
@@ -71,7 +110,7 @@ public class SokobanDisplayer extends Canvas
 					switch (c) 
 					{
 						case 'A':
-							gc.drawImage(player, j*w, i*h, w, h);
+							gc.drawImage(playerDirection, j*w, i*h, w, h);
 						break;
 						case '@':
 							gc.drawImage(box, j*w, i*h, w, h);
@@ -94,6 +133,21 @@ public class SokobanDisplayer extends Canvas
 		}
 	}
 
+	public void initCanvas()
+	{
+		GraphicsContext pacbanGraphics = this.getGraphicsContext2D();
+		Image pacban = null;
+		try 
+		{
+			pacban = new Image(new FileInputStream("./resources/Images/openpac.jpg"));
+			pacbanGraphics.drawImage(pacban, 180, 220, this.getWidth()-350, this.getHeight()-350);
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void setLevelData(char[][] arr) 
 	{
 		this.cRow = arr.length;
@@ -110,11 +164,6 @@ public class SokobanDisplayer extends Canvas
 	public String getWallFileName() 
 	{
 		return this.wallFileName.get();
-	}
-
-	public String getPlayerFileName() 
-	{
-		return this.playerFileName.get();
 	}
 
 	public String getBoxFileName() 
@@ -137,11 +186,6 @@ public class SokobanDisplayer extends Canvas
 		this.wallFileName.set(wallFileName);
 	}
 
-	public void setPlayerFileName(String playerFileName) 
-	{
-		this.playerFileName.set(playerFileName);
-	}
-
 	public void setBoxFileName(String boxFileName) 
 	{
 		this.boxFileName.set(boxFileName);
@@ -155,5 +199,45 @@ public class SokobanDisplayer extends Canvas
 	public void setFloorFileName(String floorFileName)
 	{
 		this.floorFileName.set(floorFileName);
+	}
+	
+	public void setPlayerLeftFileName(String playerLeftFileName)
+	{
+		this.playerLeftFileName.set(playerLeftFileName);
+	}
+	
+	public String getPlayerLeftFileName()
+	{
+		return this.playerLeftFileName.get();
+	}
+	
+	public void setPlayerRightFileName(String playerRightFileName)
+	{
+		this.playerRightFileName.set(playerRightFileName);
+	}
+	
+	public String getPlayerRightFileName()
+	{
+		return this.playerRightFileName.get();
+	}
+	
+	public void setPlayerUpFileName(String playerUpFileName)
+	{
+		this.playerUpFileName.set(playerUpFileName);
+	}
+	
+	public String getPlayerUpFileName()
+	{
+		return this.playerUpFileName.get();
+	}
+	
+	public void setPlayerDownFileName(String playerDownFileName)
+	{
+		this.playerDownFileName.set(playerDownFileName);
+	}
+	
+	public String getPlayerDownFileName()
+	{
+		return this.playerDownFileName.get();
 	}
 }

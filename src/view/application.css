@@ -44,20 +44,17 @@
 
 .music
 {
-	-fx-background-fills: yellow ;
+	-fx-background-fills: transparent ;
 	-fx-background-position: bottom ; 
 	-fx-background-size: 105%;
-	-fx-background-fills: transparent ;
-	
+	-fx-background-color: yellow ;
+	-fx-border-radius: 12px;
 }
 
 .exit
 {
-	-fx-background-image: url("../../resources/Images/exit.png");
-	-fx-background-position: bottom ; 
-	-fx-background-size: 105%;
-	-fx-background-fills: transparent ;
-	
+	-fx-border-radius: 12px;
+	-fx-background-color: #f44336  ;
 }
 
 

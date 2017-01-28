@@ -81,7 +81,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 		this.keySettings = initKeySetting("./resources/Settings/keySettings.xml");
 	}
 	
- 	private KeySettings initKeySetting(String path)
+	private KeySettings initKeySetting(String path)
  	{
  		XMLDecoder xmlDecoder;
  		KeySettings keySetting = null;
@@ -97,6 +97,63 @@ public class MainWindowController extends Observable implements iView, Initializ
 		}
  		return keySetting;
  	}
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) 
+	{
+		sokobanDisplayer.initCanvas();
+		playAutoMusic();
+		setFocus();
+		sokobanDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->sokobanDisplayer.requestFocus());		
+		sokobanDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() 
+		{
+			@Override
+			public void handle(KeyEvent event) 
+			{
+				String command = null;
+				status.setText("");
+				
+				if(event.getCode() == keySettings.getMoveLeft())
+					command = "move left";	
+				else if(event.getCode() == keySettings.getMoveRight())
+					command = "move right";
+				else if(event.getCode() == keySettings.getMoveUp())
+					command = "move up";
+				else if(event.getCode() == keySettings.getMoveDown())
+					command = "move down";
+				else
+				{
+					command = null;
+					displayError("Invalid key.");
+				}
+				
+				if(command != null)
+				{
+					sokobanDisplayer.setDirection(command);
+					setChanged();
+					notifyObservers(command);
+				}
+			}
+		});	
+	}
+	
+	@Override
+	public void displayLevel(Level theLevel) 
+	{
+		this.sokobanDisplayer.setLevelData(theLevel.getLevelBoard());
+
+		if(theLevel.isFinished() == true)
+		{
+			finishLevel();
+			stopTimer();
+		}
+
+		if(isLoadFromGUI == false)
+		{
+			startTimer(0,0);
+			this.isLoadFromGUI = true;
+		}
+	}
 	
 	@Override
 	public void setPrimaryStage(Stage primaryStage)
@@ -161,79 +218,6 @@ public class MainWindowController extends Observable implements iView, Initializ
 			timer.cancel();
 	}
 	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) 
-	{
-		playAutoMusic();
-		setFocus();
-		sokobanDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->sokobanDisplayer.requestFocus());		
-		sokobanDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() 
-		{
-			@Override
-			public void handle(KeyEvent event) 
-			{
-				String command = null;
-				status.setText("");
-				
-				//Change it.
-				if(event.getCode() == keySettings.getMoveLeft())
-					command = "move left";				
-				else if(event.getCode() == keySettings.getMoveRight())
-					command = "move right";
-				else if(event.getCode() == keySettings.getMoveUp())
-					command = "move up";
-				else if(event.getCode() == keySettings.getMoveDown())
-					command = "move down";
-				else
-				{
-					command = null;
-					displayError("Invalid key.");
-				}
-				
-				if(command != null)
-				{
-					setChanged();
-					notifyObservers(command);
-				}
-			}
-		});	
-	}
-	
-	@Override
-	public void displayLevel(Level theLevel) 
-	{
-		this.sokobanDisplayer.setLevelData(theLevel.getLevelBoard());
-
-		if(theLevel.isFinished() == true)
-		{
-			finishLevel();
-			stopTimer();
-		}
-
-		if(isLoadFromGUI == false)
-		{
-			startTimer(0,0);
-			this.isLoadFromGUI = true;
-		}
-	}
-	
-	private void finishLevel()
-	{
-		Platform.runLater(new Runnable() 
-		{
-			@Override
-			public void run() 
-			{
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Level complated");
-				alert.setHeaderText("Congratulations! You win!!");
-				alert.setContentText("Steps: " + countText.getText() + "\nTime: " + timerText.getText() + " seconds.");
-				alert.show();
-			}
-		});
-		stopTimer();
-	}
-	
 	public void openFile()
 	{
 		FileChooser fc = new FileChooser();
@@ -248,7 +232,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 		setChanged();
 		notifyObservers("load " + choosenFile.getPath());
 		this.isLoadFromGUI = true;
-
+		
 		stopTimer();
 		startTimer(0,0);
 	}
@@ -284,45 +268,25 @@ public class MainWindowController extends Observable implements iView, Initializ
 			Platform.exit();
 		}
 		
-		startTimer(this.seconds, this.minutes);
+		if(timer != null)
+			startTimer(this.seconds, this.minutes);
 	}
 	
-	public void stopMusic()
+	private void finishLevel()
 	{
-		this.musicButton.setText("");
-
-		if(isStop == false)
-		{	
-			mediaPlayer.pause();
-			isStop = true;
-			try 
-			{
-				ImageView mute = new ImageView(new Image(new FileInputStream("./resources/Images/off.jpg")));
-				mute.setFitWidth(25);
-				mute.setFitHeight(25);
-				this.musicButton.setGraphic(mute);
-			} 
-			catch (FileNotFoundException e) 
-			{
-				e.printStackTrace();
-			}
-		}
-		else
+		Platform.runLater(new Runnable() 
 		{
-			mediaPlayer.play();
-			isStop = false;
-			try 
+			@Override
+			public void run() 
 			{
-				ImageView mute = new ImageView(new Image(new FileInputStream("./resources/Images/on.jpg")));
-				mute.setFitWidth(25);
-				mute.setFitHeight(25);
-				this.musicButton.setGraphic(mute);
-			} 
-			catch (FileNotFoundException e) 
-			{
-				e.printStackTrace();
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Level complated");
+				alert.setHeaderText("Congratulations! You win!!");
+				alert.setContentText("Steps: " + countText.getText() + "\nTime: " + timerText.getText() + " seconds.");
+				alert.show();
 			}
-		}
+		});
+		stopTimer();
 	}
 	
 	private void playAutoMusic()
@@ -357,14 +321,61 @@ public class MainWindowController extends Observable implements iView, Initializ
 		
 		if(choosenFile != null)
 		{
-			stopMusic();
 			this.isStop = false;
+			stopMusic();
 			String path = choosenFile.getAbsolutePath();
 			media = new Media(new File(path).toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
 			mediaPlayer.setAutoPlay(true);
 			mediaPlayer.setOnEndOfMedia(null);
+			musicImageOn();
+		}
+	}
+	
+	public void stopMusic()
+	{
+		if(isStop == false)
+		{			
+			musicImageOff();
+			mediaPlayer.pause();
+			isStop = true;
+		}
+		else
+		{
+			musicImageOn();
+			mediaPlayer.play();
+			isStop = false;
+		}
+	}
+	
+	private void musicImageOn()
+	{
+		try 
+		{
+			ImageView mute = new ImageView(new Image(new FileInputStream("./resources/Images/on.jpg")));
+			mute.setFitWidth(25);
+			mute.setFitHeight(25);
+			this.musicButton.setGraphic(mute);
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private void musicImageOff()
+	{
+		try 
+		{
+			ImageView mute = new ImageView(new Image(new FileInputStream("./resources/Images/off.jpg")));
+			mute.setFitWidth(25);
+			mute.setFitHeight(25);
+			this.musicButton.setGraphic(mute);
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
 		}
 	}
 	
