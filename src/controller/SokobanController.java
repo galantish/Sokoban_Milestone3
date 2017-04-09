@@ -9,7 +9,9 @@ import controller.commands.ErrorCommand;
 import controller.commands.ExitCommand;
 import controller.commands.LoadLevelCommand;
 import controller.commands.MoveCommand;
+import controller.commands.QueryCommand;
 import controller.commands.SaveLevelCommand;
+import controller.commands.ShowDBRecordCommand;
 import controller.commands.iCommand;
 import controller.server.MyServer;
 import controller.server.SokobanClientHandler;
@@ -75,6 +77,8 @@ public class SokobanController implements Observer
 		this.commands.put("exit", new ExitCommand(this.controller, this.theServer));
 		this.commands.put("change", new DisplayGUICommand(this.model, this.view));
 		this.commands.put("error", new ErrorCommand(this.view, this.clientHandler));
+		this.commands.put("query", new QueryCommand(this.model));
+		this.commands.put("showdbresults", new ShowDBRecordCommand(this.model, this.view));
 	}
 	
 	/*
@@ -93,12 +97,12 @@ public class SokobanController implements Observer
 	{				
 		String[] input = objectToString(arg);
 		String commandName = input[0];
-		
 		String params = null;	
 		if(input.length > 1)
 			params = input[1];
 		
 		iCommand command = this.commands.get(commandName.toLowerCase());
+		
 		if(command == null)
 		{
 			this.view.displayError("Command " + commandName + " not found.");

@@ -6,12 +6,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import commons.Level;
+import commons.Record;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -45,7 +49,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Pair;
 
-public class MainWindowController extends Observable implements iView, Initializable
+public class MainWindowController extends Observable implements iView, Initializable, Observer
 {
 	//SokobanDisplayer
 	@FXML private SokobanDisplayer sokobanDisplayer;	
@@ -75,15 +79,12 @@ public class MainWindowController extends Observable implements iView, Initializ
 	private Stage primaryStage;
 	private Stage secondStage;
 
-	@FXML private Button highScore;
-	
 	//Keyboard setting
 	private KeySettings keySettings;
 		
-	public void showRecords()
-	{
-		this.secondStage.show();
-	}
+	//Records
+	private RecordViewController recordController;
+	
 	
 	public MainWindowController() 
 	{
@@ -96,9 +97,19 @@ public class MainWindowController extends Observable implements iView, Initializ
 		this.keySettings = initKeySetting("./resources/Settings/keySettings.xml");
 	}
 	
+	public void setRecordViewController(RecordViewController recordController)
+	{
+		this.recordController = recordController;
+	}
+	
+	public void showRecords()
+	{
+		this.secondStage.show();
+	}
+	
 	private KeySettings initKeySetting(String path)
  	{
- 		XMLDecoder xmlDecoder;
+		XMLDecoder xmlDecoder;
  		KeySettings keySetting = null;
  		try 
  		{
@@ -371,6 +382,8 @@ public class MainWindowController extends Observable implements iView, Initializ
 					    notifyObservers("add " + userIdUserNme.getValue());
 
 					});
+					
+					
 				}
 				
 				else
@@ -498,5 +511,19 @@ public class MainWindowController extends Observable implements iView, Initializ
                 });                    
             }
         });
+	}
+
+	@Override
+	public void update(Observable o, Object arg) 
+	{
+		setChanged();
+		notifyObservers(arg);
+	}
+
+	@Override
+	public void showDBRecords(List<Record> records) 
+	{
+		
+		
 	}
 }

@@ -6,9 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import commons.Level;
+import commons.Record;
 import model.data.levels.iLevelLoader;
+import model.db.QueryParameters;
+import model.db.SokobanDBManager;
 import model.factories.LevelsExtensionFactory;
 import model.policy.MySokobanPolicy;
 
@@ -20,12 +24,15 @@ public class MyModel extends Observable implements iModel
 	private Level theLevel;
 	private MySokobanPolicy policy;
 	private LevelsExtensionFactory levelExtension;
+	private List<Record> recordsList;
+	private SokobanDBManager manager;
 	
 	public MyModel() 
 	{
 		this.theLevel = new Level();
 		this.levelExtension = new LevelsExtensionFactory();
 		this.policy = new MySokobanPolicy();
+		this.manager = SokobanDBManager.getInstance();
 	}
 
 	@Override
@@ -212,5 +219,34 @@ public class MyModel extends Observable implements iModel
 	public void setLevelExtension(LevelsExtensionFactory levelExtension) 
 	{
 		this.levelExtension = levelExtension;
+	}
+
+	@Override
+	public List<Record> getCurrentRecordList() 
+	{
+		return this.recordsList;
+	}
+
+	@Override
+	public void createQuery(String params) 
+	{
+		String[] queryParams = params.split(" ");
+
+		QueryParameters q = new QueryParameters(queryParams[0], queryParams[1], queryParams[2]);
+
+		Thread t = new Thread(new Runnable() 
+		{
+			@Override
+			public void run() 
+			{
+				recordsList = manager.recordsQuery(q);
+				setChanged();
+				notifyObservers("showdbresults");
+			}
+			
+		});
+		
+		t.start();
+		
 	}
 }

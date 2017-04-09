@@ -20,9 +20,9 @@ public class Main extends Application
 	{
 		try 
 		{
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));				 
-			BorderPane root = (BorderPane) loader.load();
-			MainWindowController view = loader.getController();
+			FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));				 
+			BorderPane root = (BorderPane) mainLoader.load();
+			MainWindowController view = mainLoader.getController();
 			MyModel model = new MyModel();
 			
 			SokobanController sokobanController;
@@ -46,6 +46,7 @@ public class Main extends Application
 			model.addObserver(sokobanController);
 			view.addObserver(sokobanController);	
 			view.setPrimaryStage(primaryStage);
+			
 			Scene sceneRoot = new Scene(root,1200,900);
 			sceneRoot.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Pac-Ban");
@@ -53,8 +54,14 @@ public class Main extends Application
 			primaryStage.setScene(sceneRoot);
 			
 			Stage secondStage = new Stage();
-			AnchorPane record = (AnchorPane)FXMLLoader.load(getClass().getResource("ScoresTableView.fxml"));
-			Scene sceneRecord = new Scene(record,950,850);
+			
+			FXMLLoader recordLoader = new FXMLLoader(getClass().getResource("RecordView.fxml"));
+			AnchorPane recordPane = (AnchorPane) recordLoader.load();
+			RecordViewController recordController = recordLoader.getController();
+			recordController.addObserver(view);
+			view.setRecordViewController(recordController);
+			
+			Scene sceneRecord = new Scene(recordPane,950,850);
 			sceneRecord.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		    view.setSecondStage(secondStage);
 		    secondStage.setTitle("Records");

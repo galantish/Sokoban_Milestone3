@@ -10,17 +10,19 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-public class Manager 
+import commons.Record;
+
+public class SokobanDBManager 
 {
-	private static Manager instance = new Manager();
+	private static SokobanDBManager instance = new SokobanDBManager();
 	private SessionFactory factory;
 
-	public static Manager getInstance() 
+	public static SokobanDBManager getInstance() 
 	{
 		return instance;
 	}
 
-	private Manager() 
+	private SokobanDBManager() 
 	{
 		// to show the severe message
 		Logger.getLogger("org.hibernate").setLevel(java.util.logging.Level.SEVERE);
@@ -41,12 +43,18 @@ public class Manager
 		try 
 		{
 			session = factory.openSession();
-			if(params.getLevelId() != null){
+			if(params.getLevelId().equals("null") && params.getUserName().equals("null"))
+			{
+				query = session.createQuery("from Records as rec ORDER BY rec."+params.getOrderBy());
+			}
+			else if(!params.getLevelId().equals("null"))
+			{
 				query = session.createQuery("from Records as rec where rec.levelID=:levelID "+
 										  "ORDER BY rec."+params.getOrderBy());
 				query.setParameter("levelID", params.getLevelId());
 			}
-			else if(params.getUserName()!=null)
+			
+			else if(!params.getUserName().equals("null"))
 			{
 				query=session.createQuery("from Records as rec where rec.userName=:userName "+
 										  "ORDER BY rec."+params.getOrderBy());
