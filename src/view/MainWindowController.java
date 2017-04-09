@@ -20,15 +20,21 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -37,11 +43,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Pair;
 
 public class MainWindowController extends Observable implements iView, Initializable
 {
 	//SokobanDisplayer
-	@FXML private SokobanDisplayer sokobanDisplayer;
+	@FXML private SokobanDisplayer sokobanDisplayer;	
 
 	//Music
 	@FXML private MediaView mediaView;
@@ -66,10 +73,18 @@ public class MainWindowController extends Observable implements iView, Initializ
 	
 	//Stage
 	private Stage primaryStage;
+	private Stage secondStage;
+
+	@FXML private Button highScore;
 	
 	//Keyboard setting
 	private KeySettings keySettings;
 		
+	public void showRecords()
+	{
+		this.secondStage.show();
+	}
+	
 	public MainWindowController() 
 	{
 		this.status = new Label();
@@ -141,6 +156,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 	public void displayLevel(Level theLevel) 
 	{
 		this.sokobanDisplayer.setLevelData(theLevel.getLevelBoard());
+		status.setText("");
 
 		if(theLevel.isFinished() == true)
 		{
@@ -163,6 +179,12 @@ public class MainWindowController extends Observable implements iView, Initializ
 	}
  	
 	@Override
+	public void setSecondStage(Stage secondStage)
+	{
+		this.secondStage = secondStage;
+	}
+	
+	@Override
 	public void exitPrimaryStage(Stage primaryStage)
 	{
 		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() 
@@ -181,7 +203,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 	{
 		this.countText.textProperty().bind(Counter);
 	}
-	
+		
 	private void startTimer(int sec, int min) 
 	{	
 		this.seconds = sec;
@@ -279,11 +301,80 @@ public class MainWindowController extends Observable implements iView, Initializ
 			@Override
 			public void run() 
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Level complated");
 				alert.setHeaderText("Congratulations! You win!!");
-				alert.setContentText("Steps: " + countText.getText() + "\nTime: " + timerText.getText() + " seconds.");
-				alert.show();
+				alert.setContentText("Steps: " + countText.getText() + "\nTime: " + timerText.getText() + " seconds.\nDo you want to save your score?");
+				
+				Optional<ButtonType> firstResult = alert.showAndWait();
+				
+				if (firstResult.get() == ButtonType.OK)
+				{
+					// Create the custom dialog
+					Dialog<Pair<String, String>> dialog = new Dialog<>();
+					dialog.setTitle("Account Dialog");
+					dialog.setHeaderText("Create Your Account");
+
+					// Set the button types
+					ButtonType submitButtonType = new ButtonType("Submit", ButtonData.OK_DONE);
+					dialog.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
+
+					// Create the UserID and UserName labels and fields
+					GridPane grid = new GridPane();
+					grid.setHgap(10);
+					grid.setVgap(10);
+					grid.setPadding(new Insets(20, 150, 10, 10));
+
+					TextField userName = new TextField();
+					userName.setPromptText("204587802");
+					//TextField username = new TextField();
+					//username.setPromptText("shir");
+
+					grid.add(new Label("User Name:"), 0, 0);
+					grid.add(userName, 1, 0);
+					//grid.add(new Label("User Name:"), 0, 1);
+					//grid.add(username, 1, 1);
+
+					//Enable/Disable submit button depending on whether a UserID was entered
+					Node submitButton = dialog.getDialogPane().lookupButton(submitButtonType);
+					submitButton.setDisable(true);
+
+					// Do some validation (using the Java 8 lambda syntax)
+					userName.textProperty().addListener((observable, oldValue, newValue) -> 
+					{
+						
+						submitButton.setDisable(newValue.trim().isEmpty());
+						submitButton.setDisable(oldValue.trim().isEmpty());
+					});
+
+					dialog.getDialogPane().setContent(grid);
+
+					// Request focus on the UserID field by default
+					Platform.runLater(() -> userName.requestFocus());
+
+					// Convert the result to a UserID-Username-pair when the login button is clicked.
+					dialog.setResultConverter(dialogButton -> 
+					{
+					    if (dialogButton == submitButtonType) 
+					    {
+					        return new Pair<>(null, userName.getText());
+					    }
+					    return null;
+					});
+
+					Optional<Pair<String, String>> result = dialog.showAndWait();
+
+					result.ifPresent(userIdUserNme -> 
+					{
+					    System.out.println("User Name = " + userIdUserNme.getValue());
+					    setChanged();
+					    notifyObservers("add " + userIdUserNme.getValue());
+
+					});
+				}
+				
+				else
+					System.out.println("The user doesn't want to save his score!");
 			}
 		});
 		stopTimer();

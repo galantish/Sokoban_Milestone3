@@ -37,6 +37,8 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 		int row = 0;
 		int col = 0;
 		
+		//TO DO MIKRE KAZE
+		String levelID = bf.readLine();
 		
 		while((line = bf.readLine()) != null)
 		{
@@ -45,7 +47,6 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 			row++;
 			linesArr.add(line);
 		}
-
 		
 		//Creating a 2D array which every cell is a char
 		char[][] arr = new char[row][col];
@@ -57,7 +58,7 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 		UnmovableFactory unmovFactory = new UnmovableFactory();
 		
 		//Creating a new level with the row and column we found earlier
-		Level myLevel = new Level(row,col);
+		Level myLevel = new Level(row, col, levelID);
 						
 		//Initializing the 2D array from chars to objects
 		for(int i = 0; i < row; i++)
@@ -97,15 +98,18 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 	}
 	
 	@Override
-	public void SaveLevel(Level level, OutputStream out) throws IOException
+	public void SaveLevel(Level level, OutputStream file) throws IOException
 	{
 		//Reading the contents of level object and save it into buffer
-		BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(out));
+		BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(file));
 		Level myLevel = (Level) level;
 		
 		//Getting the size (row and column) of the level 
 		int row = myLevel.getRow();
 		int col = myLevel.getCol();
+		
+		bf.write(level.getLevelID());
+		bf.newLine();
 		
 		//Writing the items which it's representative char
 		for(int i = 0; i <row; i++)
@@ -114,10 +118,11 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 			{			
 				iMoveable m = myLevel.getItemsOnBoard()[i][j];
 				if(m instanceof Player || m instanceof Box)
-					out.write(m.getTypeOfObject());
+					bf.write(m.getTypeOfObject());
 				else
-					out.write(myLevel.getBoard()[i][j].getTypeOfObject());				
+					bf.write(myLevel.getBoard()[i][j].getTypeOfObject());				
 			}	
+			
 			//Checking if it is the last row (so there will be no new line)
 			if(i == (row-1))
 				break;
@@ -126,7 +131,7 @@ public class MyTextLevel extends CommonLevelLoader implements iLevelLoader
 			bf.flush();
 		}		
 		//If the outputStream is type of a PrintStream (like "syso") - don't close the buffer
-		if(!(out instanceof PrintStream))
+		if(!(file instanceof PrintStream))
 			bf.close();
 	}
 }

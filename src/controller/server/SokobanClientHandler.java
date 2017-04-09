@@ -38,7 +38,7 @@ public class SokobanClientHandler extends Observable implements iClientHandler
 			Thread fromClient = aSyncReadInputs(clientInput, "exit");
 			Thread toClient = aSyncSendOutput(printToClient);
 			
-			fromClient.join();
+			fromClient.join(); //the threads are dead!
 			toClient.join();
 			clientInput.close();
 			printToClient.close();

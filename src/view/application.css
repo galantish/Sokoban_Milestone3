@@ -54,7 +54,13 @@
 .exit
 {
 	-fx-border-radius: 12px;
-	-fx-background-color: #f44336  ;
+	-fx-background-color: #f44336;
+}
+
+.scores
+{
+	-fx-border-radius: 12px;
+	-fx-background-color: #0033cc;
 }
 
 

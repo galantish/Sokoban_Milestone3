@@ -11,4 +11,6 @@ public interface iView
 	public void createBindSteps(StringProperty Counter);
 	public void setPrimaryStage(Stage primaryStage);
 	public void exitPrimaryStage(Stage primaryStage);
+	public void setSecondStage(Stage secondStage);
+
 }

@@ -65,6 +65,14 @@
                    <Insets bottom="10.0" left="28" right="10.0" top="10.0" />
                </VBox.margin>
             </Button>
+            <Button fx:id="highScore" onAction="#showRecords" mnemonicParsing="false" styleClass="scores" prefHeight="50" prefWidth="100" text="High Scores" wrapText="true" textAlignment="CENTER" textFill="BLACK" >
+            	<font>
+                   <Font name="Segoe UI Bold" size="15.0" />
+                </font>
+                <VBox.margin>
+                   <Insets bottom="10.0" left="28" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
             <Button styleClass="exit" onAction="#exit" mnemonicParsing="false" prefHeight="35" prefWidth="100" text="Exit" textFill="BLACK">
               	<font>
                    <Font name="Segoe UI Bold" size="15.0" />
@@ -78,7 +86,7 @@
    </left>
    <center>
       <SokobanDisplayer styleClass="sokoban" fx:id="sokobanDisplayer" height="700" width="700" BorderPane.alignment="CENTER" 
-			      wallFileName="./resources/Images/test.jpg" 
+			      wallFileName="./resources/Images/pacwall.jpg" 
 			      boxFileName="./resources/Images/pacredbox.jpg" 
 			      targetFileName="./resources/Images/pactarget.jpg" 
 			      floorFileName="./resources/Images/pacfloor2.jpg" 

@@ -2,9 +2,6 @@ package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
@@ -40,7 +37,6 @@ public class SokobanDisplayer extends Canvas
 		this.playerRightFileName = new SimpleStringProperty();
 		this.playerUpFileName = new SimpleStringProperty();
 		this.playerDownFileName = new SimpleStringProperty();
-
 	}
 	
  	public void setDirection(String command)

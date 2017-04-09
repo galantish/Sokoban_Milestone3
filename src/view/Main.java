@@ -9,8 +9,8 @@ import javafx.stage.Stage;
 import model.MyModel;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.fxml.FXMLLoader;
 
 public class Main extends Application 
@@ -27,7 +27,7 @@ public class Main extends Application
 			
 			SokobanController sokobanController;
 			
-			//Get the args from the main
+			//Get the ARGS from the main
 			List<String> args = getParameters().getRaw();
 			
 			//Running with the server
@@ -46,12 +46,20 @@ public class Main extends Application
 			model.addObserver(sokobanController);
 			view.addObserver(sokobanController);	
 			view.setPrimaryStage(primaryStage);
-	       
-			Scene scene = new Scene(root,1200,900);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Scene sceneRoot = new Scene(root,1200,900);
+			sceneRoot.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Pac-Ban");
 			primaryStage.getIcons().add(new Image(new FileInputStream("./resources/Images/1.gif")));
-			primaryStage.setScene(scene);
+			primaryStage.setScene(sceneRoot);
+			
+			Stage secondStage = new Stage();
+			AnchorPane record = (AnchorPane)FXMLLoader.load(getClass().getResource("ScoresTableView.fxml"));
+			Scene sceneRecord = new Scene(record,950,850);
+			sceneRecord.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		    view.setSecondStage(secondStage);
+		    secondStage.setTitle("Records");
+		    secondStage.setScene(sceneRecord);
+			
 			primaryStage.show();	
 		} 
 		catch(Exception e) 

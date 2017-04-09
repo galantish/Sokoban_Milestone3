@@ -91,14 +91,9 @@ public class SokobanController implements Observer
 	@Override
 	public void update(Observable o, Object arg) 
 	{				
-//		if(arg == null)
-//		{
-//			view.displayError("Invalid Key.");
-//			return;
-//		}
-//		
 		String[] input = objectToString(arg);
 		String commandName = input[0];
+		
 		String params = null;	
 		if(input.length > 1)
 			params = input[1];

@@ -2,22 +2,41 @@ package commons;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import model.data.items.*;
+import model.db.User;
 
 /**
 * The Class Level - The common class that build a level.
 */
+@Entity(name="Levels")
 public class Level implements Serializable 
 {
-	private int playersSteps;
-	private ArrayList<Player> players;
-	private ArrayList<Box> boxes;	
-	private ArrayList<Target> targets;	
-	private iMoveable[][] itemsOnBoard;
-	private iUnmoveable[][] board;
-	private int row;
-	private int col;
+	@Transient private int playersSteps;
+	@Transient private ArrayList<Player> players;
+	@Transient private ArrayList<Box> boxes;	
+	@Transient private ArrayList<Target> targets;	
+	@Transient private iMoveable[][] itemsOnBoard;
+	@Transient private iUnmoveable[][] board;
+	@Transient private int row;
+	@Transient private int col;
+	
+	@Id
+	@Column(name="LevelID")
+	private String levelID;
+	
+	@OneToMany
+	@JoinColumn(name="LevelID")
+	private List<User> users = new ArrayList<User>();
 	
 	/**
 	 * Initializes the level.
@@ -31,7 +50,8 @@ public class Level implements Serializable
 		this.boxes = new ArrayList<Box>();
 		this.targets = new ArrayList<Target>();
 		this.itemsOnBoard = new iMoveable[this.row][this.col];		
-		this.board = new iUnmoveable[this.row][this.col];	
+		this.board = new iUnmoveable[this.row][this.col];
+		this.levelID = null;
 	}
 	
 	/**
@@ -51,11 +71,43 @@ public class Level implements Serializable
 		this.targets = new ArrayList<Target>();
 		this.itemsOnBoard = new iMoveable[this.row][this.col];		
 		this.board = new iUnmoveable[this.row][this.col];
+		this.levelID = null;
 		
 		//Initializing the background array to Floor
 		for(int i = 0; i < this.row; i++)
 			for(int j = 0; j < this.col; j++)
 				this.board[i][j] = new Floor();
+	}
+	
+	public Level(int row, int col, String levelID)
+	{
+		this.row = row;
+		this.col = col;
+		this.playersSteps = 0;
+		this.players = new ArrayList<Player>(); 
+		this.boxes = new ArrayList<Box>();
+		this.targets = new ArrayList<Target>();
+		this.itemsOnBoard = new iMoveable[this.row][this.col];		
+		this.board = new iUnmoveable[this.row][this.col];
+		this.levelID = levelID;
+		
+		//Initializing the background array to Floor
+		for(int i = 0; i < this.row; i++)
+			for(int j = 0; j < this.col; j++)
+				this.board[i][j] = new Floor();
+	}
+	
+	public Level(String levelID)
+	{
+		this.row = 0;
+		this.col = 0;
+		this.playersSteps = 0;
+		this.players = new ArrayList<Player>(); 
+		this.boxes = new ArrayList<Box>();
+		this.targets = new ArrayList<Target>();
+		this.itemsOnBoard = new iMoveable[this.row][this.col];		
+		this.board = new iUnmoveable[this.row][this.col];
+		this.levelID = levelID;
 	}
 	
 	/**
@@ -73,6 +125,17 @@ public class Level implements Serializable
 		this.boxes = level.boxes;
 		this.targets = level.targets;
 		this.playersSteps = level.playersSteps;
+		this.levelID = level.levelID;
+	}
+
+	public List<User> getUsers() 
+	{
+		return users;
+	}
+
+	public void setUsers(List<User> users) 
+	{
+		this.users = users;
 	}
 
 	/**
@@ -323,7 +386,7 @@ public class Level implements Serializable
 	* IsFinished.
 	* @return true/false if the level is finish (if the user win)
 	*/
-	public Boolean isFinished() 
+	public boolean isFinished() 
 	{
 		if (numOfBoxesInTarget() == numOfTargets())
 			return true;
@@ -334,9 +397,9 @@ public class Level implements Serializable
 	* IsLevelSolvable.
 	* @return true/false if the level is solvable
 	*/
-	public Boolean isLevelSolvable() //TO DO
+	public boolean isLevelSolvable() //TO DO
 	{
-		return null;
+		return false;
 	}
 
 	/**
@@ -348,6 +411,16 @@ public class Level implements Serializable
 		return this.boxes.size();
 	}
 
+	public String getLevelID()
+	{
+		return this.levelID;
+	}
+	
+	public void setLevelID(String levelID)
+	{
+		this.levelID = levelID;
+	}
+	
 	/**
 	* NumOfPlayers.
 	* @return number of players 
@@ -417,5 +490,13 @@ public class Level implements Serializable
 			for(int j=0;j<getCol(); j++)
 				levelArr[i][j] = getItemInPosition(new Position(i, j)).getTypeOfObject();
 		return levelArr;
+	}
+
+	@Override
+	public String toString() 
+	{
+		return "Level [playersSteps=" + playersSteps + ", players=" + players + ", boxes=" + boxes + ", targets="
+				+ targets + ", itemsOnBoard=" + Arrays.toString(itemsOnBoard) + ", board=" + Arrays.toString(board)
+				+ ", row=" + row + ", col=" + col + ", levelID=" + levelID + ", users=" + users + "]";
 	}
 }
