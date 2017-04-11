@@ -63,4 +63,12 @@
 	-fx-background-color: #0033cc;
 }
 
+.userField
+{
+	-fx-background-color: #2200ff;
+}
 
+.levelField
+{
+	-fx-background-color: #00b7ff;
+}

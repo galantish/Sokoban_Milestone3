@@ -17,4 +17,6 @@ public interface iModel
 	public int getSteps();
 	public List<Record> getCurrentRecordList();
 	public void createQuery(String params);
+	public void addUserToDB(String userID);
+	public void addRecordToDB(String queryParams);
 }

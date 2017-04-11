@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import commons.Level;
 import commons.Record;
 import javafx.application.Platform;
@@ -85,9 +84,12 @@ public class MainWindowController extends Observable implements iView, Initializ
 	//Records
 	private RecordViewController recordController;
 	
+	//Finish
+	private boolean isFinish;
 	
 	public MainWindowController() 
 	{
+		this.isFinish = false;
 		this.status = new Label();
 		this.CounterTime = new SimpleStringProperty();
 		this.isStop = false;
@@ -104,7 +106,8 @@ public class MainWindowController extends Observable implements iView, Initializ
 	
 	public void showRecords()
 	{
-		this.secondStage.show();
+		this.recordController.search();
+		this.secondStage.show();				
 	}
 	
 	private KeySettings initKeySetting(String path)
@@ -167,6 +170,9 @@ public class MainWindowController extends Observable implements iView, Initializ
 	public void displayLevel(Level theLevel) 
 	{
 		this.sokobanDisplayer.setLevelData(theLevel.getLevelBoard());
+		
+		//recordController.setLevelIDInput(theLevel.getLevelID());
+		recordController.setTheLevelID(theLevel.getLevelID());
 		status.setText("");
 
 		if(theLevel.isFinished() == true)
@@ -265,7 +271,7 @@ public class MainWindowController extends Observable implements iView, Initializ
 		setChanged();
 		notifyObservers("load " + choosenFile.getPath());
 		this.isLoadFromGUI = true;
-		
+		this.isFinish = false;
 		stopTimer();
 		startTimer(0,0);
 	}
@@ -307,6 +313,9 @@ public class MainWindowController extends Observable implements iView, Initializ
 	
 	private void finishLevel()
 	{
+		if(this.isFinish == true)
+			return;
+		
 		Platform.runLater(new Runnable() 
 		{
 			@Override
@@ -321,6 +330,8 @@ public class MainWindowController extends Observable implements iView, Initializ
 				
 				if (firstResult.get() == ButtonType.OK)
 				{
+					isFinish = true;
+					
 					// Create the custom dialog
 					Dialog<Pair<String, String>> dialog = new Dialog<>();
 					dialog.setTitle("Account Dialog");
@@ -338,13 +349,9 @@ public class MainWindowController extends Observable implements iView, Initializ
 
 					TextField userName = new TextField();
 					userName.setPromptText("204587802");
-					//TextField username = new TextField();
-					//username.setPromptText("shir");
 
 					grid.add(new Label("User Name:"), 0, 0);
 					grid.add(userName, 1, 0);
-					//grid.add(new Label("User Name:"), 0, 1);
-					//grid.add(username, 1, 1);
 
 					//Enable/Disable submit button depending on whether a UserID was entered
 					Node submitButton = dialog.getDialogPane().lookupButton(submitButtonType);
@@ -375,15 +382,13 @@ public class MainWindowController extends Observable implements iView, Initializ
 
 					Optional<Pair<String, String>> result = dialog.showAndWait();
 
-					result.ifPresent(userIdUserNme -> 
+					result.ifPresent(userID -> 
 					{
-					    System.out.println("User Name = " + userIdUserNme.getValue());
 					    setChanged();
-					    notifyObservers("add " + userIdUserNme.getValue());
-
+					    notifyObservers("adduser " + userID.getValue());
+					    setChanged();
+					    notifyObservers("addRecord " + userID.getValue() + " " + CounterTime.getValue());
 					});
-					
-					
 				}
 				
 				else
@@ -521,9 +526,8 @@ public class MainWindowController extends Observable implements iView, Initializ
 	}
 
 	@Override
-	public void showDBRecords(List<Record> records) 
+	public void showDBRecords(List<Record> recordsList) 
 	{
-		
-		
+		this.recordController.showDBRecord(recordsList, this.secondStage);
 	}
 }

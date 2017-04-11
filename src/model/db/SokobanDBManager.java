@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import commons.Level;
 import commons.Record;
 
 public class SokobanDBManager 
@@ -43,24 +44,31 @@ public class SokobanDBManager
 		try 
 		{
 			session = factory.openSession();
-			if(params.getLevelId().equals("null") && params.getUserName().equals("null"))
+			if(params.getLevelId().equals("") && params.getUserName().equals(""))
 			{
-				query = session.createQuery("from Records as rec ORDER BY rec."+params.getOrderBy());
+				query = session.createQuery("FROM Records as rec ORDER BY rec." + params.getOrderBy());
 			}
-			else if(!params.getLevelId().equals("null"))
+			
+			else if(!(params.getUserName().equals(""))&&!(params.getLevelId().equals("")))
 			{
-				query = session.createQuery("from Records as rec where rec.levelID=:levelID "+
-										  "ORDER BY rec."+params.getOrderBy());
+				query=session.createQuery("FROM Records as rec WHERE rec.userName=:userName AND rec.levelID = :levelID ORDER BY rec." + params.getOrderBy());
+				query.setParameter("userName", params.getUserName());
 				query.setParameter("levelID", params.getLevelId());
 			}
 			
-			else if(!params.getUserName().equals("null"))
+			else if(!params.getLevelId().equals(""))
 			{
-				query=session.createQuery("from Records as rec where rec.userName=:userName "+
-										  "ORDER BY rec."+params.getOrderBy());
+				query = session.createQuery("FROM Records as rec WHERE rec.levelID = :levelID ORDER BY rec." + params.getOrderBy());
+				query.setParameter("levelID", params.getLevelId()); 
+			}
+			
+			else if(!params.getUserName().equals(""))
+			{
+				query=session.createQuery("FROM Records as rec where rec.userName = :userName ORDER BY rec." + params.getOrderBy());
 				query.setParameter("userName", params.getUserName());
 			}
 			
+			query.setMaxResults(16);
 			list = query.getResultList();
 			Iterator<Record>it=list.iterator();
 			
@@ -91,7 +99,7 @@ public class SokobanDBManager
 		try 
 		{
 			session = factory.openSession();
-			Query query=session.createQuery("from Records");
+			Query query=session.createQuery("FROM Records");
 			List<Record>list=query.getResultList();
 			Iterator<Record>it=list.iterator();
 			
@@ -100,7 +108,6 @@ public class SokobanDBManager
 				record=it.next();
 				System.out.println(record);
 			}
-		
 		} 
 		catch (HibernateException ex) 
 		{
@@ -111,6 +118,58 @@ public class SokobanDBManager
 			if (session != null)
 				session.close();
 		}
+	}
+	
+	public boolean isExistLevel(String levelID)
+	{
+		Session session = null;
+		Record record;
+		try 
+		{
+			session = factory.openSession();
+			Query query=session.createQuery("FROM Levels as l WHERE l.levelID = :levelID");
+			query.setParameter("levelID", levelID);
+			List<Level>list = query.getResultList();
+			
+			if(list.size() > 0)
+				return true;
+		} 
+		catch (HibernateException ex) 
+		{
+			System.out.println(ex.getMessage());
+		} 
+		finally 
+		{
+			if (session != null)
+				session.close();
+		}
+		return false;
+	}
+	
+	public boolean isExistUser(String userName)
+	{
+		Session session = null;
+		Record record;
+		try 
+		{
+			session = factory.openSession();
+			Query query=session.createQuery("FROM Users as u WHERE u.name = :name");
+			query.setParameter("name", userName);
+			List<Level>list = query.getResultList();
+			
+			if(list.size() > 0)
+				return true;
+		} 
+		catch (HibernateException ex) 
+		{
+			System.out.println(ex.getMessage());
+		} 
+		finally 
+		{
+			if (session != null)
+				session.close();
+		}
+		return false;
 	}
 	
 	public void add(Object obj)
@@ -143,5 +202,4 @@ public class SokobanDBManager
 	{
 		factory.close();
 	}
-
 }

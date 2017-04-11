@@ -20,13 +20,14 @@ public class MiniMain
 		Level level2 = new Level("Level2");
 		manager.add(level2);
 		
-		Record record1 = new Record(level1.getLevelID(), user1.getName(), 1, new Time(0));
+		Record record1 = new Record(level1.getLevelID(), user1.getName(), 1, "0");
 		manager.add(record1);
 		
-		Record record2 = new Record(level2.getLevelID(), user2.getName(), 1, new Time(0));
+		Record record2 = new Record(level2.getLevelID(), user2.getName(), 1, "0");
 		manager.add(record2);
 		
-		QueryParameters q = new QueryParameters("Level1", null, "steps");
+		QueryParameters q = new QueryParameters("Level1", null, "strps");
+				
 		
 		manager.recordsQuery(q);
 	}

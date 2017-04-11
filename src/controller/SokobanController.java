@@ -3,6 +3,9 @@ package controller;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+
+import controller.commands.AddRecordCommand;
+import controller.commands.AddUserCommand;
 import controller.commands.DisplayCLICommand;
 import controller.commands.DisplayGUICommand;
 import controller.commands.ErrorCommand;
@@ -79,6 +82,9 @@ public class SokobanController implements Observer
 		this.commands.put("error", new ErrorCommand(this.view, this.clientHandler));
 		this.commands.put("query", new QueryCommand(this.model));
 		this.commands.put("showdbresults", new ShowDBRecordCommand(this.model, this.view));
+		this.commands.put("adduser", new AddUserCommand(this.model));
+		this.commands.put("addrecord", new AddRecordCommand(this.model));
+
 	}
 	
 	/*

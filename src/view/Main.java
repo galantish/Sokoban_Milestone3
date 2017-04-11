@@ -61,7 +61,7 @@ public class Main extends Application
 			recordController.addObserver(view);
 			view.setRecordViewController(recordController);
 			
-			Scene sceneRecord = new Scene(recordPane,950,850);
+			Scene sceneRecord = new Scene(recordPane,976,803);
 			sceneRecord.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		    view.setSecondStage(secondStage);
 		    secondStage.setTitle("Records");

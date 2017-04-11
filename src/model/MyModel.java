@@ -13,6 +13,7 @@ import commons.Record;
 import model.data.levels.iLevelLoader;
 import model.db.QueryParameters;
 import model.db.SokobanDBManager;
+import model.db.User;
 import model.factories.LevelsExtensionFactory;
 import model.policy.MySokobanPolicy;
 
@@ -57,6 +58,9 @@ public class MyModel extends Observable implements iModel
 					setTheLevel(levelLoader.LoadLevel(in));
 					setChanged();
 					notifyObservers("change");
+					
+					if(!manager.isExistLevel(theLevel.getLevelID()))
+						manager.add(theLevel);
 				} 
 				catch (FileNotFoundException e) 
 				{
@@ -243,10 +247,25 @@ public class MyModel extends Observable implements iModel
 				setChanged();
 				notifyObservers("showdbresults");
 			}
-			
 		});
 		
 		t.start();
 		
+	}
+
+	@Override
+	public void addUserToDB(String userName) 
+	{
+		if(!manager.isExistUser(userName))
+			manager.add(new User(userName));
+	}
+
+	@Override
+	public void addRecordToDB(String params) 
+	{
+		String s[] = params.split(" ");
+		Record record = new Record(theLevel.getLevelID(), s[0], theLevel.getPlayersSteps(), s[1]);
+		System.out.println(theLevel.getLevelID() + " " + s[0] + " " + theLevel.getPlayersSteps() + " " + s[1]);
+		manager.add(record);
 	}
 }
